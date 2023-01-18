@@ -26,11 +26,7 @@ const Navbar = () => {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/"
-                >
+                <Link className="nav-link active" aria-current="page" to="/">
                   Home
                 </Link>
               </li>
@@ -42,6 +38,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/sell">
                   Sell
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/buy-players">
+                  BuyPlayers
                 </Link>
               </li>
               <li className="nav-item">
