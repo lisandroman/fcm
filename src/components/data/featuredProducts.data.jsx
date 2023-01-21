@@ -75,7 +75,7 @@ export const FeaturedProductsData = [
     id: 10,
     platform: "PC",
     coins: 500,
-    price: 6,
+    price: 60,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },

@@ -1,0 +1,122 @@
+export const PriceListPS = [
+  {
+    id: 1,
+    coins: 100,
+    price: 12.8,
+    platformPS4: "PC",
+  },
+  {
+    id: 2,
+    coins: 200,
+    price: 26,
+    platform: "PC",
+  },
+  {
+    id: 3,
+    coins: 250,
+    price: 32,
+    platform: "PC",
+  },
+  {
+    id: 4,
+    coins: 300,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 5,
+    coins: 400,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 6,
+    coins: 500,
+    price: 62,
+    platform: "PC",
+  },
+  {
+    id: 7,
+    coins: 600,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 8,
+    coins: 700,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 9,
+    coins: 750,
+    price: 92,
+    platform: "PC",
+  },
+  {
+    id: 10,
+    coins: 800,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 11,
+    coins: 900,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 12,
+    coins: 1000,
+    price: 124,
+    platform: "PC",
+  },
+  {
+    id: 13,
+    coins: 1500,
+    price: 12.8,
+    platform: "PC",
+  },
+  {
+    id: 14,
+    coins: 2000,
+    price: 240,
+    platform: "PC",
+  },
+  {
+    id: 15,
+    coins: 3000,
+    price: 350,
+    platform: "PC",
+  },
+  {
+    id: 16,
+    coins: 4000,
+    price: 460,
+    platform: "PC",
+  },
+  {
+    id: 17,
+    coins: 5000,
+    price: 570,
+    platform: "PC",
+  },
+  {
+    id: 18,
+    coins: 10000,
+    price: 1300,
+    platform: "PC",
+  },
+  {
+    id: 19,
+    coins: 20000,
+    price: 2500,
+    platform: "PC",
+  },
+  {
+    id: 20,
+    coins: 30000,
+    price: 3700,
+    platform:"PC",
+  }
+]
