@@ -13,9 +13,10 @@ import {
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
+import { FaCoins } from "react-icons/fa";
+import { FaGamepad } from "react-icons/fa";
 
 const Cart = () => {
-
   const dispatch = useDispatch();
   const orderAllData = useSelector(allData);
   const orderStatus = useSelector(getDataStatus);
@@ -59,8 +60,12 @@ const Cart = () => {
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
       <tr className="tableRowStyled" key={item.id}>
-        <td className="text-start ps-4">{item.coins} K</td>
-        <td>{item.platform}</td>
+        <td className="text-start ps-4">
+          <FaCoins /> {item.coins} K
+        </td>
+        <td>
+          {item.platform} <FaGamepad />
+        </td>
         <td className="text-end pe-4">
           {getCurrencyData}{" "}
           <strong>
@@ -91,7 +96,9 @@ const Cart = () => {
     }
   }, [orderStatus, dispatch]);
 
-  const takeOrderPrices = orderAllData.map((item) => item.price * actualCurrency());
+  const takeOrderPrices = orderAllData.map(
+    (item) => item.price * actualCurrency()
+  );
   const getTotal = takeOrderPrices.reduce((a, b) => {
     return a + b;
   }, 0);
@@ -102,10 +109,10 @@ const Cart = () => {
   );
 
   let totalPrice = parseFloat(getTotal) + parseFloat(paymentFeeRoundValue);
-  
+
   // ---------------- Paypal Checkout ---------------
 
-  const allCartContent = orderAllData.map((item) => item.price)
+  const allCartContent = orderAllData.map((item) => item.price);
   const getTotalOriginal = allCartContent.reduce((a, b) => {
     return a + b;
   }, 0);
@@ -184,7 +191,8 @@ const Cart = () => {
                 <h3 className="text-center text-danger">
                   Total:
                   <span>
-                    <strong> {parseFloat(totalPrice).toFixed(2)}</strong> {getCurrencyData}
+                    <strong> {parseFloat(totalPrice).toFixed(2)}</strong>{" "}
+                    {getCurrencyData}
                   </span>
                 </h3>
                 <h5>
