@@ -2,8 +2,15 @@ export const PriceListPS = [
   {
     id: 1,
     coins: 100,
-    price: 12.8,
     platform: "PS4/5",
+    currency: {
+      priceCAD: 1.3,
+      priceAUD: 1.5,
+      priceEUR: 0.95,
+      priceGBP: 0.82,
+      priceUSD: 1,
+    },
+    price: 1,
   },
   {
     id: 2,
@@ -117,6 +124,6 @@ export const PriceListPS = [
     id: 20,
     coins: 30000,
     price: 3700,
-    platform:"PS4/5",
-  }
-]
+    platform: "PS4/5",
+  },
+];

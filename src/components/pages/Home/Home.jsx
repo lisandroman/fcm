@@ -3,14 +3,21 @@ import Header from "../../Header/Header";
 import AboutUs from "../../MainContent/AboutUs/AboutUs";
 import MainContent from "../../MainContent/ConsoleCards/ConsoleCards";
 import FeaturesProducts from "../../MainContent/FeaturedProducts/FeaturedProducts";
+// import Fires from "../../MainContent/Fires";
+// import ReadFires from "../../ReadFires";
 
 const Home = () => {
+
+  
   return (
     <>
       <Header />
       <MainContent />
       <AboutUs />
       <FeaturesProducts />
+      {/* <Fires /> */}
+      {/* <ReadFires /> */}
+   
     </>
   );
 };

@@ -9,6 +9,8 @@ import Sell from "./components/pages/Sell/Sell";
 import Help from "./components/pages/Help/Help";
 import Error404 from "./components/pages/Error404/Error404";
 import BuyPlayers from "./components/pages/BuyPlayers/BuyPlayers";
+import FormWithGameData from "./components/pages/FormWithGameData/FormWithGameData";
+import CurrencyChange from "./components/CurrencyChange/CurrencyChange";
 
 function App() {
 
@@ -16,6 +18,7 @@ function App() {
 
   return (
     <div className="App">
+      <CurrencyChange />
       <Navbar />
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
@@ -24,6 +27,8 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
         <Route path="/buy-players" element={<BuyPlayers />} />
+        <Route path="/form-game-data" element={<FormWithGameData />}
+        />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />
