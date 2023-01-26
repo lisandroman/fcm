@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { PriceListPS } from "../../data/priceListPS.data";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, getCurrency } from "../../../redux/state/orders";
 
 const Buy = () => {
+  const dispatch = useDispatch();
+  const getCurrencyData = useSelector(getCurrency);
   const [total, setTotal] = useState(0);
 
   const handleInputAmount = (e) => {
@@ -12,7 +16,7 @@ const Buy = () => {
     return e.target.value < 12.8 ? setTotal(0) : setTotal(roundValue);
   };
 
-  const handleBuy = (coins, price) => {
+  const handleBuy = (id, coins, price, platform) => {
     // console.log(`Vas a comprar ${coins}K, por un precio de: ${price}USD`);
     Swal.fire({
       icon: "success",
@@ -20,6 +24,7 @@ const Buy = () => {
       text: `Added ${coins}K for ${price}USD`,
       footer: '<a href="/cart">Go to your Cart</a>',
     });
+    dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
   };
 
   return (
@@ -137,7 +142,9 @@ const Buy = () => {
                 <td>
                   <button
                     className="btn btn-sm btn-warning"
-                    onClick={() => handleBuy(item.coins, item.price)}
+                    onClick={() =>
+                      handleBuy(item.id, item.coins, item.price, item.platform)
+                    }
                   >
                     Buy
                   </button>
