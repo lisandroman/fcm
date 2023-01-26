@@ -4,13 +4,6 @@ export const FeaturedProductsData = [
     platform: "PS",
     coins: 250,
     price: 32,
-    currency: {
-      priceCAD: 1.3,
-      priceAUD: 1.5,
-      priceEUR: 0.95,
-      priceGBP: 0.82,
-      priceUSD: 1,
-    },
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },
@@ -19,13 +12,6 @@ export const FeaturedProductsData = [
     platform: "PS",
     coins: 500,
     price: 62,
-    currency: {
-      priceCAD: 1.3,
-      priceAUD: 1.5,
-      priceEUR: 0.95,
-      priceGBP: 0.82,
-      priceUSD: 1,
-    },
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },
@@ -40,7 +26,7 @@ export const FeaturedProductsData = [
   {
     id: 4,
     platform: "PS",
-    coins: 1,
+    coins: 1000,
     price: 124,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
@@ -72,7 +58,7 @@ export const FeaturedProductsData = [
   {
     id: 8,
     platform: "XB",
-    coins: 1,
+    coins: 1000,
     price: 124,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
@@ -104,7 +90,7 @@ export const FeaturedProductsData = [
   {
     id: 12,
     platform: "PC",
-    coins: 1,
+    coins: 1000,
     price: 120,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
