@@ -21,11 +21,28 @@ const Buy = () => {
     Swal.fire({
       icon: "success",
       title: "Added to Cart",
-      text: `Added ${coins}K for ${price}USD`,
+      text: `Added ${coins}K per ${(
+        Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
+      ).toFixed(2)} ${getCurrencyData} in ${platform}`,
       footer: '<a href="/cart">Go to your Cart</a>',
     });
     dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
   };
+    let priceToShow;
+    const actualCurrency = () => {
+      return getCurrencyData === "USD"
+        ? (priceToShow = 1.0)
+        : getCurrencyData === "CAD"
+        ? (priceToShow = 1.3)
+        : getCurrencyData === "AUD"
+        ? (priceToShow = 1.5)
+        : getCurrencyData === "EUR"
+        ? (priceToShow = 0.95)
+        : getCurrencyData === "GBP"
+        ? (priceToShow = 0.82)
+        : (priceToShow = 1.0);
+    };
+
 
   return (
     <BuyPageStyled>
@@ -138,7 +155,14 @@ const Buy = () => {
                 <th scope="row">{item.id}</th>
                 <td>{item.coins}K</td>
                 <td>{item.platform}</td>
-                <td>USD {item.price}</td>
+                <td>
+                  {getCurrencyData}{" "}
+                  {(
+                    Math.round(
+                      parseInt(item.price) * parseFloat(actualCurrency()) * 100
+                    ) / 100
+                  ).toFixed(2)}
+                </td>
                 <td>
                   <button
                     className="btn btn-sm btn-warning"

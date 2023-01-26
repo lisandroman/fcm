@@ -15,6 +15,8 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Swal from "sweetalert2";
 import { FaCoins } from "react-icons/fa";
 import { FaGamepad } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
+
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ const Cart = () => {
             className="btn btn-sm btn-dark"
             onClick={() => handleRemoveItemFromCart(item.id)}
           >
-            x
+            <FaTrashAlt className="text-light"/>
           </button>
         </td>
       </tr>
