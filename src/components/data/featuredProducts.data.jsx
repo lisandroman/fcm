@@ -1,7 +1,7 @@
 export const FeaturedProductsData = [
   {
     id: 1,
-    platform: "PS",
+    platform: "PS4/5",
     coins: 250,
     price: 32,
     image:
@@ -9,7 +9,7 @@ export const FeaturedProductsData = [
   },
   {
     id: 2,
-    platform: "PS",
+    platform: "PS4/5",
     coins: 500,
     price: 62,
     image:
@@ -17,7 +17,7 @@ export const FeaturedProductsData = [
   },
   {
     id: 3,
-    platform: "PS",
+    platform: "PS4/5",
     coins: 750,
     price: 92,
     image:
@@ -25,7 +25,7 @@ export const FeaturedProductsData = [
   },
   {
     id: 4,
-    platform: "PS",
+    platform: "PS4/5",
     coins: 1000,
     price: 124,
     image:

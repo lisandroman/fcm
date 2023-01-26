@@ -16,14 +16,13 @@ const CurrencyChange = () => {
       <label>
         Currency:
         <select value={value} onChange={handleChangeCurrency}>
-          <option value="Choose">
+          <option value="USD">
             USD
           </option>
           <option value="CAD">CAD</option>
           <option value="AUD">AUD</option>
           <option value="EUR">EUR</option>
           <option value="GBP">GBP</option>
-          <option value="USD">USD</option>
         </select>
       </label>
     </>

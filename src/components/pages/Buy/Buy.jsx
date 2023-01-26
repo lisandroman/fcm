@@ -28,21 +28,20 @@ const Buy = () => {
     });
     dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
   };
-    let priceToShow;
-    const actualCurrency = () => {
-      return getCurrencyData === "USD"
-        ? (priceToShow = 1.0)
-        : getCurrencyData === "CAD"
-        ? (priceToShow = 1.3)
-        : getCurrencyData === "AUD"
-        ? (priceToShow = 1.5)
-        : getCurrencyData === "EUR"
-        ? (priceToShow = 0.95)
-        : getCurrencyData === "GBP"
-        ? (priceToShow = 0.82)
-        : (priceToShow = 1.0);
-    };
-
+  let priceToShow;
+  const actualCurrency = () => {
+    return getCurrencyData === "USD"
+      ? (priceToShow = 1.0)
+      : getCurrencyData === "CAD"
+      ? (priceToShow = 1.3)
+      : getCurrencyData === "AUD"
+      ? (priceToShow = 1.5)
+      : getCurrencyData === "EUR"
+      ? (priceToShow = 0.95)
+      : getCurrencyData === "GBP"
+      ? (priceToShow = 0.82)
+      : (priceToShow = 1.0);
+  };
 
   return (
     <BuyPageStyled>
@@ -124,7 +123,7 @@ const Buy = () => {
               <p className="amountConditional">Minimum must be 100k</p>,
             ]
           ) : (
-            <button className="btn btn-warning mt-3">Pay your order</button>
+            <button className="btn btn-warning mt-3">Add to Cart</button>
           )}
         </div>
       </div>
