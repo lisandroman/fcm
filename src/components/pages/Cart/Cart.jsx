@@ -26,10 +26,9 @@ const Cart = () => {
 
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
-  const [coupon, setCoupon] = useState('')
+  const [coupon, setCoupon] = useState("");
   const [isValidCoupon, setIsValidCoupon] = useState(false);
 
-  console.log("Log desde JSX:", orderAllData);
   let content;
 
   const handleRemoveItemFromCart = (id) => {
@@ -99,6 +98,8 @@ const Cart = () => {
     }
   }, [orderStatus, dispatch]);
 
+  // ----------- Variables PRICES -----------
+
   const takeOrderPrices = orderAllData.map(
     (item) => item.price * actualCurrency()
   );
@@ -106,12 +107,27 @@ const Cart = () => {
     return a + b;
   }, 0);
 
-  let paymentFee = getTotal - getTotal * 0.97;
+  let paymentFee = parseInt(getTotal) - parseInt(getTotal) * parseFloat(0.97);
   let paymentFeeRoundValue = (Math.round(paymentFee * 100) / 100).toFixed(
     parseInt(2)
   );
 
-  let totalPrice = parseFloat(getTotal) + parseFloat(paymentFeeRoundValue);
+  let totalPrice = parseInt(getTotal) + parseFloat(paymentFeeRoundValue);
+
+  const subTotal = getTotal;
+  const discountCoupon = ((totalPrice * 10) / 100).toFixed(2);
+
+  const discount1M = Math.round(totalPrice * 5) / 100;
+
+  // paymentFeeRoundValue is already done. Line 112
+  const totalAfterCoupon = totalPrice - (totalPrice * 10) / 100;
+  const subTotalWithFee = parseInt(subTotal) + parseFloat(paymentFeeRoundValue);
+
+  // Subtotal Coins
+  const takeOrderCoins = orderAllData.map((item) => item.coins);
+  const getTotalCoins = takeOrderCoins.reduce((a, b) => {
+    return a + b;
+  }, 0);
 
   // ---------------- Paypal Checkout ---------------
 
@@ -146,19 +162,20 @@ const Cart = () => {
   }
 
   const handleDiscountCoupon = (e) => {
-    setCoupon(e.target.value)
-  }
+    setCoupon(e.target.value);
+  };
 
   const discountCupon = () => {
-    console.log('Discount Code Added!')
-    return coupon === 'testing'
-       ? setIsValidCoupon(true)
-       : null
+    console.log("Discount Code Added!");
+    return coupon === "testing" ? setIsValidCoupon(true) : null;
+  };
+
+  const checkPlataforms = () => {
+    const checkPlat = orderAllData.map((item) => item.platform)
+    console.log(checkPlat)
   }
+checkPlataforms()
 
-  console.log('Coupon Valid?:', isValidCoupon)
-
-  console.log('Content Coupon variable:',coupon)
   return (
     <CartStyled>
       <h2>Cart</h2>
@@ -171,12 +188,12 @@ const Cart = () => {
                 <h5 className="text-start text-danger">Items in cart</h5>
               </div>
 
-              <div className="ps-4 pe-4 mt-4 pb-2">
+              <div className="ps-4 pe-4 mt-4 pb-4">
                 <table className="table table-sm table-striped tableSize">
                   <tbody>{content}</tbody>
                 </table>
                 <button
-                  className="btn btn-sm btn-dark"
+                  className="btn btn-sm btn-dark mt-5"
                   onClick={handleClearCart}
                 >
                   Clear Cart
@@ -194,10 +211,10 @@ const Cart = () => {
 
               <div className="row mt-4">
                 <div className="col-9">
-                  <div class="form-outline mb-1 ps-4">
+                  <div className="form-outline mb-1 ps-4">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="floatingInput"
                       placeholder="Discount Code"
                       onChange={handleDiscountCoupon}
@@ -206,49 +223,161 @@ const Cart = () => {
                 </div>
 
                 <div className="col">
-                  <button className="btn btn-danger" 
-                    onClick={discountCupon}>
+                  <button className="btn btn-danger" onClick={discountCupon}>
                     Apply
                   </button>
                 </div>
               </div>
 
-              <div className="mt-4 pb-2 border-bottom">
+              <div className="mt-4 pb-2">
                 <p className="text-start ps-4">
                   Subtotal:{" "}
                   <strong>
-                    {getCurrencyData} {getTotal}
+                    {getCurrencyData} {subTotal}
                   </strong>
                 </p>
-                <p className="text-start ps-4">
-                  Payment Fee: {getCurrencyData} {paymentFeeRoundValue} (3%)
+                <p className="text-start ps-4 border-bottom pb-4">
+                  Payment Fee:{" "}
+                  <strong>
+                    {getCurrencyData} {paymentFeeRoundValue}{" "}
+                  </strong>
+                  (3%)
                 </p>
-                <p className="text-start ps-4">Payment Method:</p>
-                {
-                  isValidCoupon === true
-                    ? <p className="text-start ps-4">Discount Code: 10% OFF</p>
-                    : null
-                }
+                {/* <p className="text-start ps-4">Discounts:</p> */}
+                {isValidCoupon === true ? (
+                  <p className="text-start text-danger ps-4">
+                    Discount Code - 10%:{" "}
+                    <strong>
+                      {getCurrencyData} {discountCoupon}{" "}
+                    </strong>
+                  </p>
+                ) : null}
+                {getTotalCoins >= 1000 ? (
+                  <p className="text-start text-danger ps-4">
+                    1 Million+ Discount:{" "}
+                    <strong>
+                      {getCurrencyData} {discount1M}
+                    </strong>{" "}
+                    (5%)
+                  </p>
+                ) : null}
               </div>
 
               <div className=" mt-4 pb-2">
-                <h3 className="text-center text-danger">
-                  Total:
-                  <span>
-                    <strong> {parseFloat(totalPrice).toFixed(2)}</strong>{" "}
-                    {getCurrencyData}
-                  </span>
-                </h3>
-                <h5>
-                  USD{" "}
-                  {(
-                    Math.round(
-                      (parseFloat(totalPrice) / parseFloat(actualCurrency())) *
-                        100
-                    ) / 100
-                  ).toFixed(2)}
-                </h5>
+                {isValidCoupon === true && getTotalCoins > 1000
+                  ? [
+                      <h3 className="text-center text-danger">
+                        {" "}
+                        Total:{" "}
+                        <span>
+                          {" "}
+                          <strong>
+                            {" "}
+                            {parseFloat(
+                              subTotalWithFee -
+                                (subTotalWithFee * 10) / 100 -
+                                (subTotalWithFee * 5) / 100
+                            ).toFixed(2)}{" "}
+                          </strong>{" "}
+                          {getCurrencyData}{" "}
+                        </span>{" "}
+                      </h3>,
+                      <h5>
+                        {" "}
+                        USD{" "}
+                        {(
+                          Math.round(
+                            (parseFloat(
+                              subTotalWithFee -
+                                (subTotalWithFee * 10) / 100 -
+                                (subTotalWithFee * 5) / 100
+                            ) /
+                              parseFloat(actualCurrency())) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{" "}
+                      </h5>,
+                    ]
+                  : isValidCoupon === true && getTotalCoins < 1000
+                  ? [
+                      <h3 className="text-center text-danger">
+                        Total:
+                        <span>
+                          <strong>
+                            {parseFloat(
+                              subTotalWithFee - (subTotalWithFee % 10)
+                            ).toFixed(2)}
+                          </strong>
+                          {getCurrencyData}
+                        </span>
+                      </h3>,
+                      <h5>
+                        {" "}
+                        USD{" "}
+                        {(
+                          Math.round(
+                            (parseFloat(
+                              subTotalWithFee - (subTotalWithFee % 10)
+                            ) /
+                              parseFloat(actualCurrency())) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{" "}
+                      </h5>,
+                    ]
+                  : isValidCoupon !== true && getTotalCoins < 1000
+                  ? [
+                      <h3 className="text-center text-danger">
+                        Total:{" "}
+                        <span>
+                          <strong>
+                            {parseFloat(subTotalWithFee).toFixed(2)}
+                          </strong>
+                          {getCurrencyData}
+                        </span>
+                      </h3>,
+                      <h5>
+                        {" "}
+                        USD{" "}
+                        {(
+                          Math.round(
+                            (parseFloat(subTotalWithFee) /
+                              parseFloat(actualCurrency())) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{" "}
+                      </h5>,
+                    ]
+                  : isValidCoupon !== true && getTotalCoins > 1000
+                  ? [
+                      <h3 className="text-center text-danger">
+                        Total:{" "}
+                        <span>
+                          <strong>
+                            {parseFloat(
+                              subTotalWithFee - (subTotalWithFee * 5 / 100)
+                            ).toFixed(2)}
+                          </strong>
+                          {getCurrencyData}
+                        </span>
+                      </h3>,
+                      <h5>
+                        {" "}
+                        USD{" "}
+                        {(
+                          Math.round(
+                            (parseFloat(
+                              subTotalWithFee - (subTotalWithFee * 5 / 100)
+                            ) /
+                              parseFloat(actualCurrency())) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{" "}
+                      </h5>,
+                    ]
+                  : null}
               </div>
+
               <div className="paypalButtonsContainer">
                 <PayPalScriptProvider
                   options={{
@@ -318,7 +447,6 @@ const Cart = () => {
             crypto@payment.com
           </button>
         </div>
-        {/* -------- Crypto Payment Option -------  */}
       </div>
     </CartStyled>
   );
