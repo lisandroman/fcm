@@ -68,7 +68,7 @@ export const PriceListPS = [
   {
     id: 32,
     coins: 1000,
-    price: 124,
+    price: 110,
     platform: "XBOX",
   },
   {

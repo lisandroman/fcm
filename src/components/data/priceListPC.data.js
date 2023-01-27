@@ -68,55 +68,64 @@ export const PriceListPS = [
   {
     id: 52,
     coins: 1000,
-    price: 124,
+    coinsM: 1,
+    price: 85,
     platform: "PC",
   },
   {
     id: 53,
     coins: 1500,
+    coinsM: 1.5,
     price: 12.8,
     platform: "PC",
   },
   {
     id: 54,
     coins: 2000,
+    coinsM: 2,
     price: 240,
     platform: "PC",
   },
   {
     id: 55,
     coins: 3000,
+    coinsM: 3,
     price: 350,
     platform: "PC",
   },
   {
     id: 56,
     coins: 4000,
+    coinsM: 4,
     price: 460,
     platform: "PC",
   },
   {
     id: 57,
     coins: 5000,
+    coinsM: 5,
     price: 570,
     platform: "PC",
   },
   {
     id: 58,
     coins: 10000,
+    coinsM: 10,
     price: 1300,
     platform: "PC",
   },
   {
     id: 59,
     coins: 20000,
+    coinsM: 20,
     price: 2500,
     platform: "PC",
   },
   {
     id: 60,
     coins: 30000,
+    coinsM: 30,
     price: 3700,
-    platform:"PC",
-  }
-]
+    platform: "PC",
+  },
+];

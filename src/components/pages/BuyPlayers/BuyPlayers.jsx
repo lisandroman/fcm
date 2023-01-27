@@ -22,9 +22,9 @@ const BuyPlayers = () => {
             <td>Pelé</td>
             <td>98</td>
             <td>CAM</td>
-            <td>$560</td>
+            <td>ASK</td>
             <td>
-              <button className="btn btn-sm btn-warning">Buy</button>
+              <button className="btn btn-primary">ask@payment.com</button>
             </td>
           </tr>
           <tr>
@@ -32,9 +32,9 @@ const BuyPlayers = () => {
             <td>Ronaldo</td>
             <td>96</td>
             <td>ST</td>
-            <td>$1200</td>
+            <td>ASK</td>
             <td>
-              <button className="btn btn-sm btn-warning">Buy</button>
+              <button className="btn btn-primary">ask@payment.com</button>
             </td>
           </tr>
           <tr>
@@ -42,9 +42,9 @@ const BuyPlayers = () => {
             <td>Zinedine Zidane</td>
             <td>96</td>
             <td>CAM</td>
-            <td>$360</td>
+            <td>ASK</td>
             <td>
-              <button className="btn btn-sm btn-warning">Buy</button>
+              <button className="btn btn-primary">ask@payment.com</button>
             </td>
           </tr>
         </tbody>
@@ -55,15 +55,12 @@ const BuyPlayers = () => {
 
 export default BuyPlayers;
 
-
 const BuyPlayersPageStyled = styled.div`
   width: 70%;
   margin: 0 auto;
-  
-  h2{
+
+  h2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-  
-
-`
+`;

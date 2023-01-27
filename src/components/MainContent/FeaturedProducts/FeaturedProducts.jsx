@@ -16,8 +16,7 @@ const FeaturesProducts = () => {
       icon: "success",
       title: "Added to Cart",
       text: `Added ${coins}K per ${(
-        Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) /
-        100
+        Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
       ).toFixed(2)} ${getCurrencyData} in ${platform}`,
       footer: '<a href="/cart">Go to your Cart</a>',
     });
@@ -73,9 +72,26 @@ const FeaturesProducts = () => {
                         <p className="card-text">{prod.coins}K</p>
                         <h5 className="card-text">
                           <strong>
-                            {getCurrencyData} {(Math.round(parseInt(prod.price) * parseFloat(actualCurrency()) * 100) / 100).toFixed(2)}
+                            {getCurrencyData}{" "}
+                            {(
+                              Math.round(
+                                parseInt(prod.price) *
+                                  parseFloat(actualCurrency()) *
+                                  100
+                              ) / 100
+                            ).toFixed(2)}
                           </strong>
                         </h5>
+                        {prod.coins >= 1000 ? (
+                          <span className="badge text-bg-danger text-white mb-2">
+                            5% OFF at checkout
+                          </span>
+                        ) : (
+                          <span className="badge text-bg-primary text-white mb-2">
+                            Best Price Guarantee
+                          </span>
+                        )
+                        }
                       </div>
                       <button
                         type="button"

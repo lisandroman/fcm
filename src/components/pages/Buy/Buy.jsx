@@ -90,12 +90,18 @@ const Buy = () => {
 
         <div className="buyForm row g-3">
           <div className="col-sm-6">
-            <label htmlFor="Amount">Minimum 100k: </label>
+            <label htmlFor="Amount">
+              Coins: 
+              <span className="badge text-bg-danger text-white ms-2 mb-2">
+                5% OFF at checkout buying 1.000k+ (1Million)
+              </span>
+            </label>
             <input
               type="number"
               className="form-control"
               placeholder="Enter your custom coins"
               aria-label="Amount"
+              step="100"
               onChange={handleInputAmount}
             />
           </div>
@@ -152,7 +158,24 @@ const Buy = () => {
             return (
               <tr>
                 <th scope="row">{item.id}</th>
-                <td>{item.coins}K</td>
+                {item.coins >= 2000 ? (
+                  <td>
+                    {item.coinsM} Millions{" "}
+                    <span className="badge text-bg-danger text-white mb-2">
+                      5% OFF at checkout
+                    </span>
+                  </td>
+                ) : item.coins < 1000 ? (
+                  <td>{item.coins} K</td>
+                ) : (
+                  <td>
+                    {item.coinsM} Million{" "}
+                    <span className="badge text-bg-danger text-white mb-2">
+                      5% OFF at checkout
+                    </span>
+                  </td>
+                )}
+
                 <td>{item.platform}</td>
                 <td>
                   {getCurrencyData}{" "}

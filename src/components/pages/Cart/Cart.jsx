@@ -17,7 +17,6 @@ import { FaCoins } from "react-icons/fa";
 import { FaGamepad } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 
-
 const Cart = () => {
   const dispatch = useDispatch();
   const orderAllData = useSelector(allData);
@@ -83,7 +82,7 @@ const Cart = () => {
             className="btn btn-sm btn-dark"
             onClick={() => handleRemoveItemFromCart(item.id)}
           >
-            <FaTrashAlt className="text-light"/>
+            <FaTrashAlt className="text-light" />
           </button>
         </td>
       </tr>
@@ -148,8 +147,8 @@ const Cart = () => {
     <CartStyled>
       <h2>Cart</h2>
       <h3>Your Order:</h3>
-      <div className="container cartGrid">
-        <div className="row">
+      <div className="container cartGrid pb-5">
+        <div className="row border-bottom">
           <div className="col-sm-8">
             <div className="bg bg-white">
               <div className="ps-4 border-bottom">
@@ -170,6 +169,7 @@ const Cart = () => {
             </div>
           </div>
 
+          {/* -------- Right side - Cart Total -------  */}
           <div className="col-sm-4 mb-5">
             <div className="bg bg-white">
               <div className="ps-4 border-bottom">
@@ -261,6 +261,22 @@ const Cart = () => {
             </div>
           </div>
         </div>
+        <div className="col text-start p-4 mt-3 bg bg-white ">
+          <h2>
+            <span className="badge text-bg-danger text-white mb-2">
+              Get 5% OFF
+            </span>
+          </h2>
+          <h3 className="text-danger">Crypto Payment:</h3>
+          <h5>
+            If you want to pay with Crypto contact us by email and get 5% extra
+            discount:
+          </h5>
+          <button className="btn btn-outline-primary mt-3">
+            crypto@payment.com
+          </button>
+        </div>
+        {/* -------- Crypto Payment Option -------  */}
       </div>
     </CartStyled>
   );
