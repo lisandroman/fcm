@@ -6,6 +6,7 @@ const FormWithGameData = () => {
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
         <h3 className="mb-4">Complete form to delivery</h3>
+        
         <div className="row mb-4">
           <div className="col-md">
             <div className="form-floating mb-3">

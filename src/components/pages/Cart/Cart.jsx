@@ -26,6 +26,8 @@ const Cart = () => {
 
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
+  const [coupon, setCoupon] = useState('')
+  const [isValidCoupon, setIsValidCoupon] = useState(false);
 
   console.log("Log desde JSX:", orderAllData);
   let content;
@@ -143,6 +145,20 @@ const Cart = () => {
     alert(error);
   }
 
+  const handleDiscountCoupon = (e) => {
+    setCoupon(e.target.value)
+  }
+
+  const discountCupon = () => {
+    console.log('Discount Code Added!')
+    return coupon === 'testing'
+       ? setIsValidCoupon(true)
+       : null
+  }
+
+  console.log('Coupon Valid?:', isValidCoupon)
+
+  console.log('Content Coupon variable:',coupon)
   return (
     <CartStyled>
       <h2>Cart</h2>
@@ -176,6 +192,27 @@ const Cart = () => {
                 <h5 className="text-start text-danger">Cart Total:</h5>
               </div>
 
+              <div className="row mt-4">
+                <div className="col-9">
+                  <div class="form-outline mb-1 ps-4">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="floatingInput"
+                      placeholder="Discount Code"
+                      onChange={handleDiscountCoupon}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <button className="btn btn-danger" 
+                    onClick={discountCupon}>
+                    Apply
+                  </button>
+                </div>
+              </div>
+
               <div className="mt-4 pb-2 border-bottom">
                 <p className="text-start ps-4">
                   Subtotal:{" "}
@@ -187,6 +224,11 @@ const Cart = () => {
                   Payment Fee: {getCurrencyData} {paymentFeeRoundValue} (3%)
                 </p>
                 <p className="text-start ps-4">Payment Method:</p>
+                {
+                  isValidCoupon === true
+                    ? <p className="text-start ps-4">Discount Code: 10% OFF</p>
+                    : null
+                }
               </div>
 
               <div className=" mt-4 pb-2">
