@@ -176,6 +176,7 @@ const Cart = () => {
   }
 checkPlataforms()
 
+
   return (
     <CartStyled>
       <h2>Cart</h2>
@@ -348,7 +349,7 @@ checkPlataforms()
                         ).toFixed(2)}{" "}
                       </h5>,
                     ]
-                  : isValidCoupon !== true && getTotalCoins > 1000
+                  : isValidCoupon !== true && getTotalCoins >= 1000
                   ? [
                       <h3 className="text-center text-danger">
                         Total:{" "}
