@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import { FaCoins } from "react-icons/fa";
 import { FaGamepad } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
+import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Cart = () => {
   const [error, setError] = useState(null);
   const [coupon, setCoupon] = useState("");
   const [isValidCoupon, setIsValidCoupon] = useState(false);
+  const [isMoreThanOnePlatform, setIsMoreThanOnePlatform] = useState(false);
 
   let content;
 
@@ -62,9 +64,16 @@ const Cart = () => {
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
       <tr className="tableRowStyled" key={item.id}>
-        <td className="text-start ps-4">
-          <FaCoins /> {item.coins} K
-        </td>
+        {item.id === 74 ? (
+          <td className="text-start ps-4">
+            <FaCoins /> {item.coins} K{" "}
+            <span className="badge text-bg-danger ms-2">Tax</span>
+          </td>
+        ) : (
+          <td className="text-start ps-4">
+            <FaCoins /> {item.coins} K
+          </td>
+        )}
         <td>
           {item.platform} <FaGamepad />
         </td>
@@ -92,10 +101,29 @@ const Cart = () => {
     content = <p>{orderErrors}</p>;
   }
 
+  const checkPlatforms = () => {
+    const checkPlat = orderAllData.map((item) => item.platform);
+    const firstPlatform = checkPlat[0];
+    for (let i = 0; i < checkPlat.length; i++) {
+      if (firstPlatform !== checkPlat[i]) {
+        setIsMoreThanOnePlatform(true);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html:
+            "<p>We just accept 1 platform per order</p>" +
+            "<p>To continue please remove the different platform</p>" +
+            "<h4>Finally click the button -Reload Screen-</h4>",
+        });
+      }
+    }
+  };
+
   useEffect(() => {
     if (orderStatus === "idle") {
       dispatch(fetchData());
     }
+    checkPlatforms();
   }, [orderStatus, dispatch]);
 
   // ----------- Variables PRICES -----------
@@ -170,13 +198,6 @@ const Cart = () => {
     return coupon === "testing" ? setIsValidCoupon(true) : null;
   };
 
-  const checkPlataforms = () => {
-    const checkPlat = orderAllData.map((item) => item.platform)
-    console.log(checkPlat)
-  }
-checkPlataforms()
-
-
   return (
     <CartStyled>
       <h2>Cart</h2>
@@ -193,245 +214,252 @@ checkPlataforms()
                 <table className="table table-sm table-striped tableSize">
                   <tbody>{content}</tbody>
                 </table>
+                <CoverTax />
                 <button
                   className="btn btn-sm btn-dark mt-5"
                   onClick={handleClearCart}
                 >
                   Clear Cart
                 </button>
+                {isMoreThanOnePlatform === true ? (
+                  <button
+                    className="btn btn-sm btn-success mt-5 ms-2"
+                    onClick={() => window.location.reload(false)}
+                  >
+                    Reload Screen
+                  </button>
+                ) : null}
               </div>
             </div>
           </div>
 
-          {/* -------- Right side - Cart Total -------  */}
-          <div className="col-sm-4 mb-5">
-            <div className="bg bg-white">
-              <div className="ps-4 border-bottom">
-                <h5 className="text-start text-danger">Cart Total:</h5>
-              </div>
+          {/* --------------------------------------------- Right side - Cart Total -------------------------------------  */}
+          {isMoreThanOnePlatform === true ? null : (
+            <div className="col-sm-4 mb-5">
+              <div className="bg bg-white">
+                <div className="ps-4 border-bottom">
+                  <h5 className="text-start text-danger">Cart Total:</h5>
+                </div>
 
-              <div className="row mt-4">
-                <div className="col-9">
-                  <div className="form-outline mb-1 ps-4">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="floatingInput"
-                      placeholder="Discount Code"
-                      onChange={handleDiscountCoupon}
-                    />
+                <div className="row mt-4">
+                  <div className="col-9">
+                    <div className="form-outline mb-1 ps-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="floatingInput"
+                        placeholder="Discount Code"
+                        onChange={handleDiscountCoupon}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <button className="btn btn-danger" onClick={discountCupon}>
+                      Apply
+                    </button>
                   </div>
                 </div>
 
-                <div className="col">
-                  <button className="btn btn-danger" onClick={discountCupon}>
-                    Apply
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 pb-2">
-                <p className="text-start ps-4">
-                  Subtotal:{" "}
-                  <strong>
-                    {getCurrencyData} {subTotal}
-                  </strong>
-                </p>
-                <p className="text-start ps-4 border-bottom pb-4">
-                  Payment Fee:{" "}
-                  <strong>
-                    {getCurrencyData} {paymentFeeRoundValue}{" "}
-                  </strong>
-                  (3%)
-                </p>
-                {/* <p className="text-start ps-4">Discounts:</p> */}
-                {isValidCoupon === true ? (
-                  <p className="text-start text-danger ps-4">
-                    Discount Code - 10%:{" "}
+                <div className="mt-4 pb-2">
+                  <p className="text-start ps-4">
+                    Subtotal:{" "}
                     <strong>
-                      {getCurrencyData} {discountCoupon}{" "}
+                      {getCurrencyData} {subTotal}
                     </strong>
                   </p>
-                ) : null}
-                {getTotalCoins >= 1000 ? (
-                  <p className="text-start text-danger ps-4">
-                    1 Million+ Discount:{" "}
+                  <p className="text-start ps-4 border-bottom pb-4">
+                    Payment Fee:{" "}
                     <strong>
-                      {getCurrencyData} {discount1M}
-                    </strong>{" "}
-                    (5%)
+                      {getCurrencyData} {paymentFeeRoundValue}{" "}
+                    </strong>
+                    (3%)
                   </p>
-                ) : null}
-              </div>
+                  {/* <p className="text-start ps-4">Discounts:</p> */}
+                  {isValidCoupon === true ? (
+                    <p className="text-start text-danger ps-4">
+                      Discount Code - 10%:{" "}
+                      <strong>
+                        {getCurrencyData} {discountCoupon}{" "}
+                      </strong>
+                    </p>
+                  ) : null}
+                  {getTotalCoins >= 1000 ? (
+                    <p className="text-start text-danger ps-4">
+                      1 Million+ Discount:{" "}
+                      <strong>
+                        {getCurrencyData} {discount1M}
+                      </strong>{" "}
+                      (5%)
+                    </p>
+                  ) : null}
+                </div>
 
-              <div className=" mt-4 pb-2">
-                {isValidCoupon === true && getTotalCoins > 1000
-                  ? [
-                      <h3 className="text-center text-danger">
-                        {" "}
-                        Total:{" "}
-                        <span>
+                <div className=" mt-4 pb-2">
+                  {isValidCoupon === true && getTotalCoins > 1000
+                    ? [
+                        <h3 className="text-center text-danger">
                           {" "}
-                          <strong>
+                          Total:{" "}
+                          <span>
                             {" "}
-                            {parseFloat(
-                              subTotalWithFee -
-                                (subTotalWithFee * 10) / 100 -
-                                (subTotalWithFee * 5) / 100
-                            ).toFixed(2)}{" "}
-                          </strong>{" "}
-                          {getCurrencyData}{" "}
-                        </span>{" "}
-                      </h3>,
-                      <h5>
-                        {" "}
-                        USD{" "}
-                        {(
-                          Math.round(
-                            (parseFloat(
-                              subTotalWithFee -
-                                (subTotalWithFee * 10) / 100 -
-                                (subTotalWithFee * 5) / 100
-                            ) /
-                              parseFloat(actualCurrency())) *
-                              100
-                          ) / 100
-                        ).toFixed(2)}{" "}
-                      </h5>,
-                    ]
-                  : isValidCoupon === true && getTotalCoins < 1000
-                  ? [
-                      <h3 className="text-center text-danger">
-                        Total:
-                        <span>
-                          <strong>
-                            {parseFloat(
-                              subTotalWithFee - (subTotalWithFee % 10)
-                            ).toFixed(2)}
-                          </strong>
-                          {getCurrencyData}
-                        </span>
-                      </h3>,
-                      <h5>
-                        {" "}
-                        USD{" "}
-                        {(
-                          Math.round(
-                            (parseFloat(
-                              subTotalWithFee - (subTotalWithFee % 10)
-                            ) /
-                              parseFloat(actualCurrency())) *
-                              100
-                          ) / 100
-                        ).toFixed(2)}{" "}
-                      </h5>,
-                    ]
-                  : isValidCoupon !== true && getTotalCoins < 1000
-                  ? [
-                      <h3 className="text-center text-danger">
-                        Total:{" "}
-                        <span>
-                          <strong>
-                            {parseFloat(subTotalWithFee).toFixed(2)}
-                          </strong>
-                          {getCurrencyData}
-                        </span>
-                      </h3>,
-                      <h5>
-                        {" "}
-                        USD{" "}
-                        {(
-                          Math.round(
-                            (parseFloat(subTotalWithFee) /
-                              parseFloat(actualCurrency())) *
-                              100
-                          ) / 100
-                        ).toFixed(2)}{" "}
-                      </h5>,
-                    ]
-                  : isValidCoupon !== true && getTotalCoins >= 1000
-                  ? [
-                      <h3 className="text-center text-danger">
-                        Total:{" "}
-                        <span>
-                          <strong>
-                            {parseFloat(
-                              subTotalWithFee - (subTotalWithFee * 5 / 100)
-                            ).toFixed(2)}
-                          </strong>
-                          {getCurrencyData}
-                        </span>
-                      </h3>,
-                      <h5>
-                        {" "}
-                        USD{" "}
-                        {(
-                          Math.round(
-                            (parseFloat(
-                              subTotalWithFee - (subTotalWithFee * 5 / 100)
-                            ) /
-                              parseFloat(actualCurrency())) *
-                              100
-                          ) / 100
-                        ).toFixed(2)}{" "}
-                      </h5>,
-                    ]
-                  : null}
-              </div>
+                            <strong>
+                              {" "}
+                              {parseFloat(
+                                subTotalWithFee -
+                                  (subTotalWithFee * 10) / 100 -
+                                  (subTotalWithFee * 5) / 100
+                              ).toFixed(2)}{" "}
+                            </strong>{" "}
+                            {getCurrencyData}{" "}
+                          </span>{" "}
+                        </h3>,
+                        <h5>
+                          {" "}
+                          USD{" "}
+                          {(
+                            Math.round(
+                              (parseFloat(
+                                subTotalWithFee -
+                                  (subTotalWithFee * 10) / 100 -
+                                  (subTotalWithFee * 5) / 100
+                              ) /
+                                parseFloat(actualCurrency())) *
+                                100
+                            ) / 100
+                          ).toFixed(2)}{" "}
+                        </h5>,
+                      ]
+                    : isValidCoupon === true && getTotalCoins < 1000
+                    ? [
+                        <h3 className="text-center text-danger">
+                          Total:
+                          <span>
+                            <strong>
+                              {parseFloat(
+                                subTotalWithFee - (subTotalWithFee % 10)
+                              ).toFixed(2)}
+                            </strong>
+                            {getCurrencyData}
+                          </span>
+                        </h3>,
+                        <h5>
+                          {" "}
+                          USD{" "}
+                          {(
+                            Math.round(
+                              (parseFloat(
+                                subTotalWithFee - (subTotalWithFee % 10)
+                              ) /
+                                parseFloat(actualCurrency())) *
+                                100
+                            ) / 100
+                          ).toFixed(2)}{" "}
+                        </h5>,
+                      ]
+                    : isValidCoupon !== true && getTotalCoins < 1000
+                    ? [
+                        <h3 className="text-center text-danger">
+                          Total:{" "}
+                          <span>
+                            <strong>
+                              {parseFloat(subTotalWithFee).toFixed(2)}
+                            </strong>
+                            {getCurrencyData}
+                          </span>
+                        </h3>,
+                        <h5>
+                          {" "}
+                          USD{" "}
+                          {(
+                            Math.round(
+                              (parseFloat(subTotalWithFee) /
+                                parseFloat(actualCurrency())) *
+                                100
+                            ) / 100
+                          ).toFixed(2)}{" "}
+                        </h5>,
+                      ]
+                    : isValidCoupon !== true && getTotalCoins >= 1000
+                    ? [
+                        <h3 className="text-center text-danger">
+                          Total:{" "}
+                          <span>
+                            <strong>
+                              {parseFloat(
+                                subTotalWithFee - (subTotalWithFee * 5) / 100
+                              ).toFixed(2)}
+                            </strong>
+                            {getCurrencyData}
+                          </span>
+                        </h3>,
+                        <h5>
+                          {" "}
+                          USD{" "}
+                          {(
+                            Math.round(
+                              (parseFloat(
+                                subTotalWithFee - (subTotalWithFee * 5) / 100
+                              ) /
+                                parseFloat(actualCurrency())) *
+                                100
+                            ) / 100
+                          ).toFixed(2)}{" "}
+                        </h5>,
+                      ]
+                    : null}
+                </div>
 
-              <div className="paypalButtonsContainer">
-                <PayPalScriptProvider
-                  options={{
-                    "client-id":
-                      "AYSCSFR3MypXty2_BjrXfTvx0u_n-hozFbeVUzbfSam6lo5-g6scL0-zoOfreObJK1svNZucC8LnH5fw",
-                  }}
-                >
-                  <PayPalButtons
-                    onClick={(data, actions) => {
-                      const hasAlreadyBought = false;
-                      if (hasAlreadyBought) {
-                        setError("You already bought this item!");
-                        return actions.reject();
-                      } else {
-                        return actions.resolve();
-                      }
+                <div className="paypalButtonsContainer">
+                  <PayPalScriptProvider
+                    options={{
+                      "client-id":
+                        "AYSCSFR3MypXty2_BjrXfTvx0u_n-hozFbeVUzbfSam6lo5-g6scL0-zoOfreObJK1svNZucC8LnH5fw",
                     }}
-                    createOrder={(data, actions) => {
-                      return actions.order.create({
-                        purchase_units: [
-                          {
-                            amount: {
-                              value: totalPriceOriginal,
+                  >
+                    <PayPalButtons
+                      onClick={(data, actions) => {
+                        const hasAlreadyBought = false;
+                        if (hasAlreadyBought) {
+                          setError("You already bought this item!");
+                          return actions.reject();
+                        } else {
+                          return actions.resolve();
+                        }
+                      }}
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: totalPriceOriginal,
+                              },
                             },
-                          },
-                        ],
-                      });
-                    }}
-                    onApprove={async (data, actions) => {
-                      const order = await actions.order.capture();
-                      console.log("order:", order);
-                      console.log("order ID:", order.id);
-                      handleApprove(data.orderID);
-                      handleClearCart();
-                      // return actions.order.capture().then((details) => {
-                      //   const name = details.payer.name.given_name;
-                      //   alert(`Transaction completed by ${name}`);
-                      // });
-                    }}
-                    onCancel={() => {}}
-                    onError={(err) => {
-                      setError(err);
-                      console.log("Paypal Checkout Error:", err);
-                    }}
-                  />
-                </PayPalScriptProvider>
-                {/* <button className="btn btn-danger mt-3">Secure Payment</button>
-              <p className="termsAndConditionsText mt-3">
-                I accept the TERMS & CONDITIONS and Privacy Notice
-              </p> */}
+                          ],
+                        });
+                      }}
+                      onApprove={async (data, actions) => {
+                        const order = await actions.order.capture();
+                        console.log("order:", order);
+                        console.log("order ID:", order.id);
+                        handleApprove(data.orderID);
+                        handleClearCart();
+                        // return actions.order.capture().then((details) => {
+                        //   const name = details.payer.name.given_name;
+                        //   alert(`Transaction completed by ${name}`);
+                        // });
+                      }}
+                      onCancel={() => {}}
+                      onError={(err) => {
+                        setError(err);
+                        console.log("Paypal Checkout Error:", err);
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="col text-start p-4 mt-3 bg bg-white ">
           <h2>

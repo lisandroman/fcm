@@ -32,8 +32,8 @@ export const orderSlice = createSlice({
       state.cart = [];
     },
     loadCurrency: (state, action) => {
-      console.log('action.payload:', action.payload)
-      state.currency = action.payload
+      console.log("action.payload:", action.payload);
+      state.currency = action.payload;
     },
   },
 
