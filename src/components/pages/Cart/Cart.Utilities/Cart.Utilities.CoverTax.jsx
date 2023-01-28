@@ -6,6 +6,7 @@ import {
   removeFromCart,
 } from "../../../../redux/state/orders";
 import Swal from "sweetalert2";
+import styled from "styled-components";
 
 const CoverTax = () => {
   const orderAllData = useSelector(allData);
@@ -53,26 +54,48 @@ const CoverTax = () => {
   };
 
   return (
-    <div className="mt-2">
-      <h4 className="text-danger">Add Tax</h4>
-      <p>If you want to cover the tax, you can pay it now!</p>
-      {orderAllData &&
-      orderAllData.map((item) => item.id).includes(74) ? null : (
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="inlineCheckbox1"
-            value={isTaxAccepted}
-            onChange={handleAddCoinsToPayTax}
-          />
-          <label className="form-check-label" htmlFor="inlineCheckbox1">
-            Add 5% Transfers Tax
-          </label>
-        </div>
-      )}
-    </div>
+    <CoverTaxStyled>
+      <div className="mt-2">
+        <h4 className="text-danger">Add Tax</h4>
+        <p>If you want to cover the tax, you can pay it now!</p>
+        {orderAllData &&
+        orderAllData.map((item) => item.id).includes(74) ? null : (
+          <div className="form-check form-check-inline taxInput">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="inlineCheckbox1"
+              value={isTaxAccepted}
+              onChange={handleAddCoinsToPayTax}
+            />
+            <label className="form-check-label" htmlFor="inlineCheckbox1">
+              Add 5% Transfers Tax
+            </label>
+          </div>
+        )}
+      </div>
+    </CoverTaxStyled>
   );
 };
 
 export default CoverTax;
+
+const CoverTaxStyled = styled.div`
+  @media (max-width: 575.98px) {
+    h4 {
+      font-size: 1rem;
+      /* border: 1px solid red; */
+    }
+    p {
+      font-size: 0.75rem;
+      margin-bottom: 0;
+    }
+    .taxInput {
+      margin-top: 0rem;
+
+      label {
+        font-size: .8rem;
+      }
+    }
+  }
+`;

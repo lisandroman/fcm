@@ -65,27 +65,35 @@ const Cart = () => {
     content = orderAllData?.map((item) => (
       <tr className="tableRowStyled " key={item.id}>
         {item.id === 74 ? (
-          <td className="text-start ps-4">
-            <FaCoins /> {item.coins} K{" "}
+          <td className="text-start ps-4 textOrderItems">
+            <span>
+              <FaCoins /> {item.coins} K{" "}
+            </span>
             <span className="badge text-bg-danger ms-2">Tax</span>
           </td>
         ) : (
-          <td className="text-start ps-4">
-            <FaCoins /> {item.coins} K
+          <td className="text-start ps-4 textOrderItems">
+            <span>
+              <FaCoins /> {item.coins} K
+            </span>
           </td>
         )}
-        <td>
-          {item.platform} <FaGamepad />
+        <td className="textOrderItems">
+          <span>
+            {item.platform} <FaGamepad />
+          </span>
         </td>
-        <td className="text-end pe-4">
-          {getCurrencyData}{" "}
-          <strong>
-            {(
-              Math.round(
-                parseInt(item.price) * parseFloat(actualCurrency()) * 100
-              ) / 100
-            ).toFixed(2)}
-          </strong>
+        <td className="text-end pe-4 textOrderItems">
+          <span>
+            {getCurrencyData}{" "}
+            <strong>
+              {(
+                Math.round(
+                  parseInt(item.price) * parseFloat(actualCurrency()) * 100
+                ) / 100
+              ).toFixed(2)}
+            </strong>
+          </span>
         </td>
         <td>
           <button
@@ -206,7 +214,7 @@ const Cart = () => {
         <div className="row border-bottom">
           <div className="col-sm-8">
             <div className="bg bg-white">
-              <div className="ps-4 border-bottom">
+              <div className="ps-4 border-bottom cartRedSubtitles">
                 <h5 className="text-start pt-1">
                   <span className="text-danger align-middle">
                     Items in cart
@@ -214,13 +222,13 @@ const Cart = () => {
                 </h5>
               </div>
 
-              <div className="ps-4 pe-4 mt-4 pb-4">
+              <div className="ps-4 pe-4 mt-2 pb-4 mt-md-3">
                 <table className="table table-sm table-striped tableSize align-middle">
                   <tbody>{content}</tbody>
                 </table>
                 <CoverTax />
                 <button
-                  className="btn btn-sm btn-dark mt-5"
+                  className="btn btn-sm btn-dark mt-2 mt-md-5 buttonClearCart"
                   onClick={handleClearCart}
                 >
                   Clear Cart
@@ -233,13 +241,13 @@ const Cart = () => {
                     Reload Screen
                   </button>
                 ) : null}
-                <div className="border-top mt-4">
-                  <h6 className="mt-4 text-primary">
+                <div className="border-top mt-4 mt-sm-4 emailContact">
+                  <h6 className="mt-2 mt-md-4 text-primary">
                     If you have any issue with the cart contact us at:
                   </h6>
-                    <button className="btn btn-outline-primary mt-2">
-                      contact@payment.com
-                    </button>
+                  <button className="btn btn-sm btn-outline-primary mt-1">
+                    contact@payment.com
+                  </button>
                 </div>
               </div>
             </div>
@@ -249,7 +257,7 @@ const Cart = () => {
           {isMoreThanOnePlatform === true ? null : (
             <div className="col-sm-4 mb-5">
               <div className="bg bg-white">
-                <div className="ps-4 border-bottom">
+                <div className="ps-4 border-bottom cartRedSubtitles">
                   <h5 className="text-start pt-1">
                     <span className="text-danger align-middle ">
                       Cart Total:
@@ -257,34 +265,35 @@ const Cart = () => {
                   </h5>
                 </div>
 
-                <div className="row mt-4">
+                <div className="row mt-3">
                   <div className="col-9">
-                    <div className="form-outline mb-1 ps-4">
+                    <div
+                      className="form-outline mb-1 ps-4"
+                    >
                       <input
                         type="text"
                         className="form-control"
-                        id="floatingInput"
                         placeholder="Discount Code"
                         onChange={handleDiscountCoupon}
                       />
                     </div>
                   </div>
 
-                  <div className="col">
+                  <div className="col me-1">
                     <button className="btn btn-danger" onClick={discountCupon}>
                       Apply
                     </button>
                   </div>
                 </div>
 
-                <div className="mt-4 pb-2">
+                <div className="mt-2 cartTotalDetails">
                   <p className="text-start ps-4">
                     Subtotal:{" "}
                     <strong>
                       {getCurrencyData} {subTotal}
                     </strong>
                   </p>
-                  <p className="text-start ps-4 border-bottom pb-4">
+                  <p className="text-start ps-4 border-bottom pb-2">
                     Payment Fee:{" "}
                     <strong>
                       {getCurrencyData} {paymentFeeRoundValue}{" "}
@@ -519,5 +528,32 @@ const CartStyled = styled.div`
   .paypalButtonsContainer {
     width: 70%;
     margin: 0 auto;
+  }
+  @media (max-width: 575.98px) {
+    .textOrderItems span {
+      font-size: 0.75rem;
+    }
+
+    h2,
+    h3 {
+      font-size: 1.2rem;
+    }
+    .cartRedSubtitles h5 span {
+      font-size: .85rem;
+  }
+  .tableDiv{
+    margin-top: .5rem!important;
+  }
+  .buttonClearCart{
+    width: 5rem;
+    height: 1.5rem;
+    font-size: .66rem;
+  }
+
+  .emailContact h6{
+    font-size: .75rem;
+  }
+  .cartTotalDetails p{
+    font-size: .75rem;
   }
 `;
