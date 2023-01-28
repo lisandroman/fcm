@@ -9,11 +9,11 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <a className="navbar-brand ms-3" href="/">
           FUTCOINS<b>MARKET</b>
         </a>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler me-3"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
