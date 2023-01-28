@@ -63,7 +63,7 @@ const Cart = () => {
     );
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
-      <tr className="tableRowStyled" key={item.id}>
+      <tr className="tableRowStyled " key={item.id}>
         {item.id === 74 ? (
           <td className="text-start ps-4">
             <FaCoins /> {item.coins} K{" "}
@@ -207,11 +207,15 @@ const Cart = () => {
           <div className="col-sm-8">
             <div className="bg bg-white">
               <div className="ps-4 border-bottom">
-                <h5 className="text-start text-danger">Items in cart</h5>
+                <h5 className="text-start pt-1">
+                  <span className="text-danger align-middle">
+                    Items in cart
+                  </span>
+                </h5>
               </div>
 
               <div className="ps-4 pe-4 mt-4 pb-4">
-                <table className="table table-sm table-striped tableSize">
+                <table className="table table-sm table-striped tableSize align-middle">
                   <tbody>{content}</tbody>
                 </table>
                 <CoverTax />
@@ -229,6 +233,14 @@ const Cart = () => {
                     Reload Screen
                   </button>
                 ) : null}
+                <div className="border-top mt-4">
+                  <h6 className="mt-4 text-primary">
+                    If you have any issue with the cart contact us at:
+                  </h6>
+                    <button className="btn btn-outline-primary mt-2">
+                      contact@payment.com
+                    </button>
+                </div>
               </div>
             </div>
           </div>
@@ -238,7 +250,11 @@ const Cart = () => {
             <div className="col-sm-4 mb-5">
               <div className="bg bg-white">
                 <div className="ps-4 border-bottom">
-                  <h5 className="text-start text-danger">Cart Total:</h5>
+                  <h5 className="text-start pt-1">
+                    <span className="text-danger align-middle ">
+                      Cart Total:
+                    </span>
+                  </h5>
                 </div>
 
                 <div className="row mt-4">
