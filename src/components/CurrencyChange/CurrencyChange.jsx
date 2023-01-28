@@ -12,20 +12,18 @@ const CurrencyChange = () => {
   };
 
   return (
-    <>
+    <div className="mt-2 mb-2">
       <label>
-        Currency:
+        Currency:{" "}
         <select value={value} onChange={handleChangeCurrency}>
-          <option value="USD">
-            USD
-          </option>
+          <option value="USD">USD</option>
           <option value="CAD">CAD</option>
           <option value="AUD">AUD</option>
           <option value="EUR">EUR</option>
           <option value="GBP">GBP</option>
         </select>
       </label>
-    </>
+    </div>
   );
 };
 
