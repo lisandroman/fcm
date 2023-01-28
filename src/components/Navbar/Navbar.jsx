@@ -30,36 +30,48 @@ const Navbar = () => {
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ">
               <Link className="nav-link active" aria-current="page" to="/">
-                Home
+                <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                  Home
+                </span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/buy">
-                Coins Packages
+              <Link to="/buy" className="nav-link">
+                <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                  Coins Packages
+                </span>
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/sell">
-                Sell
+                <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                  Sell
+                </span>
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/buy-players">
-                Players Prices
+                <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                  Players Prices
+                </span>
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/help">
-                Help Center
+                <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                  Help Center
+                </span>
               </Link>
             </li>
             <Link className="nav-link" to="/cart">
-              <button type="button" className="btn btn-primary">
-                <FaShoppingCart />{" "}
-                <span className="badge text-bg-danger ms-1">
-                  {orderAllData.length}
-                </span>
-              </button>
+              <span data-bs-target="#navbarNav" data-bs-toggle="collapse">
+                <button type="button" className="btn btn-primary">
+                  <FaShoppingCart />{" "}
+                  <span className="badge text-bg-danger ms-1">
+                    {orderAllData.length}
+                  </span>
+                </button>
+              </span>
             </Link>
             {/* <li className="nav-item">
               <Link className="nav-link" to="/cart">
