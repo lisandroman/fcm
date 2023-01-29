@@ -9,7 +9,7 @@ import {
   getDataErrors,
   getDataStatus,
   priceFinalToForm,
-  removeFromCart
+  removeFromCart,
 } from "../../../redux/state/orders";
 
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -87,8 +87,10 @@ const Cart = () => {
           <span>
             {getCurrencyData}{" "}
             <strong>
-              {(Math.round(parseFloat(item.price) * (actualCurrency()) * 100 ) / 100).toFixed(2)
-              }
+              {(
+                Math.round(parseFloat(item.price) * actualCurrency() * 100) /
+                100
+              ).toFixed(2)}
             </strong>
           </span>
         </td>
@@ -164,9 +166,9 @@ const Cart = () => {
     Math.round(paymentFeeOriginal * 100) / 100
   ).toFixed(parseInt(2));
 
- const totalPriceOriginal =
+  const totalPriceOriginal =
     parseFloat(getTotalOriginal) + parseFloat(paymentFeeRoundValueOriginal);
-   
+
   // Paypal Buttons
   const handleApprove = (orderID) => {
     setPaidFor(true);
@@ -192,13 +194,13 @@ const Cart = () => {
     console.log("Discount Code Added!");
     return coupon === "testing" ? setIsValidCoupon(true) : null;
   };
-   useEffect(() => {
-     if (orderStatus === "idle") {
-       dispatch(fetchData());
-     }
-     checkPlatforms();
-     dispatch(priceFinalToForm(totalPriceOriginal));
-   }, [orderStatus, dispatch, totalPriceOriginal]);
+  useEffect(() => {
+    if (orderStatus === "idle") {
+      dispatch(fetchData());
+    }
+    checkPlatforms();
+    dispatch(priceFinalToForm(totalPriceOriginal));
+  }, [orderStatus, dispatch, totalPriceOriginal]);
 
   return (
     <CartStyled>
@@ -488,15 +490,6 @@ const Cart = () => {
             crypto@payment.com
           </button>
         </div>
-        {/* --------------------- GO TO FORM -------------------- */}
-
-        <div className="mt-4 bg-info p-2">
-          <Link to="/form-game-data">
-            <button className="btn btn-primary">Form</button>
-          </Link>
-        </div>
-
-        {/* --------------------- GO TO FORM -------------------- */}
       </div>
     </CartStyled>
   );
