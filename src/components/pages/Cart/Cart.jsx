@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToCart,
   allData,
   clearCart,
   fetchData,
   getCurrency,
   getDataErrors,
   getDataStatus,
+  priceFinalToForm,
   removeFromCart,
 } from "../../../redux/state/orders";
 
@@ -17,6 +19,7 @@ import { FaCoins } from "react-icons/fa";
 import { FaGamepad } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -127,12 +130,8 @@ const Cart = () => {
     }
   };
 
-  useEffect(() => {
-    if (orderStatus === "idle") {
-      dispatch(fetchData());
-    }
-    checkPlatforms();
-  }, [orderStatus, dispatch]);
+  
+ 
 
   // ----------- Variables PRICES -----------
 
@@ -165,6 +164,16 @@ const Cart = () => {
     return a + b;
   }, 0);
 
+   console.log("getTotalCoins:", getTotalCoins * 1000);
+
+    useEffect(() => {
+      if (orderStatus === "idle") {
+        dispatch(fetchData());
+      }
+      checkPlatforms();
+      dispatch(priceFinalToForm(totalPriceOriginal));
+    }, [orderStatus, dispatch, totalPriceOriginal]);
+
   // ---------------- Paypal Checkout ---------------
 
   const allCartContent = orderAllData.map((item) => item.price);
@@ -176,11 +185,10 @@ const Cart = () => {
     Math.round(paymentFeeOriginal * 100) / 100
   ).toFixed(parseInt(2));
 
-  let totalPriceOriginal =
+ const totalPriceOriginal =
     parseFloat(getTotalOriginal) + parseFloat(paymentFeeRoundValueOriginal);
-
+   
   // Paypal Buttons
-
   const handleApprove = (orderID) => {
     setPaidFor(true);
   };
@@ -267,9 +275,7 @@ const Cart = () => {
 
                 <div className="row mt-3">
                   <div className="col-9">
-                    <div
-                      className="form-outline mb-1 ps-4"
-                    >
+                    <div className="form-outline mb-1 ps-4">
                       <input
                         type="text"
                         className="form-control"
@@ -468,11 +474,6 @@ const Cart = () => {
                         console.log("order:", order);
                         console.log("order ID:", order.id);
                         handleApprove(data.orderID);
-                        handleClearCart();
-                        // return actions.order.capture().then((details) => {
-                        //   const name = details.payer.name.given_name;
-                        //   alert(`Transaction completed by ${name}`);
-                        // });
                       }}
                       onCancel={() => {}}
                       onError={(err) => {
@@ -501,6 +502,15 @@ const Cart = () => {
             crypto@payment.com
           </button>
         </div>
+        {/* --------------------- GO TO FORM -------------------- */}
+
+        <div className="mt-4 bg-info p-2">
+          <Link to="/form-game-data">
+            <button className="btn btn-primary">Form</button>
+          </Link>
+        </div>
+
+        {/* --------------------- GO TO FORM -------------------- */}
       </div>
     </CartStyled>
   );

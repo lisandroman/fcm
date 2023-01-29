@@ -7,6 +7,7 @@ const initialState = {
   currency: "USD",
   status: "idle",
   error: null,
+  priceInForm: 0,
 };
 
 export const fetchData = createAsyncThunk("orders/fetchData", async () => {
@@ -35,6 +36,9 @@ export const orderSlice = createSlice({
       console.log("action.payload:", action.payload);
       state.currency = action.payload;
     },
+    priceFinalToForm: (state, action) => {
+      state.priceInForm = action.payload;
+    }
   },
 
   extraReducers(builder) {
@@ -59,8 +63,9 @@ export const allData = (state) => state.orders.cart;
 export const getDataStatus = (state) => state.orders.status;
 export const getDataErrors = (state) => state.orders.error;
 export const getCurrency = (state) => state.orders.currency;
+export const getLatestPrice = (state) => state.orders.priceInForm;
 
-export const { addToCart, removeFromCart, clearCart, loadCurrency } =
+export const { addToCart, removeFromCart, clearCart, loadCurrency, priceFinalToForm } =
   orderSlice.actions;
 
 export default orderSlice.reducer;

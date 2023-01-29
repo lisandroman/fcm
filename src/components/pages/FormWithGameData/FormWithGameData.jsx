@@ -1,12 +1,98 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import {
+  allData,
+  clearCart,
+  getLatestPrice,
+} from "../../../redux/state/orders";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../firebase/firebase";
+import Swal from "sweetalert2";
 
 const FormWithGameData = () => {
+  const orderAllData = useSelector(allData);
+  const getLatestPriceToForm = useSelector(getLatestPrice);
+  const dispatch = useDispatch();
+
+  const [originEmail, setOriginEmail] = useState("");
+  const [passEmail, setPassEmail] = useState("");
+  const [coins, setCoins] = useState(0);
+  const [platform, setPlatform] = useState("");
+  const [price, setPrice] = useState(0);
+  const [backupCode1, setBackupCode1] = useState("");
+  const [backupCode2, setBackupCode2] = useState("");
+  const [personalEmail, setPersonalEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+
+  // Set Coins
+  const listTotalCoins = orderAllData.map((item) => item.coins);
+  const getTotalCoins = listTotalCoins.reduce((a, b) => {
+    return a + b;
+  }, 0);
+  // Set Platform
+  const listFinalPlatform = orderAllData.map((item) => item.platform);
+  const getFinalPlatform = listFinalPlatform[0];
+  // // Set Price
+  // const listFinalPrice = orderAllData.map((item) => item.price);
+  // const getFinalPrice = listFinalPrice.reduce((a, b) => {
+  //   return a + b;
+  // }, 0);
+
+  useEffect(() => {
+    setCoins(getTotalCoins * 1000);
+    setPlatform(getFinalPlatform);
+    setPrice(getLatestPriceToForm);
+  }, [getTotalCoins, getFinalPlatform, getLatestPriceToForm]);
+
+  console.log("useState Coins:", coins);
+  // console.log("useState Platform:", platform);
+  // console.log("useState EA Email:", originEmail);
+  // console.log("useState EA Pass:", passEmail);
+  // console.log("useState setBackupCode1:", backupCode1);
+  // console.log("useState backupCode2:", backupCode2);
+  // console.log("useState personalEmail:", personalEmail);
+  // console.log("useState city:", city);
+  // console.log("useState state:", state);
+  // console.log("useState country:", country);
+
+  const addData = async function (e) {
+    e.preventDefault();
+    try {
+      const docRef = await addDoc(collection(db, "orders"), {
+        originEmail: originEmail,
+        passEmail: passEmail,
+        coins: coins,
+        platform: platform,
+        price: price,
+        backupCode1: backupCode1,
+        backupCode2: backupCode2,
+        personalEmail: personalEmail,
+        city: city,
+        state: state,
+        country: country,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      Swal.fire({
+        icon: "success",
+        title: "Form Sended",
+        text: `Please save your Order ID: ${docRef.id}`,
+        footer: '<a href="/">Go Home</a>',
+      });
+      dispatch(clearCart());
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
         <h3 className="mb-4">Complete form to delivery</h3>
-        
+
         <div className="row mb-4">
           <div className="col-md">
             <div className="form-floating mb-3">
@@ -15,6 +101,7 @@ const FormWithGameData = () => {
                 className="form-control"
                 id="floatingInput"
                 placeholder="name@example.com"
+                onChange={(e) => setOriginEmail(e.target.value)}
               />
               <label htmlFor="floatingInput">EA Origin Email:</label>
             </div>
@@ -26,6 +113,7 @@ const FormWithGameData = () => {
                 className="form-control"
                 id="floatingPassword"
                 placeholder="Password"
+                onChange={(e) => setPassEmail(e.target.value)}
               />
               <label htmlFor="floatingPassword">Password:</label>
             </div>
@@ -36,23 +124,41 @@ const FormWithGameData = () => {
         <div className="row mb-4">
           <div className="col-md mb-3">
             <div className="form-outline">
+              <label htmlFor="floatingCoins">Coins:</label>
               <input
-                type="email"
+                type="number"
+                id="floatingCoins"
                 className="form-control"
-                id="floatingInputGrid"
-                placeholder="Coins Package"
-                // value="Coins Package:"
+                disabled
+                placeholder="Coins Package: `{coins}`"
+                value={coins}
               />
             </div>
           </div>
           <div className="col-md">
             <div className="form-outline">
-              <select className="form-select" id="floatingSelectGrid">
-                <option defaultValue>Platform</option>
-                <option value="1">PS4/PS5</option>
-                <option value="2">XBOX</option>
-                <option value="3">PC</option>
-              </select>
+              <label htmlFor="floatingPlatform">Platform:</label>
+              <input
+                type="text"
+                id="floatingPlatform"
+                disabled
+                className="form-control"
+                placeholder="Platform:"
+                value={platform}
+              />
+            </div>
+          </div>
+          <div className="col-md">
+            <div className="form-outline">
+              <label htmlFor="floatingPrice">Price in USD:</label>
+              <input
+                type="number"
+                id="floatingPrice"
+                disabled
+                className="form-control"
+                placeholder="Price:"
+                value={price}
+              />
             </div>
           </div>
         </div>
@@ -79,6 +185,7 @@ const FormWithGameData = () => {
                 id="form3Example1"
                 className="form-control"
                 placeholder="Backup Code1:"
+                onChange={(e) => setBackupCode1(e.target.value)}
               />
             </div>
           </div>
@@ -89,6 +196,7 @@ const FormWithGameData = () => {
                 id="form3Example2"
                 className="form-control"
                 placeholder="Backup Code2:"
+                onChange={(e) => setBackupCode2(e.target.value)}
               />
             </div>
           </div>
@@ -101,10 +209,11 @@ const FormWithGameData = () => {
           <div className="col">
             <div className="form-outline mb-2">
               <input
-                type="text"
+                type="email"
                 id="form3Example3"
                 className="form-control"
                 placeholder="Personal email:"
+                onChange={(e) => setPersonalEmail(e.target.value)}
               />
             </div>
           </div>
@@ -116,6 +225,7 @@ const FormWithGameData = () => {
                   id="form3Example4"
                   className="form-control"
                   placeholder="City:"
+                  onChange={(e) => setCity(e.target.value)}
                 />
               </div>
             </div>
@@ -126,6 +236,7 @@ const FormWithGameData = () => {
                   id="form3Example5"
                   className="form-control"
                   placeholder="State:"
+                  onChange={(e) => setState(e.target.value)}
                 />
               </div>
             </div>
@@ -136,12 +247,14 @@ const FormWithGameData = () => {
                   id="form3Example6"
                   className="form-control"
                   placeholder="Country:"
+                  onChange={(e) => setCountry(e.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary btn-block mb-4">
+
+        <button className="btn btn-primary mb-4" onClick={addData}>
           Send Form
         </button>
       </form>
