@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import {
-  addToCart,
   allData,
   clearCart,
   fetchData,
@@ -10,16 +9,14 @@ import {
   getDataErrors,
   getDataStatus,
   priceFinalToForm,
-  removeFromCart,
+  removeFromCart
 } from "../../../redux/state/orders";
 
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import Swal from "sweetalert2";
-import { FaCoins } from "react-icons/fa";
-import { FaGamepad } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
-import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -166,13 +163,7 @@ const Cart = () => {
 
    console.log("getTotalCoins:", getTotalCoins * 1000);
 
-    useEffect(() => {
-      if (orderStatus === "idle") {
-        dispatch(fetchData());
-      }
-      checkPlatforms();
-      dispatch(priceFinalToForm(totalPriceOriginal));
-    }, [orderStatus, dispatch, totalPriceOriginal]);
+   
 
   // ---------------- Paypal Checkout ---------------
 
@@ -213,6 +204,13 @@ const Cart = () => {
     console.log("Discount Code Added!");
     return coupon === "testing" ? setIsValidCoupon(true) : null;
   };
+   useEffect(() => {
+     if (orderStatus === "idle") {
+       dispatch(fetchData());
+     }
+     checkPlatforms();
+     dispatch(priceFinalToForm(totalPriceOriginal));
+   }, [orderStatus, dispatch, totalPriceOriginal]);
 
   return (
     <CartStyled>
