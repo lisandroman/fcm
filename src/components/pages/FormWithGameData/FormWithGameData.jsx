@@ -36,28 +36,12 @@ const FormWithGameData = () => {
   // Set Platform
   const listFinalPlatform = orderAllData.map((item) => item.platform);
   const getFinalPlatform = listFinalPlatform[0];
-  // // Set Price
-  // const listFinalPrice = orderAllData.map((item) => item.price);
-  // const getFinalPrice = listFinalPrice.reduce((a, b) => {
-  //   return a + b;
-  // }, 0);
 
   useEffect(() => {
     setCoins(getTotalCoins * 1000);
     setPlatform(getFinalPlatform);
     setPrice(getLatestPriceToForm);
   }, [getTotalCoins, getFinalPlatform, getLatestPriceToForm]);
-
-  console.log("useState Coins:", coins);
-  // console.log("useState Platform:", platform);
-  // console.log("useState EA Email:", originEmail);
-  // console.log("useState EA Pass:", passEmail);
-  // console.log("useState setBackupCode1:", backupCode1);
-  // console.log("useState backupCode2:", backupCode2);
-  // console.log("useState personalEmail:", personalEmail);
-  // console.log("useState city:", city);
-  // console.log("useState state:", state);
-  // console.log("useState country:", country);
 
   const addData = async function (e) {
     e.preventDefault();
@@ -166,16 +150,6 @@ const FormWithGameData = () => {
         {/* ---------- Backup Codes ---------- */}
         <h5 className="text-start">
           Backup Codes:
-          {/* <button
-            type="button"
-            className="ms-2 btn btn-sm btn-secondary"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title="This top tooltip is themed via CSS variables."
-          >
-            ?
-          </button> */}
         </h5>
         <div className="row mb-3">
           <div className="col-sm">
@@ -253,10 +227,32 @@ const FormWithGameData = () => {
             </div>
           </div>
         </div>
-
-        <button className="btn btn-primary mb-4" onClick={addData}>
-          Send Form
-        </button>
+        {coins === 0 ? (
+          <p>You don't make an order</p>
+        ) : !originEmail ||
+          !passEmail ||
+          !backupCode1 ||
+          !backupCode2 ||
+          !personalEmail ||
+          !city ||
+          !state ||
+          !country ? (
+          [
+            <button
+              className="btn btn-secondary disabled mb-2"
+              onClick={(e) => addData()}
+            >
+              Send Form
+            </button>,
+            <p className="text-danger mt-0">
+              Complete the form to enable the button
+            </p>,
+          ]
+        ) : (
+          <button className="btn btn-primary mb-4" onClick={addData}>
+            Send Form
+          </button>
+        )}
       </form>
     </FormStyled>
   );
