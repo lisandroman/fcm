@@ -87,11 +87,8 @@ const Cart = () => {
           <span>
             {getCurrencyData}{" "}
             <strong>
-              {(
-                Math.round(
-                  parseInt(item.price) * parseFloat(actualCurrency()) * 100
-                ) / 100
-              ).toFixed(2)}
+              {(Math.round(parseFloat(item.price) * (actualCurrency()) * 100 ) / 100).toFixed(2)
+              }
             </strong>
           </span>
         </td>
@@ -127,11 +124,7 @@ const Cart = () => {
     }
   };
 
-  
- 
-
   // ----------- Variables PRICES -----------
-
   const takeOrderPrices = orderAllData.map(
     (item) => item.price * actualCurrency()
   );
@@ -161,12 +154,7 @@ const Cart = () => {
     return a + b;
   }, 0);
 
-   console.log("getTotalCoins:", getTotalCoins * 1000);
-
-   
-
   // ---------------- Paypal Checkout ---------------
-
   const allCartContent = orderAllData.map((item) => item.price);
   const getTotalOriginal = allCartContent.reduce((a, b) => {
     return a + b;

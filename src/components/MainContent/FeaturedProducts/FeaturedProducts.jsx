@@ -75,7 +75,7 @@ const FeaturesProducts = () => {
                             {getCurrencyData}{" "}
                             {(
                               Math.round(
-                                parseInt(prod.price) *
+                                parseFloat(prod.price) *
                                   parseFloat(actualCurrency()) *
                                   100
                               ) / 100

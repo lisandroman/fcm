@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import Swal from "sweetalert2";
 import {
   addToCart,
   allData,
   removeFromCart,
 } from "../../../../redux/state/orders";
-import Swal from "sweetalert2";
-import styled from "styled-components";
 
 const CoverTax = () => {
   const orderAllData = useSelector(allData);
@@ -18,6 +18,7 @@ const CoverTax = () => {
     return a + b;
   }, 0);
 
+
   let readOrderPlatform = "";
 
   const ReReadOrderPlatform = () => {
@@ -27,19 +28,19 @@ const CoverTax = () => {
   };
 
   const id = 74;
-  const coins = (readOrderCoinsTotal * 5) / 100;
-  const price = coins * 0.11;
+  const coins = ((readOrderCoinsTotal * 5) / 100);
+  const price = (coins * 0.11).toFixed(2);
   const platform = ReReadOrderPlatform();
 
   //console.log('Total Coins in Order:', readOrderCoinsTotal)
   // console.log("Total coins:", coins * 1000)
-  // console.log("Price x Tax:", price)
+  console.log("Price x Tax:", price) //Ok!
 
   const handleAddCoinsToPayTax = () => {
     Swal.fire({
       icon: "success",
       title: "Added Tax Fee to the Cart",
-      text: `Added ${coins}K in ${platform} for Tax`,
+      text: `Added ${coins}K in ${platform} for Tax = USD ${price}`,
     });
     setIsTaxAccepted(true);
     dispatch(addToCart({ id, coins, price, platform }));
@@ -84,7 +85,6 @@ const CoverTaxStyled = styled.div`
   @media (max-width: 575.98px) {
     h4 {
       font-size: 1rem;
-      /* border: 1px solid red; */
     }
     p {
       font-size: 0.75rem;
@@ -94,7 +94,7 @@ const CoverTaxStyled = styled.div`
       margin-top: 0rem;
 
       label {
-        font-size: .8rem;
+        font-size: 0.8rem;
       }
     }
   }

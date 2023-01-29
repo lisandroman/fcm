@@ -19,7 +19,7 @@ export const FeaturedProductsData = [
     id: 3,
     platform: "PS4/5",
     coins: 750,
-    price: 92,
+    price: 92.10,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },
