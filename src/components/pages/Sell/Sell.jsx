@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import {
-  allData,
-  clearCart,
-  getLatestPrice,
-} from "../../../redux/state/orders";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../firebase/firebase";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import Swal from "sweetalert2";
+import { db } from "../../../firebase/firebase";
 
 const Sell = () => {
-  const orderAllData = useSelector(allData);
-  const getLatestPriceToForm = useSelector(getLatestPrice);
-  const dispatch = useDispatch();
-
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [platform, setPlatform] = useState("");
 
-  const [sellAmount, setSellAmount] = useState(0);
+  const [sellAmount, setSellAmount] = useState(1000000);
   const [sellRate, setSellRate] = useState(0);
-  const [paypalEmail, setPaypalEmail] = useState("");
-
-
-  const [originEmail, setOriginEmail] = useState("");
-  const [passEmail, setPassEmail] = useState("");
   const [price, setPrice] = useState(0);
+  
+  
+  const [originEmail, setOriginEmail] = useState("");
+  const [originPass, setOriginPass] = useState("");
+  const [paypalEmail, setPaypalEmail] = useState("");
   
   const [backupCode1, setBackupCode1] = useState("");
   const [backupCode2, setBackupCode2] = useState("");
@@ -37,58 +27,58 @@ const Sell = () => {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
 
-  // Set Coins
-  const listTotalCoins = orderAllData.map((item) => item.coins);
-  const getTotalCoins = listTotalCoins.reduce((a, b) => {
-    return a + b;
-  }, 0);
-  // Set Platform
-  const listFinalPlatform = orderAllData.map((item) => item.platform);
-  const getFinalPlatform = listFinalPlatform[0];
+  let rate1 = 4.67;
+  let rate2 = 4;
+
+  const calculateRate = (e) => {
+    setSellAmount(e)
+    return e < 5000000
+      ? setSellRate(rate2)
+      : setSellRate(rate1)
+  }
 
   useEffect(() => {
-    setSellAmount(getTotalCoins * 1000);
-    setPlatform(getFinalPlatform);
-    setPrice(getLatestPriceToForm);
-  }, [getTotalCoins, getFinalPlatform, getLatestPriceToForm]);
+    setPrice(((sellAmount * sellRate) / 100000).toFixed(2));
+    setSellAmount(sellAmount * 1)
+  }, [sellRate, sellAmount]);
 
- 
-  // const addData = async function (e) {
-  //   e.preventDefault();
-  //   try {
-  //     const docRef = await addDoc(collection(db, "orders"), {
-  //       name: name,
-  //       email: email,
-  //       platform: platform,
+  let amountFormated = sellAmount.toLocaleString().concat(' M');
 
-  //       sellAmount: sellAmount,
-  //       sellRate: sellRate,
-  //       paypaEmail: paypalEmail,
+  const addData = async function (e) {
+    e.preventDefault();
+    try {
+      const docRef = await addDoc(collection(db, "sellers"), {
+        name: name,
+        email: email,
+        platform: platform,
 
-  //       originEmail: originEmail,
-  //       passEmail: passEmail,
-  //       price: price,
+        sellAmount: sellAmount,
+        sellRate: sellRate,
+        price: price,
+        
+        originEmail: originEmail,
+        originPass: originPass,
+        paypaEmail: paypalEmail,
 
-  //       backupCode1: backupCode1,
-  //       backupCode2: backupCode2,
-  //       backupCode3: backupCode3,
+        backupCode1: backupCode1,
+        backupCode2: backupCode2,
+        backupCode3: backupCode3,
      
-  //       city: city,
-  //       state: state,
-  //       country: country,
-  //     });
-  //     console.log("Document written with ID: ", docRef.id);
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Form Sended",
-  //       text: `Please save your Order ID: ${docRef.id}`,
-  //       footer: '<a href="/">Go Home</a>',
-  //     });
-  //     dispatch(clearCart());
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-  // };
+        city: city,
+        state: state,
+        country: country,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      Swal.fire({
+        icon: "success",
+        title: "Form Sended",
+        text: `We'll be in touch`,
+        footer: '<a href="/">Go Home</a>',
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
     <>
@@ -137,8 +127,7 @@ const Sell = () => {
                   type="text"
                   className="form-control"
                   id="floatingInput"
-                  placeholder="name@example.com"
-                  // onChange={(e) => setOriginEmail(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <label htmlFor="floatingInput">Name:</label>
               </div>
@@ -146,23 +135,21 @@ const Sell = () => {
             <div className="col">
               <div className="form-floating">
                 <input
-                  type="password"
+                  type="email"
                   className="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                  // onChange={(e) => setPassEmail(e.target.value)}
+                  id="floatingEmail"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <label htmlFor="floatingPassword">Password:</label>
+                <label htmlFor="floatingPassword">Email:</label>
               </div>
             </div>
             <div className="col">
               <div className="form-floating">
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
                   id="floatingPassword"
-                  // placeholder="Origin Password"
-                  // onChange={(e) => setPassEmail(e.target.value)}
+                  onChange={(e) => setPlatform(e.target.value)}
                 />
                 <label htmlFor="floatingPassword">Console:</label>
               </div>
@@ -176,11 +163,16 @@ const Sell = () => {
                 <label htmlFor="floatingCoins">Sell Amount:</label>
                 <input
                   type="number"
-                  id="floatingCoins"
+                  id="floatingAmount"
                   className="form-control"
-                  placeholder="Coins Package: `{coins}`"
-                  // value={coins}
+                  step="100000"
+                  placeholder="Minimum 1M (1.000.000)"
+                  onChange={(e) => calculateRate(e.target.value)}
                 />
+                {sellAmount < 1000000 && (
+                  <p className="text-danger">Minimum 1M (1.000.000)</p>
+                )}
+                <p>Your amount: {amountFormated}</p>
               </div>
             </div>
             <div className="col-md">
@@ -188,10 +180,11 @@ const Sell = () => {
                 <label htmlFor="floatingPlatform">Sell Rate:</label>
                 <input
                   type="text"
-                  id="floatingPlatform"
+                  id="floatingRate"
                   className="form-control"
                   placeholder="Platform:"
-                  value={platform}
+                  value={sellRate}
+                  disabled
                 />
               </div>
             </div>
@@ -204,6 +197,8 @@ const Sell = () => {
                   className="form-control"
                   placeholder="Price:"
                   value={price}
+                  disabled
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
             </div>
@@ -216,10 +211,10 @@ const Sell = () => {
                 <label htmlFor="floatingCoins">Origin Email:</label>
                 <input
                   type="email"
-                  id="floatingCoins"
+                  id="floatingOemail"
                   className="form-control"
                   placeholder="Origin email..."
-                  // value={coins}
+                  onChange={(e) => setOriginEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -228,10 +223,10 @@ const Sell = () => {
                 <label htmlFor="floatingPlatform">Origin Password:</label>
                 <input
                   type="text"
-                  id="floatingPlatform"
+                  id="floatingOpass"
                   className="form-control"
                   placeholder="Origin Password..."
-                  value={platform}
+                  onChange={(e) => setOriginPass(e.target.value)}
                 />
               </div>
             </div>
@@ -240,16 +235,17 @@ const Sell = () => {
                 <label htmlFor="floatingPrice">Paypal Email:</label>
                 <input
                   type="email"
-                  id="floatingPrice"
+                  id="floatingPaypal"
                   className="form-control"
                   placeholder="Paypal Email..."
+                  onChange={(e) => setPaypalEmail(e.target.value)}
                 />
               </div>
             </div>
           </div>
 
           {/* ---------- Backup Codes ---------- */}
-          <h5 className="text-start">Backup Codes:</h5>
+          <h5 className="text-start text-primary">Backup Codes:</h5>
           <div className="row mb-3">
             <div className="col-sm">
               <div className="form-outline mb-2">
@@ -258,7 +254,7 @@ const Sell = () => {
                   id="form3Example1"
                   className="form-control"
                   placeholder="Backup Code1:"
-                  // onChange={(e) => setBackupCode1(e.target.value)}
+                  onChange={(e) => setBackupCode1(e.target.value)}
                 />
               </div>
             </div>
@@ -269,7 +265,7 @@ const Sell = () => {
                   id="form3Example2"
                   className="form-control"
                   placeholder="Backup Code2:"
-                  // onChange={(e) => setBackupCode2(e.target.value)}
+                  onChange={(e) => setBackupCode2(e.target.value)}
                 />
               </div>
             </div>
@@ -280,7 +276,7 @@ const Sell = () => {
                   id="form3Example3"
                   className="form-control"
                   placeholder="Backup Code3:"
-                  // onChange={(e) => setBackupCode2(e.target.value)}
+                  onChange={(e) => setBackupCode3(e.target.value)}
                 />
               </div>
             </div>
@@ -288,7 +284,7 @@ const Sell = () => {
 
           {/* ------ Security Information -------- */}
 
-          <div className="border-top pt-3 mb-3">
+          <div className="border-top pt-3 mb-3 text-start">
             <h5 className="text-primary">Security Information</h5>
             <div className="row">
               <div className="col-md">
@@ -298,7 +294,7 @@ const Sell = () => {
                     id="form3Example4"
                     className="form-control"
                     placeholder="City:"
-                    // onChange={(e) => setCity(e.target.value)}
+                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
               </div>
@@ -309,7 +305,7 @@ const Sell = () => {
                     id="form3Example5"
                     className="form-control"
                     placeholder="State:"
-                    // onChange={(e) => setState(e.target.value)}
+                    onChange={(e) => setState(e.target.value)}
                   />
                 </div>
               </div>
@@ -320,26 +316,34 @@ const Sell = () => {
                     id="form3Example6"
                     className="form-control"
                     placeholder="Country:"
-                    // onChange={(e) => setCountry(e.target.value)}
+                    onChange={(e) => setCountry(e.target.value)}
                   />
                 </div>
               </div>
             </div>
           </div>
-          {sellAmount === 0 ? (
-            <p>You don't make an order</p>
-          ) : !originEmail ||
-            !passEmail ||
+          {sellAmount < 1000000 ? (
+            <p>Minimum Amount must be 1 Million (1.000.000) coins</p>
+          ) : 
+            !name ||
+            !email ||
+            !platform ||
+            !sellAmount ||
+            !sellRate ||
+            !price ||
+            !originEmail ||
+            !originPass ||
+            !paypalEmail ||
             !backupCode1 ||
             !backupCode2 ||
-            !email ||
+            !backupCode3 ||
             !city ||
             !state ||
             !country ? (
             [
               <button
                 className="btn btn-secondary disabled mb-2"
-                // onClick={(e) => addData()}
+                onClick={(e) => addData()}
               >
                 Send Form
               </button>,
@@ -348,7 +352,7 @@ const Sell = () => {
               </p>,
             ]
           ) : (
-            <button className="btn btn-primary mb-4" >
+            <button className="btn btn-primary mb-4" onClick={addData}>
               Send Form
             </button>
           )}
