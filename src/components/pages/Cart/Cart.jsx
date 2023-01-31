@@ -14,7 +14,6 @@ import {
 
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
 
@@ -64,10 +63,26 @@ const Cart = () => {
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
       <tr className="tableRowStyled " key={item.id}>
-        {item.id === 74 ? (
+        {item.id === 74 &&
+        !(
+          orderAllData.findIndex((item) => item.id === 74) ===
+          orderAllData.length - 1
+        ) ? (
+          [
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              html:
+                "<p>We remove the tax fee</p>" +
+                "<p>Because your Ordar has changed</p>" +
+                "<h4>Please Add again if you want</h4>",
+            }),
+            dispatch(removeFromCart(item.id)),
+          ]
+        ) : item.id === 74 ? (
           <td className="text-start ps-4 textOrderItems">
             <span>
-              <FaCoins /> {item.coins} K{" "}
+              <FaCoins /> {item.coins} K
             </span>
             <span className="badge text-bg-danger ms-2">Tax</span>
           </td>

@@ -18,7 +18,6 @@ const CoverTax = () => {
     return a + b;
   }, 0);
 
-
   let readOrderPlatform = "";
 
   const ReReadOrderPlatform = () => {
@@ -28,19 +27,15 @@ const CoverTax = () => {
   };
 
   const id = 74;
-  const coins = ((readOrderCoinsTotal * 5) / 100);
+  const coins = (readOrderCoinsTotal * 5) / 100;
   const price = (coins * 0.11).toFixed(2);
   const platform = ReReadOrderPlatform();
-
-  //console.log('Total Coins in Order:', readOrderCoinsTotal)
-  // console.log("Total coins:", coins * 1000)
-  console.log("Price x Tax:", price) //Ok!
 
   const handleAddCoinsToPayTax = () => {
     Swal.fire({
       icon: "success",
       title: "Added Tax Fee to the Cart",
-      text: `Added ${coins}K in ${platform} for Tax = USD ${price}`,
+      text: `Added ${coins}K in ${platform} for Tax = ${price}`,
     });
     setIsTaxAccepted(true);
     dispatch(addToCart({ id, coins, price, platform }));
@@ -53,6 +48,7 @@ const CoverTax = () => {
       });
     }
   };
+
 
   return (
     <CoverTaxStyled>
