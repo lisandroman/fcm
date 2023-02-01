@@ -1,6 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase";
@@ -132,7 +131,7 @@ const Sell = () => {
         </div>
       </HeaderSellForm>
       <FormStyled className="bg bg-light p-3 mt-4">
-        <form className="mt-1 bg bg-light" autoComplete="off">
+        <form className="mt-1 bg bg-" autoComplete="off">
           <div className="row mb-4">
             <div className="col-md">
               <div className="form-floating mb-3">
@@ -174,7 +173,7 @@ const Sell = () => {
           <div className="row mb-4 rowSellPrice">
             <div className="col-md mb-2">
               <div className="form-outline text-start">
-                <label htmlFor="floatingCoins">Sell Amount:</label>
+                <label htmlFor="floatingCoins" >Sell Amount:</label>
                 <input
                   type="number"
                   id="floatingAmount"
@@ -383,6 +382,7 @@ export default Sell;
 const FormStyled = styled.div`
   width: 80%;
   margin: 0 auto;
+  background-color: #252b2d;
   .form-control {
     ::placeholder {
       color: grey;
@@ -390,7 +390,8 @@ const FormStyled = styled.div`
     }
   }
 
-  .rowSellPrice, .rowOrigin {
+  .rowSellPrice,
+  .rowOrigin {
     label {
       font-size: 0.8rem;
     }

@@ -3,14 +3,7 @@ export const PriceListPS = [
     id: 1,
     coins: 100,
     platform: "PS4/5",
-    currency: {
-      priceCAD: 1.3,
-      priceAUD: 1.5,
-      priceEUR: 0.95,
-      priceGBP: 0.82,
-      priceUSD: 1,
-    },
-    price: 1,
+    price: 13,
   },
   {
     id: 2,
