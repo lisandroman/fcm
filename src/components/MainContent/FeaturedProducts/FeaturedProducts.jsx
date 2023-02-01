@@ -50,15 +50,15 @@ const FeaturesProducts = () => {
                   <div className="col" key={prod.id}>
                     <div className="card">
                       {prod.platform === "PS4/5" ? (
-                        <span className="platformBubble badge bg bg-primary">
+                        <span className="pt-2 platformBubble badge bg bg-primary">
                           {prod.platform}{" "}
                         </span>
                       ) : prod.platform === "XB" ? (
-                        <span className="platformBubble badge bg bg-success">
+                        <span className="pt-2 platformBubble badge bg bg-success">
                           {prod.platform}
                         </span>
                       ) : (
-                        <span className="platformBubble badge bg bg-warning">
+                        <span className="pt-2 platformBubble badge bg bg-warning">
                           {prod.platform}
                         </span>
                       )}
@@ -69,13 +69,19 @@ const FeaturesProducts = () => {
                       />
 
                       <div className="card-body">
-                        {
-                          prod.platform === 'PS4/5'
-                            ? <h4 className="text-primary card-text">{prod.coins}K</h4>
-                            : prod.platform === 'XB'
-                              ? <h4 className="text-success card-text">{prod.coins}K</h4>
-                              : <h4 className="text-warning card-text">{prod.coins}K</h4>
-                        }
+                        {prod.platform === "PS4/5" ? (
+                          <h4 className="text-primary card-text">
+                            {prod.coins}K
+                          </h4>
+                        ) : prod.platform === "XB" ? (
+                          <h4 className="text-success card-text">
+                            {prod.coins}K
+                          </h4>
+                        ) : (
+                          <h4 className="text-warning card-text">
+                            {prod.coins}K
+                          </h4>
+                        )}
                         <h5 className="card-text">
                           <strong>
                             {getCurrencyData}{" "}
@@ -126,7 +132,8 @@ export default FeaturesProducts;
 
 const ProductStyled = styled.div`
   .platformBubble {
-    width: 3rem;
+    width: 4rem;
+    height: 2rem;
     position: absolute;
   }
 `;

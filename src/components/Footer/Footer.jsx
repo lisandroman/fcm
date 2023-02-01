@@ -43,7 +43,8 @@ export default Footer;
 
 const FooterStyled = styled.div`
   margin-top: 2rem;
-  background-color: #212529;
+  /* background-color: #212529; */
+  background-color: #252b2d;
   color: #adb5bd;
   padding-bottom: 2rem;
   .row {
@@ -55,9 +56,9 @@ const FooterStyled = styled.div`
   }
 
   @media (max-width: 575.98px) {
-    .footerTitle{
+    .footerTitle {
       font-size: 1.5rem;
-    } 
+    }
     h5 {
       font-size: 1rem;
     }

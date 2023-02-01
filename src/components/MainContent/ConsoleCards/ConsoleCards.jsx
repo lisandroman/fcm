@@ -1,38 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-
-import psLogo from "../../../assets/images/ps.png";
-import xboxLogo from "../../../assets/images/xbox.png";
-import pcLogo from "../../../assets/images/pc.png";
+import { RiComputerLine } from "react-icons/ri";
+import { SiXbox } from "react-icons/si";
+import { SiPlaystation } from "react-icons/si";
 
 const MainContent = () => {
   return (
     <MainContentStyled>
-      <div className="container mt-4">
-        <h2>Available in all Platforms!</h2>
-        {/* <div className="row row-cols-1 row-cols-sm-3 g-4"> */}
-        <div className="row row-cols-3 row-cols-lg-3 row-cols-md-2 g-4">
+      <div className="container mt-4 mb-5">
+        <h3 className="mb-4">Available in all Platforms!</h3>
+
+        <div className="row row-cols-3 row-cols-lg-3 row-cols-md-2 g-2 platforms">
           <div className="col">
-            <div className="card">
-              <img
-                src={psLogo}
-                className="card-img-top"
-                alt="PS Logo"
-              />
-                <h6 className="card-title">PS4/5</h6>
-            </div>
+            <button className="btn btn-primary">
+              <h1>
+                <SiPlaystation />
+              </h1>
+            </button>
           </div>
           <div className="col">
-            <div className="card">
-              <img src={xboxLogo} className="card-img-top" alt="XBOX Logo" />
-              <h6>XBOX</h6>
-            </div>
+            <button className="btn btn-success">
+              <h1>
+                <SiXbox />
+              </h1>
+            </button>
           </div>
           <div className="col">
-            <div className="card  align-center ">
-              <img src={pcLogo} className="card-img-top" alt="PC Logo" />
-              <h6>PC</h6>
-            </div>
+            <button className="btn btn-warning">
+              <h1>
+                <RiComputerLine />
+              </h1>
+            </button>
           </div>
         </div>
       </div>
@@ -45,10 +43,20 @@ export default MainContent;
 const MainContentStyled = styled.div`
   width: 75%;
   margin: 0 auto;
-  .card {
-    border: none;
+  h3, h6 {
+    color: #adb5bd;
   }
   h6 {
     margin-top: -1rem;
+  }
+  .platforms {
+    @media (min-width: 944px) {
+      width: 50%;
+      margin: 0 auto;
+      button {
+        width: 150px;
+        height: 70px;
+      }
+    }
   }
 `;
