@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { PriceListPS } from "../../data/priceListPS.data";
+import { PriceListXBOX } from "../../data/priceListXBOX.data";
+import { PriceListPC } from "../../data/priceListPC.data";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, getCurrency } from "../../../redux/state/orders";
 import { SiPlaystation } from "react-icons/si";
+import { RiComputerLine } from "react-icons/ri";
+import { SiXbox } from "react-icons/si";
 
 const Buy = () => {
   const dispatch = useDispatch();
   const getCurrencyData = useSelector(getCurrency);
   const [total, setTotal] = useState(0);
+  const [content, setContent] = useState(PriceListPS);
 
   const handleInputAmount = (e) => {
     let preValue = 0;
@@ -51,6 +56,10 @@ const Buy = () => {
       ? (priceToShow = 0.82)
       : (priceToShow = 1.0);
   };
+
+  const handlePlatformListPS = () => { setContent(PriceListPS) }
+  const handlePlatformListXBOX = () => { setContent(PriceListXBOX) }
+  const handlePlatformListPC = () => { setContent(PriceListPC) }
 
   return (
     <BuyPageStyled>
@@ -169,9 +178,18 @@ const Buy = () => {
       <h2 className="text-bg-primary mb-3">All our Services</h2>
       <div className="mb-3">
         <h4 className="pb-2">Choose your platform</h4>
-        <button className="btn btn-primary m-1">PS4/PS5</button>
-        <button className="btn btn-success m-1 ">XBOX</button>
-        <button className="btn btn-warning m-1">PC</button>
+        <button className="btn btn-primary m-1" onClick={handlePlatformListPS}>
+          PS4/5
+        </button>
+        <button
+          className="btn btn-success m-1"
+          onClick={handlePlatformListXBOX}
+        >
+          XBOX
+        </button>
+        <button className="btn btn-warning m-1" onClick={handlePlatformListPC}>
+          PC
+        </button>
       </div>
 
       <div className="container">
@@ -188,11 +206,22 @@ const Buy = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {PriceListPS.map((item) => (
+                  {content?.map((item) => (
                     <tr key={item.id} className="align-middle">
-                      <th scope="row" className="text-primary">
-                        <SiPlaystation />
-                      </th>
+                      {item.platform === "PS4/5" ? (
+                        <th scope="row" className="text-primary">
+                          <SiPlaystation />
+                        </th>
+                      ) : item.platform === "XBOX" 
+                          ?(
+                        <th scope="row" className="text-success">
+                          <SiXbox />
+                        </th>)
+                        :  (<th scope="row" className="text-warning">
+                          <RiComputerLine />
+                        </th>
+                      )}
+
                       {item.coins >= 2000 ? (
                         <td>
                           {item.coinsM} Millions{" "}

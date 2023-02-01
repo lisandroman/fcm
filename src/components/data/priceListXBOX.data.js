@@ -1,9 +1,9 @@
-export const PriceListPS = [
+export const PriceListXBOX = [
   {
     id: 21,
     coins: 100,
     price: 12.8,
-    platformPS4: "XBOX",
+    platform: "XBOX",
   },
   {
     id: 22,

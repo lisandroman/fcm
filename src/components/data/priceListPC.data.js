@@ -1,8 +1,8 @@
-export const PriceListPS = [
+export const PriceListPC = [
   {
     id: 41,
     coins: 100,
-    price: 12.8,
+    price: 99,
     platformPS4: "PC",
   },
   {
