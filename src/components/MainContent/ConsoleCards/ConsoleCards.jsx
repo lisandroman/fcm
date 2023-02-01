@@ -11,7 +11,7 @@ const MainContent = () => {
       <div className="container mt-4">
         <h2>Available in all Platforms!</h2>
         {/* <div className="row row-cols-1 row-cols-sm-3 g-4"> */}
-        <div className="row row-cols-3 row-cols-md-2 g-4">
+        <div className="row row-cols-3 row-cols-lg-3 row-cols-md-2 g-4">
           <div className="col">
             <div className="card">
               <img
