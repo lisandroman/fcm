@@ -42,7 +42,18 @@ const Sell = () => {
     setSellAmount(sellAmount * 1)
   }, [sellRate, sellAmount]);
 
-  let amountFormated = sellAmount.toLocaleString().concat(' M');
+  let amountFormated
+
+  const makeAmountFormat = () => {
+    return sellAmount < 999
+      ? (amountFormated = sellAmount.toLocaleString())
+      : (sellAmount >= 1000) && (sellAmount < 1000000)
+        ? (amountFormated = sellAmount.toLocaleString().concat(" K"))
+        : sellAmount >= 1000000
+          ? (amountFormated = sellAmount.toLocaleString().concat(" M"))
+          : null
+  }
+  makeAmountFormat()
 
   const addData = async function (e) {
     e.preventDefault();
@@ -82,17 +93,17 @@ const Sell = () => {
 
   return (
     <>
-      <HeaderSellForm className="bg bg-light p-3 mt-4">
-        <div className="bg bg-primary container-fluid-sm p-1 mt-2 mb-4">
-          <h2 className="text-white">Sell</h2>
-          <p className="text-white">
+      <HeaderSellForm className="p-3 mt-4">
+        <h2 className="bg bg-primary text-white">Sell</h2>
+        <div className="container-fluid-sm p-1 mt-2 mb-2">
+          <p>
             Tired of playing FUT and want to get paid for your cards? Sell them
             to us! We offer the most competitive rates on the market for sellers
             and take care of the entire process for you, hassle free! All you
             have to do is fill out the form and we'll handle the rest.
           </p>
         </div>
-        <div>
+        <div className="sellConditions">
           <h4>Current seller rates:</h4>
           <p>[PS/XB 5M+ minimum] $4.67 USD/100k = £3.60/100k = €4.10/100k</p>
           <p>[PS/XB] $4 USD/100k ≈ £3.10/100k ≈ €3.50/100k</p>
@@ -101,7 +112,9 @@ const Sell = () => {
           <p>- Web App Transfer Market unlocked</p>
           <p>- Minimum of 1M (1,000,000)</p>
           <p>- Can't be unassigned with 5+ cards</p>
-          <h4>How does the process work?</h4>
+          <h4 className="bg bg-primary mt-4 mb-3 p-1">
+            How does the process work?
+          </h4>
           <p>
             We will notify you via your email if we accept the sell order within
             24-72 hours or less. Sellers get notified straight away when we
@@ -111,7 +124,7 @@ const Sell = () => {
             24 hours of us completing the order. We fulfill the order via Snipe
             Method.
           </p>
-          <h6 className="disclaimer">
+          <h6 className="disclaimer text-warning">
             <strong>Disclaimer:</strong> Please note that we aren't obligated to
             fulfill anyone's sell order to any extent and the decision is at our
             own discretion.
@@ -132,8 +145,9 @@ const Sell = () => {
                 <label htmlFor="floatingInput">Name:</label>
               </div>
             </div>
-            <div className="col">
-              <div className="form-floating">
+
+            <div className="col-md">
+              <div className="form-floating mb-3">
                 <input
                   type="email"
                   className="form-control"
@@ -143,7 +157,7 @@ const Sell = () => {
                 <label htmlFor="floatingPassword">Email:</label>
               </div>
             </div>
-            <div className="col">
+            <div className="col-md">
               <div className="form-floating">
                 <input
                   type="text"
@@ -157,22 +171,25 @@ const Sell = () => {
           </div>
 
           {/* -------- Platform and Amount ---------- */}
-          <div className="row mb-4">
-            <div className="col-md mb-3">
+          <div className="row mb-4 rowSellPrice">
+            <div className="col-md mb-2">
               <div className="form-outline text-start">
                 <label htmlFor="floatingCoins">Sell Amount:</label>
                 <input
                   type="number"
                   id="floatingAmount"
-                  className="form-control"
+                  className="form-control mb-2"
                   step="100000"
                   placeholder="Minimum 1M (1.000.000)"
                   onChange={(e) => calculateRate(e.target.value)}
                 />
                 {sellAmount < 1000000 && (
-                  <p className="text-danger">Minimum 1M (1.000.000)</p>
+                  // <p className="text-danger">Minimum 1M (1.000.000)</p>
+                  <p className="mt-1">Minimum 1M (1.000.000)</p>
                 )}
-                <p>Your amount: {amountFormated}</p>
+                <span className="badge text-bg-danger text-white mb-2">
+                  Your amount: {amountFormated}
+                </span>
               </div>
             </div>
             <div className="col-md">
@@ -205,7 +222,7 @@ const Sell = () => {
           </div>
 
           {/* -------- Origin Data ---------- */}
-          <div className="row mb-4">
+          <div className="row mb-4 rowOrigin">
             <div className="col-md mb-3">
               <div className="form-outline text-start">
                 <label htmlFor="floatingCoins">Origin Email:</label>
@@ -218,7 +235,7 @@ const Sell = () => {
                 />
               </div>
             </div>
-            <div className="col-md">
+            <div className="col-md mb-3">
               <div className="form-outline text-start">
                 <label htmlFor="floatingPlatform">Origin Password:</label>
                 <input
@@ -285,7 +302,7 @@ const Sell = () => {
           {/* ------ Security Information -------- */}
 
           <div className="border-top pt-3 mb-3 text-start">
-            <h5 className="text-primary">Security Information</h5>
+            <h5 className="text-primary">Security Information:</h5>
             <div className="row">
               <div className="col-md">
                 <div className="form-outline mb-2">
@@ -324,8 +341,7 @@ const Sell = () => {
           </div>
           {sellAmount < 1000000 ? (
             <p>Minimum Amount must be 1 Million (1.000.000) coins</p>
-          ) : 
-            !name ||
+          ) : !name ||
             !email ||
             !platform ||
             !sellAmount ||
@@ -367,19 +383,37 @@ export default Sell;
 const FormStyled = styled.div`
   width: 80%;
   margin: 0 auto;
-  .form-control{
+  .form-control {
     ::placeholder {
       color: grey;
-      font-size: .75rem;
+      font-size: 0.75rem;
     }
   }
 
+  .rowSellPrice, .rowOrigin {
+    label {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 const HeaderSellForm = styled.div`
-  width: 80%;
+  /* width: 80%; */
   margin: 0 auto;
-  .disclaimer{
-    font-size: .75rem;
+  p {
+    font-size: 0.75rem;
+    color: #adb5bd;
+    margin-bottom: 10px;
   }
+  .sellConditions {
+    h4 {
+      color: white;
+      font-size: 1rem;
+    }
+    
+  }
+  .disclaimer {
+    font-size: 0.6rem;
+  }
+
 `;
