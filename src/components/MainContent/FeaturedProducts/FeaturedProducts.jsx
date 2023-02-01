@@ -40,25 +40,25 @@ const FeaturesProducts = () => {
 
   return (
     <ProductStyled>
-      <div className="container">
-        <h3 className="text-bg-primary p-3">Featured Products</h3>
-        <div className="container mt-5">
+      <div className="container mt-4">
+        <h3 className="text-bg-primary p-2">Featured Products</h3>
+        <div className="container mt-4">
           <div className="row row-cols-1 row-cols-sm-4 g-4">
             {!FeaturedProductsData
               ? "Loading..."
               : FeaturedProductsData.map((prod) => (
                   <div className="col" key={prod.id}>
                     <div className="card">
-                      {prod.platform === "PS" ? (
-                        <span className="platformBubble badge psbubble">
+                      {prod.platform === "PS4/5" ? (
+                        <span className="platformBubble badge bg bg-primary">
                           {prod.platform}{" "}
                         </span>
                       ) : prod.platform === "XB" ? (
-                        <span className="platformBubble badge xboxbubble">
+                        <span className="platformBubble badge bg bg-success">
                           {prod.platform}
                         </span>
                       ) : (
-                        <span className="platformBubble badge pcbubble">
+                        <span className="platformBubble badge bg bg-warning">
                           {prod.platform}
                         </span>
                       )}
@@ -69,7 +69,13 @@ const FeaturesProducts = () => {
                       />
 
                       <div className="card-body">
-                        <p className="card-text">{prod.coins}K</p>
+                        {
+                          prod.platform === 'PS4/5'
+                            ? <h4 className="text-primary card-text">{prod.coins}K</h4>
+                            : prod.platform === 'XB'
+                              ? <h4 className="text-success card-text">{prod.coins}K</h4>
+                              : <h4 className="text-warning card-text">{prod.coins}K</h4>
+                        }
                         <h5 className="card-text">
                           <strong>
                             {getCurrencyData}{" "}
@@ -90,8 +96,7 @@ const FeaturesProducts = () => {
                           <span className="badge text-bg-primary text-white mb-2">
                             Best Price Guarantee
                           </span>
-                        )
-                        }
+                        )}
                       </div>
                       <button
                         type="button"
@@ -123,14 +128,5 @@ const ProductStyled = styled.div`
   .platformBubble {
     width: 3rem;
     position: absolute;
-  }
-  .psbubble {
-    background: blue;
-  }
-  .xboxbubble {
-    background: green;
-  }
-  .pcbubble {
-    background: orange;
   }
 `;

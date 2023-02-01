@@ -5,6 +5,9 @@ import { allData } from "../../redux/state/orders";
 import { FaShoppingCart } from "react-icons/fa";
 import styled from "styled-components";
 
+// import logo from "../../assets/images/logo-02.png"
+import logo from "../../assets/images/logo2.png"
+
 const Navbar = () => {
   const orderAllData = useSelector(allData);
 //  let navbarLink = document.querySelectorAll(".navbar-nav li .nav-link");
@@ -21,9 +24,10 @@ const Navbar = () => {
   return (
     <NavbarStyled>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid"> 
-          <a className="navbar-brand ms-3" href="/">
-            FUTCOINS<b>MARKET</b>
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">
+            {/* FUTCOINS<b>MARKET</b> */}
+            <img src={logo} alt="logo" className="ms-5" width="250" height="88" />
           </a>
           <button
             className="navbar-toggler me-3"

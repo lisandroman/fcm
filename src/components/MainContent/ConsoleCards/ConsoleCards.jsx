@@ -8,13 +8,18 @@ import pcLogo from "../../../assets/images/pc.png";
 const MainContent = () => {
   return (
     <MainContentStyled>
-      <div className="container mt-5">
+      <div className="container mt-4">
         <h2>Available in all Platforms!</h2>
-        <div className="row row-cols-1 row-cols-sm-3 g-4">
+        {/* <div className="row row-cols-1 row-cols-sm-3 g-4"> */}
+        <div className="row row-cols-3 row-cols-md-2 g-4">
           <div className="col">
             <div className="card">
-              <img src={psLogo} className="card-img-top" alt="PS Logo" />
-              <h6>PS4/5</h6>
+              <img
+                src={psLogo}
+                className="card-img-top"
+                alt="PS Logo"
+              />
+                <h6 className="card-title">PS4/5</h6>
             </div>
           </div>
           <div className="col">
@@ -24,7 +29,7 @@ const MainContent = () => {
             </div>
           </div>
           <div className="col">
-            <div className="card">
+            <div className="card  align-center ">
               <img src={pcLogo} className="card-img-top" alt="PC Logo" />
               <h6>PC</h6>
             </div>
@@ -38,7 +43,7 @@ const MainContent = () => {
 export default MainContent;
 
 const MainContentStyled = styled.div`
-  width: 50%;
+  width: 75%;
   margin: 0 auto;
   .card {
     border: none;

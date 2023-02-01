@@ -83,7 +83,7 @@ const Sell = () => {
   return (
     <>
       <HeaderSellForm className="bg bg-light p-3 mt-4">
-        <div className="bg bg-primary p-1 mt-2 mb-4">
+        <div className="bg bg-primary container-fluid-sm p-1 mt-2 mb-4">
           <h2 className="text-white">Sell</h2>
           <p className="text-white">
             Tired of playing FUT and want to get paid for your cards? Sell them

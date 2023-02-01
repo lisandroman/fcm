@@ -8,7 +8,9 @@ const Header = () => {
         <h3 className="">
           The safest, cheapest and most reliable place to upgrade your FUT Club
         </h3>
-        <h4>Our team helps you trade using our Snipe Method</h4>
+        <h4 className="fw-light">
+          Our team helps you trade using our Snipe Method
+        </h4>
       </div>
       <button type="button" className="btn btn-warning">
         BUY !
