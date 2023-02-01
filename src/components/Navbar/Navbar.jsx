@@ -27,7 +27,7 @@ const Navbar = () => {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             {/* FUTCOINS<b>MARKET</b> */}
-            <img src={logo} alt="logo" className="ms-5" width="250" height="88" />
+            <img src={logo} alt="logo" className="ms-xs-1" width="250" height="88" />
           </a>
           <button
             className="navbar-toggler me-3"
