@@ -4,6 +4,7 @@ import { PriceListPS } from "../../data/priceListPS.data";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, getCurrency } from "../../../redux/state/orders";
+import { SiPlaystation } from "react-icons/si";
 
 const Buy = () => {
   const dispatch = useDispatch();
@@ -11,9 +12,17 @@ const Buy = () => {
   const [total, setTotal] = useState(0);
 
   const handleInputAmount = (e) => {
-    let preValue = e.target.value * 0.128;
+    let preValue = 0;
+    if (e.target.value < 1000000) {
+      preValue = e.target.value * 0.000128;
+    } else if (e.target.value >= 1000000 || e.target.value <= 3000000) {
+      preValue = e.target.value * 0.00011;
+    } else {
+      preValue = e.target.value * 0.0001;
+    }
+
     let roundValue = (Math.round(preValue * 100) / 100).toFixed(2);
-    return e.target.value < 12.8 ? setTotal(0) : setTotal(roundValue);
+    return e.target.value < 100000 ? setTotal(0) : setTotal(roundValue);
   };
 
   const handleBuy = (id, coins, price, platform) => {
@@ -45,10 +54,18 @@ const Buy = () => {
 
   return (
     <BuyPageStyled>
-      <h2>Buy our services to improve your FUT Squad</h2>
+      <h2 className="text-white">Packages</h2>
+      <p className="text-warning">
+        Contract our services to improve your FUT Squad
+      </p>
+      <p className="text-white">
+        Upgrade your FUT club through out trading service. Simple choose a
+        package and let our team help you safely trade up to the amount you
+        order
+      </p>
 
       <div className="text-bg-light p-3">
-        <h4>Enter your custom amount in K:</h4>
+        <h4>Enter your custom amount:</h4>
 
         <div className="buyFormRadios">
           <div className="form-check">
@@ -67,7 +84,7 @@ const Buy = () => {
             <input
               className="form-check-input"
               type="radio"
-              name="flexRadioDefault"
+              name="flexRadioDefault2"
               id="flexRadioDefault2"
             />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
@@ -87,46 +104,59 @@ const Buy = () => {
             </label>
           </div>
         </div>
-
-        <div className="buyForm row g-3">
-          <div className="col-sm-6">
-            <label htmlFor="Amount">
-              Coins: 
-              <span className="badge text-bg-danger text-white ms-2 mb-2">
-                5% OFF at checkout buying 1.000k+ (1Million)
-              </span>
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Enter your custom coins"
-              aria-label="Amount"
-              step="100"
-              onChange={handleInputAmount}
-            />
+        <form>
+          <div className="buyForm row g-3 border form-control">
+            <div className="col-sm-6">
+              <label htmlFor="Amount">
+                Coins:
+                <span className="badge text-bg-danger text-white ms-2 mb-2">
+                  5% OFF at checkout buying 1.000k+ (1Million)
+                </span>
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter your custom coins"
+                id="Amount"
+                name="Amount"
+                step="100000"
+                onChange={handleInputAmount}
+              />
+            </div>
+            <div className="col-sm">
+              <label htmlFor="Price">Rate Price:</label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder={
+                  total < 100
+                    ? "12.8USD per 100.000"
+                    : total >= 100 && total < 300
+                    ? "11USD per 100.000"
+                    : total >= 30
+                    ? "10usd per 100.000"
+                    : null
+                }
+                // placeholder="12.8USD per 100.000"
+                aria-label="Price"
+                disabled
+              />
+            </div>
+            <div className="col-sm buyFormAmount">
+              <label htmlFor="FinalPrice">Final Price</label>
+              <p className="form-control">{total} USD</p>
+            </div>
           </div>
-          <div className="col-sm">
-            <label htmlFor="Price">Price:</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="12.8USD per 100k"
-              aria-label="Price"
-              disabled
-            />
-          </div>
-          <div className="col-sm buyFormAmount">
-            <label htmlFor="FinalPrice">Final Price</label>
-            <p className="form-control">{total} USD</p>
-          </div>
-        </div>
+        </form>
         <div>
           {total < 12.8 ? (
             [
               <button className="btn btn-secondary mt-3 disabled">
                 Pay your order
               </button>,
-              <p className="amountConditional">Minimum must be 100k</p>,
+              <p className="amountConditional">
+                Minimum must be 100K (100.000)
+              </p>,
             ]
           ) : (
             <button className="btn btn-warning mt-3">Add to Cart</button>
@@ -139,67 +169,81 @@ const Buy = () => {
       <h2 className="text-bg-primary mb-3">All our Services</h2>
       <div className="mb-3">
         <h4 className="pb-2">Choose your platform</h4>
-        <button className="btn btn-primary m-1">PS4/PS5 Coins</button>
-        <button className="btn btn-success m-1 ">XBOX Coins</button>
-        <button className="btn btn-warning m-1">PC Coins</button>
+        <button className="btn btn-primary m-1">PS4/PS5</button>
+        <button className="btn btn-success m-1 ">XBOX</button>
+        <button className="btn btn-warning m-1">PC</button>
       </div>
-      <table className="table table-sm table-secondary table-striped table-bordered tableSize">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Coins</th>
-            <th scope="col">Platform</th>
-            <th scope="col">Price</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {PriceListPS.map((item) => {
-            return (
-              <tr>
-                <th scope="row">{item.id}</th>
-                {item.coins >= 2000 ? (
-                  <td>
-                    {item.coinsM} Millions{" "}
-                    <span className="badge text-bg-danger text-white mb-2">
-                      5% OFF at checkout
-                    </span>
-                  </td>
-                ) : item.coins < 1000 ? (
-                  <td>{item.coins} K</td>
-                ) : (
-                  <td>
-                    {item.coinsM} Million{" "}
-                    <span className="badge text-bg-danger text-white mb-2">
-                      5% OFF at checkout
-                    </span>
-                  </td>
-                )}
 
-                <td>{item.platform}</td>
-                <td>
-                  {getCurrencyData}{" "}
-                  {(
-                    Math.round(
-                      parseInt(item.price) * parseFloat(actualCurrency()) * 100
-                    ) / 100
-                  ).toFixed(2)}
-                </td>
-                <td>
-                  <button
-                    className="btn btn-sm btn-warning"
-                    onClick={() =>
-                      handleBuy(item.id, item.coins, item.price, item.platform)
-                    }
-                  >
-                    Buy
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm col-md">
+            <div className="mt-3 pb-4">
+              <table className="table table-dark table-sm table-striped tableSize align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">Platform</th>
+                    <th scope="col">Coins</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {PriceListPS.map((item) => (
+                    <tr key={item.id} className="align-middle">
+                      <th scope="row" className="text-primary">
+                        <SiPlaystation />
+                      </th>
+                      {item.coins >= 2000 ? (
+                        <td>
+                          {item.coinsM} Millions{" "}
+                          <span className="badge text-bg-danger text-white mb-2">
+                            5% OFF at checkout
+                          </span>
+                        </td>
+                      ) : item.coins < 1000 ? (
+                        <td>{item.coins} K</td>
+                      ) : (
+                        <td>
+                          {item.coinsM} Million{" "}
+                          <span className="badge text-bg-danger text-white mb-2">
+                            5% OFF at checkout
+                          </span>
+                        </td>
+                      )}
+
+                      <td>
+                        {getCurrencyData}{" "}
+                        {(
+                          Math.round(
+                            parseInt(item.price) *
+                              parseFloat(actualCurrency()) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-sm btn-warning me-1"
+                          onClick={() =>
+                            handleBuy(
+                              item.id,
+                              item.coins,
+                              item.price,
+                              item.platform
+                            )
+                          }
+                        >
+                          Buy
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </BuyPageStyled>
   );
 };
@@ -207,11 +251,12 @@ const Buy = () => {
 export default Buy;
 
 const BuyPageStyled = styled.div`
+  margin: 0 auto;
   margin-top: 1rem;
 
   .buyForm,
   .buyFormRadios {
-    width: 50%;
+    width: 90%;
     margin: 0 auto;
     .buyFormAmount input::placeholder {
       text-align: center;
@@ -224,7 +269,14 @@ const BuyPageStyled = styled.div`
   }
 
   .tableSize {
-    width: 75%;
     margin: 0 auto;
+  }
+
+  th {
+    color: #adb5bd;
+    font-weight: 300;
+  }
+  td {
+    font-size: .75rem;
   }
 `;

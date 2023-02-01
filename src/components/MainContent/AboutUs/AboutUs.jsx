@@ -33,4 +33,15 @@ const AboutUsStyled = styled.div`
       font-size: 0.75rem;
     }
   }
+  @media (min-width: 944px) {
+    h3 {
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      width: 80%;
+      font-size: 1.4rem;
+    }
+  }
 `;
