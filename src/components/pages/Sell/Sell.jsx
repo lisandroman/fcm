@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase";
+import { Tooltip } from "react-tooltip";
 
 const Sell = () => {
   const [name, setName] = useState("");
@@ -262,9 +263,31 @@ const Sell = () => {
             Backup Codes:{" "}
             <span
               className="badge rounded-pill text-bg-dark"
+              id="tooltip-anchor-data-html"
+              data-tooltip-html="
+                <div>
+                <p>We need a backup code in order </br>to bypass the 6-digit login verification</br> code used to log into your account</p>
+                  <h3>How to find the code:</h3>
+                  <ol>
+                    <li>Sign into your Origin account(Origin.com)</li>
+                    <p>-The email/password login is your web app login</p>
+                    <li>Go to your account settings</li>
+                    <p>-At the bottom left of the page hover </br> over your username and go to</br>'acount and billing'</p>
+                    <li>Go to your security settings</li>
+                    <p>-Click Security</p>
+                    <li>Turn login verification ON</li>
+                    <li>Click 'View' next to where it says</br>backup codes</li>
+                    <li>Enter the 6-digit verification code</b> will send your email/phone, </br>then the backup codes </br>will show up on your screen</li>
+                  </ol>
+                  <p>-------------</p>
+                  <p>It is recommended to refresh </br>your backup codes before submitting them. </br>Incorrect backup codes are a </br>very common issues.</p>
+                  <p>Please make sure you submit valid codes</p>
+                </div>
+              "
             >
               ?
             </span>
+            <Tooltip anchorId="tooltip-anchor-data-html" />
           </h5>
           <div className="row mb-3">
             <div className="col-sm">
