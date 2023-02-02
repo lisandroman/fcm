@@ -12,12 +12,11 @@ const Sell = () => {
   const [sellAmount, setSellAmount] = useState(1000000);
   const [sellRate, setSellRate] = useState(0);
   const [price, setPrice] = useState(0);
-  
-  
+
   const [originEmail, setOriginEmail] = useState("");
   const [originPass, setOriginPass] = useState("");
   const [paypalEmail, setPaypalEmail] = useState("");
-  
+
   const [backupCode1, setBackupCode1] = useState("");
   const [backupCode2, setBackupCode2] = useState("");
   const [backupCode3, setBackupCode3] = useState("");
@@ -30,29 +29,27 @@ const Sell = () => {
   let rate2 = 4;
 
   const calculateRate = (e) => {
-    setSellAmount(e)
-    return e < 5000000
-      ? setSellRate(rate2)
-      : setSellRate(rate1)
-  }
+    setSellAmount(e);
+    return e < 5000000 ? setSellRate(rate2) : setSellRate(rate1);
+  };
 
   useEffect(() => {
     setPrice(((sellAmount * sellRate) / 100000).toFixed(2));
-    setSellAmount(sellAmount * 1)
+    setSellAmount(sellAmount * 1);
   }, [sellRate, sellAmount]);
 
-  let amountFormated
+  let amountFormated;
 
   const makeAmountFormat = () => {
     return sellAmount < 999
       ? (amountFormated = sellAmount.toLocaleString())
-      : (sellAmount >= 1000) && (sellAmount < 1000000)
-        ? (amountFormated = sellAmount.toLocaleString().concat(" K"))
-        : sellAmount >= 1000000
-          ? (amountFormated = sellAmount.toLocaleString().concat(" M"))
-          : null
-  }
-  makeAmountFormat()
+      : sellAmount >= 1000 && sellAmount < 1000000
+      ? (amountFormated = sellAmount.toLocaleString().concat(" K"))
+      : sellAmount >= 1000000
+      ? (amountFormated = sellAmount.toLocaleString().concat(" M"))
+      : null;
+  };
+  makeAmountFormat();
 
   const addData = async function (e) {
     e.preventDefault();
@@ -65,7 +62,7 @@ const Sell = () => {
         sellAmount: sellAmount,
         sellRate: sellRate,
         price: price,
-        
+
         originEmail: originEmail,
         originPass: originPass,
         paypaEmail: paypalEmail,
@@ -73,7 +70,7 @@ const Sell = () => {
         backupCode1: backupCode1,
         backupCode2: backupCode2,
         backupCode3: backupCode3,
-     
+
         city: city,
         state: state,
         country: country,
@@ -173,7 +170,7 @@ const Sell = () => {
           <div className="row mb-4 rowSellPrice">
             <div className="col-md mb-2">
               <div className="form-outline text-start">
-                <label htmlFor="floatingCoins" >Sell Amount:</label>
+                <label htmlFor="floatingCoins">Sell Amount:</label>
                 <input
                   type="number"
                   id="floatingAmount"
@@ -261,7 +258,14 @@ const Sell = () => {
           </div>
 
           {/* ---------- Backup Codes ---------- */}
-          <h5 className="text-start text-primary">Backup Codes:</h5>
+          <h5 className="text-start text-primary">
+            Backup Codes:{" "}
+            <span
+              className="badge rounded-pill text-bg-dark"
+            >
+              ?
+            </span>
+          </h5>
           <div className="row mb-3">
             <div className="col-sm">
               <div className="form-outline mb-2">
@@ -411,10 +415,8 @@ const HeaderSellForm = styled.div`
       color: white;
       font-size: 1rem;
     }
-    
   }
   .disclaimer {
     font-size: 0.6rem;
   }
-
 `;

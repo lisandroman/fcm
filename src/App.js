@@ -1,5 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
+import "react-tooltip/dist/react-tooltip.css";
 import Home from "./components/pages/Home/Home";
 import Cart from "./components/pages/Cart/Cart";
 import Navbar from "./components/Navbar/Navbar";
