@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const PlayerPrices = [
   {
-    id: 51,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Ronaldo",
     rating: 96,
@@ -9,7 +11,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/37576.png?v=23",
   },
   {
-    id: 52,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Zinedine Zidane",
     rating: 96,
@@ -18,7 +20,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/1397.png?v=23",
   },
   {
-    id: 53,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Pelé",
     rating: 98,
@@ -27,7 +29,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/237067.png?v=23",
   },
   {
-    id: 54,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Ronaldinho",
     rating: 94,
@@ -36,7 +38,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/28130.png?v=23",
   },
   {
-    id: 55,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Ruud Gullit",
     rating: 93,
@@ -45,7 +47,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/214100.png?v=23",
   },
   {
-    id: 56,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Johan Cruyff",
     rating: 94,
@@ -54,7 +56,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/190045.png?v=23",
   },
   {
-    id: 57,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Eusebio",
     rating: 93,
@@ -63,7 +65,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/242519.png?v=23",
   },
   {
-    id: 58,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Jarzinho",
     rating: 92,
@@ -72,7 +74,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/268513.png?v=23",
   },
   {
-    id: 59,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Eric Cantona",
     rating: 93,
@@ -81,7 +83,7 @@ export const PlayerPrices = [
     image: "https://cdn.futbin.com/content/fifa23/img/players/167198.png?v=23",
   },
   {
-    id: 510,
+    id: uuidv4(),
     type: "Icon",
     playerName: "Patrick Vieira",
     rating: 91,

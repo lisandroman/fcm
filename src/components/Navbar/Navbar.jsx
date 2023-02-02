@@ -4,22 +4,10 @@ import { Link } from "react-router-dom";
 import { allData } from "../../redux/state/orders";
 import { FaShoppingCart } from "react-icons/fa";
 import styled from "styled-components";
-
-// import logo from "../../assets/images/logo-02.png"
 import logo from "../../assets/images/logo2.png"
 
 const Navbar = () => {
   const orderAllData = useSelector(allData);
-//  let navbarLink = document.querySelectorAll(".navbar-nav li .nav-link");
-
-//   console.log(navbarLink);
-
-//   document.addEventListener("click", function (e) {
-//     for (let x = 0; x < navbarLink.length; x++) {
-//       navbarLink[x].classList.remove('active');
-//     }
-//     e.target.closest(".nav-link").classList.add("active");
-//   });
 
   return (
     <NavbarStyled>

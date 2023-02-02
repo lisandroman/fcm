@@ -18,6 +18,10 @@ const CoverTax = () => {
     return a + b;
   }, 0);
 
+  const readOrderPrices = orderAllData.map((item) => item.price);
+  const readOrderPricesTotal = readOrderPrices.reduce((a, b) => {
+    return a + b;
+  }, 0);
   let readOrderPlatform = "";
 
   const ReReadOrderPlatform = () => {
@@ -28,9 +32,9 @@ const CoverTax = () => {
 
   const id = 74;
   const coins = (readOrderCoinsTotal * 5) / 100;
-  const price = (coins * 0.11).toFixed(2);
+  const price = ((readOrderPricesTotal / readOrderCoinsTotal) * coins).toFixed(2)
   const platform = ReReadOrderPlatform();
-
+ 
   const handleAddCoinsToPayTax = () => {
     Swal.fire({
       icon: "success",
@@ -48,7 +52,6 @@ const CoverTax = () => {
       });
     }
   };
-
 
   return (
     <CoverTaxStyled>

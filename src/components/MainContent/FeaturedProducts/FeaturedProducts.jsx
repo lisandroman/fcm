@@ -4,12 +4,14 @@ import Swal from "sweetalert2";
 import { FeaturedProductsData } from "../../data/featuredProducts.data";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, getCurrency } from "../../../redux/state/orders";
+import { RiComputerLine } from "react-icons/ri";
+import { SiXbox } from "react-icons/si";
+import { SiPlaystation } from "react-icons/si";
+import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 
 const FeaturesProducts = () => {
   const dispatch = useDispatch();
   const getCurrencyData = useSelector(getCurrency);
-
-  console.log("Selected Currency: ", getCurrencyData);
 
   const handleButtonAddToCart = (id, coins, price, platform) => {
     Swal.fire({
@@ -71,15 +73,15 @@ const FeaturesProducts = () => {
                       <div className="card-body">
                         {prod.platform === "PS4/5" ? (
                           <h4 className="text-primary card-text">
-                            {prod.coins}K
+                            <FaCoins /> {prod.coins}
                           </h4>
                         ) : prod.platform === "XB" ? (
                           <h4 className="text-success card-text">
-                            {prod.coins}K
+                            <FaCoins /> {prod.coins}
                           </h4>
                         ) : (
                           <h4 className="text-warning card-text">
-                            {prod.coins}K
+                            <FaCoins /> {prod.coins}
                           </h4>
                         )}
                         <h5 className="card-text">
@@ -94,7 +96,7 @@ const FeaturesProducts = () => {
                             ).toFixed(2)}
                           </strong>
                         </h5>
-                        {prod.coins >= 1000 ? (
+                        {prod.coins >= 1000000 ? (
                           <span className="badge text-bg-danger text-white mb-2">
                             5% OFF at checkout
                           </span>

@@ -62,7 +62,7 @@ const Cart = () => {
     );
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
-      <tr className="tableRowStyled " key={item.id}>
+      <tr key={item.id} className="tableRowStyled ">
         {item.id === 74 &&
         !(
           orderAllData.findIndex((item) => item.id === 74) ===
@@ -82,14 +82,20 @@ const Cart = () => {
         ) : item.id === 74 ? (
           <td className="text-start ps-4 textOrderItems">
             <span>
-              <FaCoins /> {item.coins} K
+              <FaCoins /> {item.coins.toLocaleString()}
             </span>
             <span className="badge text-bg-danger ms-2">Tax</span>
+          </td>
+        ) : item.coins >= 1000000 ? (
+          <td className="text-start ps-4 textOrderItems">
+            <span>
+              <FaCoins /> {item.coins.toLocaleString().concat(" M")}
+            </span>
           </td>
         ) : (
           <td className="text-start ps-4 textOrderItems">
             <span>
-              <FaCoins /> {item.coins} K
+              <FaCoins /> {item.coins.toLocaleString()}
             </span>
           </td>
         )}
@@ -206,9 +212,9 @@ const Cart = () => {
   };
 
   const discountCupon = () => {
-    console.log("Discount Code Added!");
-    return coupon === "testing" ? setIsValidCoupon(true) : null;
+    return coupon === "testing" ? setIsValidCoupon(true) : alert('Coupon doesnt exist');
   };
+
   useEffect(() => {
     if (orderStatus === "idle") {
       dispatch(fetchData());
@@ -216,6 +222,7 @@ const Cart = () => {
     checkPlatforms();
     dispatch(priceFinalToForm(totalPriceOriginal));
   }, [orderStatus, dispatch, totalPriceOriginal]);
+
 
   return (
     <CartStyled>

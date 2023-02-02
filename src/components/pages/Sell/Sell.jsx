@@ -181,7 +181,6 @@ const Sell = () => {
                   onChange={(e) => calculateRate(e.target.value)}
                 />
                 {sellAmount < 1000000 && (
-                  // <p className="text-danger">Minimum 1M (1.000.000)</p>
                   <p className="mt-1">Minimum 1M (1.000.000)</p>
                 )}
                 <span className="badge text-bg-danger text-white mb-2">
@@ -277,10 +276,10 @@ const Sell = () => {
                     <p>-Click Security</p>
                     <li>Turn login verification ON</li>
                     <li>Click 'View' next to where it says</br>backup codes</li>
-                    <li>Enter the 6-digit verification code</b> will send your email/phone, </br>then the backup codes </br>will show up on your screen</li>
+                    <li>Enter the 6-digit verification code</br> will send your email/phone, </br>then the backup codes </br>will show up on your screen</li>
                   </ol>
                   <p>-------------</p>
-                  <p>It is recommended to refresh </br>your backup codes before submitting them. </br>Incorrect backup codes are a </br>very common issues.</p>
+                  <p>It is recommended to refresh your backup</br> codes before submitting them. </br>Incorrect backup codes are a </br>very common issues.</p>
                   <p>Please make sure you submit valid codes</p>
                 </div>
               "
