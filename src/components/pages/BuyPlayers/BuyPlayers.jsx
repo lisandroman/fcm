@@ -14,7 +14,7 @@ const BuyPlayers = () => {
   };
   return (
     <BuyPlayersPageStyled>
-      <h2 className="bg bg-primary text-white mt-4 mb-4">Player Prices</h2>
+      <h2 className="bg bg-primary text-white mt-4">Player Prices</h2>
       <h5 className="text-primary mt-3 text-white">
         We teach you how to invest
       </h5>

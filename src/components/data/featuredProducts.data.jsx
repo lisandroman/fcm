@@ -5,6 +5,14 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PS4/5",
     coins: 250000,
+    price: 1,
+    image:
+      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+  },
+  {
+    id: uuidv4(),
+    platform: "PS4/5",
+    coins: 250000,
     price: 32.2,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",

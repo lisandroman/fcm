@@ -11,8 +11,7 @@ import {
   priceFinalToForm,
   removeFromCart,
 } from "../../../redux/state/orders";
-
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { v4 as uuidv4 } from "uuid";
 import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
@@ -212,7 +211,9 @@ const Cart = () => {
   };
 
   const discountCupon = () => {
-    return coupon === "testing" ? setIsValidCoupon(true) : alert('Coupon doesnt exist');
+    return coupon === "trader"
+      ? setIsValidCoupon(true)
+      : alert("Coupon doesnt exist");
   };
 
   useEffect(() => {
@@ -223,11 +224,36 @@ const Cart = () => {
     dispatch(priceFinalToForm(totalPriceOriginal));
   }, [orderStatus, dispatch, totalPriceOriginal]);
 
+  const paypalButton = () => {
+    let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
+    let newID = uuidv4()
+    let id = newID.substring(0,8)
+
+    Swal.fire({
+      icon: "success",
+      title: "Order Received!",
+      text: "To pay, please click the button below",
+      html:
+        `Your Order ID: <strong>${id}</strong>` +
+        `</br>The price of your order is <strong>USD ${subTotalWithFee}</strong>`,
+        footer:  `</br>You must enter the amount on the next screen`,
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "PAY with Paypal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.open(url, "_blank");
+        dispatch(clearCart());
+      }
+    });
+  }
 
   return (
     <CartStyled>
-      <h2>Cart</h2>
-      <h3>Your Order:</h3>
+      <h2 className="bg bg-primary text-white mt-4 mb-2 pb-2 pt-1">
+        Cart - Your Order
+      </h2>
       <div className="container cartGrid pb-5">
         <div className="row border-bottom">
           <div className="col-sm-8">
@@ -303,41 +329,62 @@ const Cart = () => {
                 </div>
 
                 <div className="mt-2 cartTotalDetails">
-                  <p className="text-start ps-4">
-                    Subtotal:{" "}
-                    <strong>
-                      {getCurrencyData} {subTotal}
-                    </strong>
-                  </p>
-                  <p className="text-start ps-4 border-bottom pb-2">
-                    Payment Fee:{" "}
-                    <strong>
-                      {getCurrencyData} {paymentFeeRoundValue}{" "}
-                    </strong>
-                    (3%)
-                  </p>
-                  {/* <p className="text-start ps-4">Discounts:</p> */}
-                  {isValidCoupon === true ? (
-                    <p className="text-start text-danger ps-4">
-                      Discount Code - 10%:{" "}
-                      <strong>
-                        {getCurrencyData} {discountCoupon}{" "}
-                      </strong>
-                    </p>
-                  ) : null}
-                  {getTotalCoins >= 1000 ? (
-                    <p className="text-start text-danger ps-4">
-                      1 Million+ Discount:{" "}
-                      <strong>
-                        {getCurrencyData} {discount1M}
-                      </strong>{" "}
-                      (5%)
-                    </p>
-                  ) : null}
+                  <table className="table table-sm table-striped tableSize ">
+                    <tbody>
+                      <tr>
+                        <td className="text-start ps-4">
+                          Coins: <FaCoins />{" "}
+                          <strong>{getTotalCoins.toLocaleString()}</strong>{" "}
+                        </td>
+                        <td className="text-end pe-3">
+                          SubTotal:{" "}
+                          <strong>
+                            {getCurrencyData} {subTotal}
+                          </strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="text-start ps-4">
+                          Payment Fee:{" "}
+                          <strong>
+                            {getCurrencyData} {paymentFeeRoundValue}{" "}
+                          </strong>
+                          (3%)
+                        </td>
+                        <td className="text-end pe-3">
+                          Payment via: <strong>Paypal</strong>
+                        </td>
+                      </tr>
+                          {/* 3d80bcf4 */}
+                      {isValidCoupon === true ? (
+                        <tr>
+                          <td className="text-start ps-4">
+                            Discount Code:{" "}
+                            <strong>
+                              {getCurrencyData} {discountCoupon}{" "}
+                            </strong>
+                          </td>
+                          <td>(-3%)</td>
+                        </tr>
+                      ) : null}
+                      {console.log(getTotalCoins)}
+                      {getTotalCoins >= 1000000 ? (
+                        <tr>
+                          <td className="text-start ps-4">
+                            1 Million+ Discount:{" "}
+                            <strong>
+                              {getCurrencyData} {discount1M}
+                            </strong>{" "}
+                          </td>
+                          <td className="text-startps-4">(-5%)</td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
                 </div>
 
                 <div className=" mt-4 pb-2">
-                  {isValidCoupon === true && getTotalCoins > 1000
+                  {isValidCoupon === true && getTotalCoins > 1000000
                     ? [
                         <h3 className="text-center text-danger">
                           {" "}
@@ -371,7 +418,7 @@ const Cart = () => {
                           ).toFixed(2)}{" "}
                         </h5>,
                       ]
-                    : isValidCoupon === true && getTotalCoins < 1000
+                    : isValidCoupon === true && getTotalCoins < 1000000
                     ? [
                         <h3 className="text-center text-danger">
                           Total:
@@ -398,7 +445,7 @@ const Cart = () => {
                           ).toFixed(2)}{" "}
                         </h5>,
                       ]
-                    : isValidCoupon !== true && getTotalCoins < 1000
+                    : isValidCoupon !== true && getTotalCoins < 1000000
                     ? [
                         <h3 className="text-center text-danger">
                           Total:{" "}
@@ -421,7 +468,7 @@ const Cart = () => {
                           ).toFixed(2)}{" "}
                         </h5>,
                       ]
-                    : isValidCoupon !== true && getTotalCoins >= 1000
+                    : isValidCoupon !== true && getTotalCoins >= 1000000
                     ? [
                         <h3 className="text-center text-danger">
                           Total:{" "}
@@ -450,8 +497,17 @@ const Cart = () => {
                       ]
                     : null}
                 </div>
-
                 <div className="paypalButtonsContainer">
+                  <button className="btn btn-warning text-primary mb-4"
+                  onClick={paypalButton}>
+                    <span className="paypal-logo">
+                      <i>Pay</i>
+                      <i>Pal</i>
+                    </span>
+                  </button>
+                </div>
+
+                {/* <div className="paypalButtonsContainer">
                   <PayPalScriptProvider
                     options={{
                       "client-id":
@@ -492,7 +548,7 @@ const Cart = () => {
                       }}
                     />
                   </PayPalScriptProvider>
-                </div>
+                </div> */}
               </div>
             </div>
           )}
@@ -537,8 +593,25 @@ const CartStyled = styled.div`
     cursor: pointer;
   }
   .paypalButtonsContainer {
-    width: 70%;
+    /* width: 70%; */
     margin: 0 auto;
+    button {
+      width: 200px;
+    }
+    .paypal {
+      &-logo {
+        font-family: Verdana, Tahoma;
+        font-weight: 700;
+        font-size: 16px;
+
+        i:first-child {
+          color: #253b80;
+        }
+
+        i:last-child {
+          color: #179bd7;
+        }
+      }
   }
   @media (max-width: 575.98px) {
     .textOrderItems span {
@@ -564,7 +637,7 @@ const CartStyled = styled.div`
   .emailContact h6{
     font-size: .75rem;
   }
-  .cartTotalDetails p{
+  .cartTotalDetails p, td{
     font-size: .75rem;
   }
 `;
