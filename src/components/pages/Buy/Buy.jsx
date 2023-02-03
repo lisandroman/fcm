@@ -109,7 +109,7 @@ const Buy = () => {
 
   return (
     <BuyPageStyled>
-      <h2 className="text-white">Packages</h2>
+      <h2 className="text-white bg bg-primary mt-4">Packages</h2>
       <p className="text-warning">
         Contract our services to improve your FUT Squad
       </p>
