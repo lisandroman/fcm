@@ -11,7 +11,6 @@ import { RiComputerLine } from "react-icons/ri";
 import { SiXbox } from "react-icons/si";
 import { v4 as uuidv4 } from "uuid";
 
-
 const Buy = () => {
   const dispatch = useDispatch();
   const getCurrencyData = useSelector(getCurrency);
@@ -19,13 +18,13 @@ const Buy = () => {
   const [content, setContent] = useState(PriceListPS);
   const [sellAmount, setSellAmount] = useState(0);
 
-  const [customCoins, setCustomCoins] = useState(0)
-  const [customPrice, setCustomPrice] = useState(0)
-  const [customPlatform, setCustomPlatform] = useState('')
+  const [customCoins, setCustomCoins] = useState(0);
+  const [customPrice, setCustomPrice] = useState(0);
+  const [customPlatform, setCustomPlatform] = useState("");
 
   const handleInputAmount = (e) => {
     let preValue = 0;
-    setSellAmount(e.target.value * 1)
+    setSellAmount(e.target.value * 1);
     if (e.target.value < 1000000) {
       preValue = e.target.value * 0.000128;
     } else if (e.target.value >= 1000000 || e.target.value <= 3000000) {
@@ -34,8 +33,8 @@ const Buy = () => {
       preValue = e.target.value * 0.0001;
     }
 
-    let roundValue = (Math.round(preValue * 100) / 100);
-    setCustomPrice(roundValue)
+    let roundValue = Math.round(preValue * 100) / 100;
+    setCustomPrice(roundValue);
     return e.target.value < 100000 ? setTotal(0) : setTotal(roundValue);
   };
 
@@ -65,43 +64,48 @@ const Buy = () => {
       : (priceToShow = 1.0);
   };
 
-  const handlePlatformListPS = () => { setContent(PriceListPS) }
-  const handlePlatformListXBOX = () => { setContent(PriceListXBOX) }
-  const handlePlatformListPC = () => { setContent(PriceListPC) }
+  const handlePlatformListPS = () => {
+    setContent(PriceListPS);
+  };
+  const handlePlatformListXBOX = () => {
+    setContent(PriceListXBOX);
+  };
+  const handlePlatformListPC = () => {
+    setContent(PriceListPC);
+  };
 
-   let amountFormated;
+  let amountFormated;
 
-   const makeAmountFormat = () => {
-    let tempSellAmount = sellAmount
-     return tempSellAmount < 999
-       ? (amountFormated = tempSellAmount.toLocaleString())
-       : tempSellAmount >= 1000 && tempSellAmount < 1000000
-       ? (amountFormated = tempSellAmount.toLocaleString().concat(" K"))
-       : tempSellAmount >= 1000000
-       ? (amountFormated = tempSellAmount.toLocaleString().concat(" M"))
-       : null;
-   };
-   makeAmountFormat();
+  const makeAmountFormat = () => {
+    let tempSellAmount = sellAmount;
+    return tempSellAmount < 999
+      ? (amountFormated = tempSellAmount.toLocaleString())
+      : tempSellAmount >= 1000 && tempSellAmount < 1000000
+      ? (amountFormated = tempSellAmount.toLocaleString().concat(" K"))
+      : tempSellAmount >= 1000000
+      ? (amountFormated = tempSellAmount.toLocaleString().concat(" M"))
+      : null;
+  };
+  makeAmountFormat();
 
-    const probando = (e) => {
-      let id = uuidv4();
-      let coins = sellAmount
-      let price = customPrice
-      let platform = customPlatform
-      let getCurrencyData = actualCurrency();
+  const probando = (e) => {
+    let id = uuidv4();
+    let coins = sellAmount;
+    let price = customPrice;
+    let platform = customPlatform;
+    let getCurrencyData = actualCurrency();
 
-       Swal.fire({
-         icon: "success",
-         title: "Added to Cart",
-         text: `Added ${coins}K per ${(
-           Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) /
-           100
-         ).toFixed(2)} ${getCurrencyData} in ${platform}`,
-         footer: '<a href="/cart">Go to your Cart</a>',
-       });
+    Swal.fire({
+      icon: "success",
+      title: "Added to Cart",
+      text: `Added ${coins}K per ${(
+        Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
+      ).toFixed(2)} ${getCurrencyData} in ${platform}`,
+      footer: '<a href="/cart">Go to your Cart</a>',
+    });
 
-      dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
-    };
+    dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
+  };
 
   return (
     <BuyPageStyled>
@@ -121,11 +125,12 @@ const Buy = () => {
         <div className="buyFormRadios">
           <div className="form-check">
             <input
-              className="form-check-input"
+              className="me-2"
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
               value="PS4/5"
+              defaultChecked
               onChange={(e) => setCustomPlatform(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
@@ -135,9 +140,9 @@ const Buy = () => {
 
           <div className="form-check">
             <input
-              className="form-check-input"
+              className="me-2"
               type="radio"
-              name="flexRadioDefault2"
+              name="flexRadioDefault"
               id="flexRadioDefault2"
               value="XBOX"
               onChange={(e) => setCustomPlatform(e.target.value)}
@@ -149,7 +154,7 @@ const Buy = () => {
 
           <div className="form-check">
             <input
-              className="form-check-input"
+              className="me-2"
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault3"
@@ -351,6 +356,6 @@ const BuyPageStyled = styled.div`
     font-weight: 300;
   }
   td {
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 `;
