@@ -21,7 +21,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PS4/5",
     coins: 1000000,
-    price: 90,
+    price: 88.89,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },
@@ -45,7 +45,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "XB",
     coins: 1000000,
-    price: 90,
+    price: 88.89,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },
@@ -69,7 +69,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PC",
     coins: 1000000,
-    price: 72,
+    price: 72.22,
     image:
       "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
   },

@@ -155,21 +155,8 @@ const Cart = () => {
     return a + b;
   }, 0);
 
-  let paymentFee = parseInt(getTotal) - parseInt(getTotal) * parseFloat(1);
-  let paymentFeeRoundValue = (Math.round(paymentFee * 100) / 100).toFixed(
-    parseInt(2)
-  );
-
-  let totalPrice = parseInt(getTotal) + parseFloat(paymentFeeRoundValue);
-
-  const subTotal = getTotal;
-  const discountCoupon = ((totalPrice * 10) / 100);
-
-  const discount1M = Math.round(totalPrice * 5) / 100;
-
-  // paymentFeeRoundValue is already done. Line 112
-  const totalAfterCoupon = totalPrice - (totalPrice * 10) / 100;
-  const subTotalWithFee = parseInt(subTotal) + parseFloat(paymentFeeRoundValue);
+  const discountCoupon = ((getTotal * 10) / 100).toFixed(2) * 1;
+  let totalPrice = getTotal - discountCoupon;
 
   // Subtotal Coins
   const takeOrderCoins = orderAllData.map((item) => item.coins);
@@ -189,23 +176,6 @@ const Cart = () => {
 
   const totalPriceOriginal =
     parseFloat(getTotalOriginal) + parseFloat(paymentFeeRoundValueOriginal);
-
-  // Paypal Buttons
-  const handleApprove = (orderID) => {
-    setPaidFor(true);
-  };
-
-  if (paidFor) {
-    Swal.fire({
-      icon: "success",
-      title: "Thanks for buy in Fut Coins Market",
-      text: `Please complete the next form with your info`,
-      footer: '<a href="/form-game-data">Go to Form</a>',
-    });
-  }
-  if (error) {
-    alert(error);
-  }
 
   const handleDiscountCoupon = (e) => {
     setCoupon(e.target.value);
@@ -236,7 +206,7 @@ const Cart = () => {
       text: "To pay, please click the button below",
       html:
         `Your Order ID: <strong>${id}</strong>` +
-        `</br>The price of your order is <strong>USD ${subTotalWithFee}</strong>`,
+        `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
       footer: `</br>You must enter the amount on the next screen`,
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -338,16 +308,13 @@ const Cart = () => {
                         <td className="text-end pe-3">
                           SubTotal:{" "}
                           <strong>
-                            {getCurrencyData} {subTotal}
+                            {getCurrencyData} {getTotal}
                           </strong>
                         </td>
                       </tr>
                       <tr>
                         <td className="text-start ps-4">
-                          Payment Fee:{" "}
-                          <strong>
-                            {getCurrencyData} {paymentFeeRoundValue}{" "}
-                          </strong>
+                          Payment Fee: <strong>{getCurrencyData} 0.00 </strong>
                           (3%)
                         </td>
                         <td className="text-end pe-3">
@@ -376,14 +343,7 @@ const Cart = () => {
                       <h3 className="text-center text-danger">
                         Total:
                         <span>
-                          {console.log(typeof discountCoupon)}
-                          {console.log(typeof subTotalWithFee)}
-                          {console.log(subTotalWithFee - discountCoupon)}
-                          <strong>
-                            {parseFloat(
-                              subTotalWithFee - discountCoupon
-                            ).toFixed(2)}
-                          </strong>
+                          <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
                           {getCurrencyData}
                         </span>
                       </h3>,
@@ -392,7 +352,7 @@ const Cart = () => {
                         USD{" "}
                         {(
                           Math.round(
-                            (parseFloat(subTotalWithFee - discountCoupon) /
+                            (parseFloat(totalPrice) /
                               parseFloat(actualCurrency())) *
                               100
                           ) / 100
@@ -414,49 +374,6 @@ const Cart = () => {
                     </span>
                   </button>
                 </div>
-
-                {/* <div className="paypalButtonsContainer">
-                  <PayPalScriptProvider
-                    options={{
-                      "client-id":
-                        "AYSCSFR3MypXty2_BjrXfTvx0u_n-hozFbeVUzbfSam6lo5-g6scL0-zoOfreObJK1svNZucC8LnH5fw",
-                    }}
-                  >
-                    <PayPalButtons
-                      onClick={(data, actions) => {
-                        const hasAlreadyBought = false;
-                        if (hasAlreadyBought) {
-                          setError("You already bought this item!");
-                          return actions.reject();
-                        } else {
-                          return actions.resolve();
-                        }
-                      }}
-                      createOrder={(data, actions) => {
-                        return actions.order.create({
-                          purchase_units: [
-                            {
-                              amount: {
-                                value: totalPriceOriginal,
-                              },
-                            },
-                          ],
-                        });
-                      }}
-                      onApprove={async (data, actions) => {
-                        const order = await actions.order.capture();
-                        console.log("order:", order);
-                        console.log("order ID:", order.id);
-                        handleApprove(data.orderID);
-                      }}
-                      onCancel={() => {}}
-                      onError={(err) => {
-                        setError(err);
-                        console.log("Paypal Checkout Error:", err);
-                      }}
-                    />
-                  </PayPalScriptProvider>
-                </div> */}
               </div>
             </div>
           )}
