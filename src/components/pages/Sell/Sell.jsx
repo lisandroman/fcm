@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase";
 import { Tooltip } from "react-tooltip";
+import { titles } from "../../../commonStyled";
 
 const Sell = () => {
   const [name, setName] = useState("");
@@ -90,9 +91,9 @@ const Sell = () => {
 
   return (
     <>
-      <HeaderSellForm className="p-3 mt-4">
-        <h2 className="bg bg-primary text-white">Sell</h2>
-        <div className="container-fluid-sm p-1 mt-2 mb-2">
+      <HeaderSellForm className="mt-4">
+        <h2 className="bg bg-warning title">Sell</h2>
+        <div className="container-fluid-sm p-3 mt-2 mb-2">
           <p>
             Tired of playing FUT and want to get paid for your cards? Sell them
             to us! We offer the most competitive rates on the market for sellers
@@ -100,7 +101,7 @@ const Sell = () => {
             have to do is fill out the form and we'll handle the rest.
           </p>
         </div>
-        <div className="sellConditions">
+        <div className="sellConditions p-3">
           <h4>Current seller rates:</h4>
           <p>[PS/XB 5M+ minimum] $4.67 USD/100k = £3.60/100k = €4.10/100k</p>
           <p>[PS/XB] $4 USD/100k ≈ £3.10/100k ≈ €3.50/100k</p>
@@ -109,7 +110,7 @@ const Sell = () => {
           <p>- Web App Transfer Market unlocked</p>
           <p>- Minimum of 1M (1,000,000)</p>
           <p>- Can't be unassigned with 5+ cards</p>
-          <h4 className="bg bg-primary mt-4 mb-3 p-1">
+          <h4 className="bg bg-warning mt-4 mb-3 p-1 subtitle">
             How does the process work?
           </h4>
           <p>
@@ -406,9 +407,9 @@ const Sell = () => {
 export default Sell;
 
 const FormStyled = styled.div`
-  width: 80%;
   margin: 0 auto;
   background-color: #252b2d;
+ 
   .form-control {
     ::placeholder {
       color: grey;
@@ -425,8 +426,10 @@ const FormStyled = styled.div`
 `;
 
 const HeaderSellForm = styled.div`
-  /* width: 80%; */
   margin: 0 auto;
+  .title {
+    ${titles}
+  }
   p {
     font-size: 0.75rem;
     color: #adb5bd;
@@ -436,6 +439,10 @@ const HeaderSellForm = styled.div`
     h4 {
       color: white;
       font-size: 1rem;
+    }
+    .bg-warning {
+      color: #183153;
+      font-weight: bold;
     }
   }
   .disclaimer {

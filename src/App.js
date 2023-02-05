@@ -18,7 +18,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="App bg bg-dark">
+    <div className="App">
       <CurrencyChange />
       <Navbar />
       <Routes location={location} key={location.pathname}>

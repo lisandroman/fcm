@@ -43,7 +43,6 @@ export default Footer;
 
 const FooterStyled = styled.div`
   margin-top: 2rem;
-  /* background-color: #212529; */
   background-color: #252b2d;
   color: #adb5bd;
   padding-bottom: 2rem;

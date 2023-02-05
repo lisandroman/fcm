@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { PlayerPrices } from "../../data/playerPrices.data";
 import Swal from "sweetalert2";
+import { titles } from "../../../commonStyled";
 
 const BuyPlayers = () => {
   const handleButtonAskPlayer = (playerName, rating) => {
@@ -14,7 +15,7 @@ const BuyPlayers = () => {
   };
   return (
     <BuyPlayersPageStyled>
-      <h2 className="bg bg-primary text-white mt-4">Player Prices</h2>
+      <h2 className="bg bg-warning title mt-4">Player Prices</h2>
       <h5 className="text-primary mt-3 text-white">
         We teach you how to invest
       </h5>
@@ -75,6 +76,9 @@ export default BuyPlayers;
 
 const BuyPlayersPageStyled = styled.div`
   margin: 0 auto;
+  .title {
+    ${titles}
+  }
   h2 {
     margin-top: 1rem;
     margin-bottom: 1rem;

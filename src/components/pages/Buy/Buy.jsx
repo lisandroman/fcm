@@ -10,6 +10,7 @@ import { SiPlaystation } from "react-icons/si";
 import { RiComputerLine } from "react-icons/ri";
 import { SiXbox } from "react-icons/si";
 import { v4 as uuidv4 } from "uuid";
+import { titles } from "../../../commonStyled";
 
 const Buy = () => {
   const dispatch = useDispatch();
@@ -109,7 +110,7 @@ const Buy = () => {
 
   return (
     <BuyPageStyled>
-      <h2 className="text-white bg bg-primary mt-4">Packages</h2>
+      <h2 className="bg bg-warning title mt-4">Packages</h2>
       <p className="text-warning">
         Contract our services to improve your FUT Squad
       </p>
@@ -332,6 +333,9 @@ export default Buy;
 const BuyPageStyled = styled.div`
   margin: 0 auto;
   margin-top: 1rem;
+  .title {
+    ${titles}
+  }
 
   .buyForm,
   .buyFormRadios {
@@ -357,5 +361,8 @@ const BuyPageStyled = styled.div`
   }
   td {
     font-size: 0.75rem;
+  }
+  .ss01 {
+    font-feature-settings: "ss01" 1;
   }
 `;

@@ -1,3 +1,29 @@
+/* Cera Rounded Pro Regular */
+@font-face{
+  font-family: "Cera Rounded";
+  src:url('../src/assets/fonts/CeraRoundPro-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Cera Rounded Pro Bold */
+@font-face{
+  font-family: "Cera Rounded";
+  src:url('../src/assets/fonts/CeraRoundPro-Bold.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: "Cera Rounded";
+  src:url('../src/assets/fonts/CeraRoundPro-Black.otf');
+  font-weight: 900;
+  font-style: normal;
+}
+* {
+  font-family:"Cera Rounded", Arial, Helvetica, sans-serif;
+  font-feature-settings: "ss01" 1;
+
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +31,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #212529;
+  background-color: #2e3544;
 }
 
 code {

@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
+import { titles } from "../../../commonStyled";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -251,8 +252,8 @@ const Cart = () => {
 
   return (
     <CartStyled>
-      <h2 className="bg bg-primary text-white mt-4 mb-2 pb-2 pt-1">
-        Cart - Your Order
+      <h2 className="bg bg-warning title mt-4 mb-2">
+        Cart - Your Order:
       </h2>
       <div className="container cartGrid pb-5">
         <div className="row border-bottom">
@@ -352,7 +353,7 @@ const Cart = () => {
                           (3%)
                         </td>
                         <td className="text-end pe-3">
-                          Payment via: <strong>Paypal</strong>
+                          Payment: <strong>Paypal</strong>
                         </td>
                       </tr>
                           {/* 3d80bcf4 */}
@@ -578,6 +579,9 @@ export default Cart;
 const CartStyled = styled.div`
   margin-top: 1rem;
   background-color: #f8f9fa;
+  .title {
+    ${titles}
+  }
 
   .cartGrid {
     /* border :1px solid red; */
@@ -641,3 +645,4 @@ const CartStyled = styled.div`
     font-size: .75rem;
   }
 `;
+

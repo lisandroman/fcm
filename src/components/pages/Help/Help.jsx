@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { titles } from "../../../commonStyled";
 
 const Help = () => {
-
   //TODO  needs to be refactored. Create a json with the info to render
 
   return (
     <HelpPageStyled>
-      <h2 className="container mt-4 mb-4 text-white bg bg-primary">Help Center</h2>
+      <h2 className="container mt-4 mb-4 title bg bg-warning">Help Center</h2>
       <div className="accordion" id="accordionExample">
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
@@ -131,13 +131,21 @@ const Help = () => {
 
 export default Help;
 
-
 const HelpPageStyled = styled.div`
-  width: 85%;
+  width: 100%;
   margin: 0 auto;
+
+  .title {
+    ${titles}
+  }
 
   .helpTitle {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  button,
+  .accordion-body {
+    color: #183153;
   }
 `;
