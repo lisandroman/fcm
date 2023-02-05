@@ -85,11 +85,23 @@ const FeaturesProducts = () => {
                           </h4>
                         )}
                         <h5 className="card-text">
-                          <strong>
+                          <s>
+                            <strong>
+                              {getCurrencyData}{" "}
+                              {(
+                                Math.round(
+                                  parseFloat(prod.price) *
+                                    parseFloat(actualCurrency()) *
+                                    100
+                                ) / 100
+                              ).toFixed(2)}
+                            </strong>
+                          </s>
+                          <strong className="ms-1 text-danger">
                             {getCurrencyData}{" "}
                             {(
                               Math.round(
-                                parseFloat(prod.price) *
+                                parseFloat(prod.price * 0.9) *
                                   parseFloat(actualCurrency()) *
                                   100
                               ) / 100
@@ -98,11 +110,11 @@ const FeaturesProducts = () => {
                         </h5>
                         {prod.coins >= 1000000 ? (
                           <span className="badge text-bg-danger text-white mb-2">
-                            5% OFF at checkout
+                            10% OFF - Best Price Guarantee
                           </span>
                         ) : (
                           <span className="badge text-bg-primary text-white mb-2">
-                            Best Price Guarantee
+                            10% OFF - Best Price Guarantee
                           </span>
                         )}
                       </div>

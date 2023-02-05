@@ -155,7 +155,7 @@ const Cart = () => {
     return a + b;
   }, 0);
 
-  let paymentFee = parseInt(getTotal) - parseInt(getTotal) * parseFloat(0.97);
+  let paymentFee = parseInt(getTotal) - parseInt(getTotal) * parseFloat(1);
   let paymentFeeRoundValue = (Math.round(paymentFee * 100) / 100).toFixed(
     parseInt(2)
   );
@@ -163,7 +163,7 @@ const Cart = () => {
   let totalPrice = parseInt(getTotal) + parseFloat(paymentFeeRoundValue);
 
   const subTotal = getTotal;
-  const discountCoupon = ((totalPrice * 10) / 100).toFixed(2);
+  const discountCoupon = ((totalPrice * 10) / 100);
 
   const discount1M = Math.round(totalPrice * 5) / 100;
 
@@ -212,7 +212,7 @@ const Cart = () => {
   };
 
   const discountCupon = () => {
-    return coupon === "trader"
+    return coupon === "bestprice"
       ? setIsValidCoupon(true)
       : alert("Coupon doesnt exist");
   };
@@ -227,8 +227,8 @@ const Cart = () => {
 
   const paypalButton = () => {
     let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
-    let newID = uuidv4()
-    let id = newID.substring(0,8)
+    let newID = uuidv4();
+    let id = newID.substring(0, 8);
 
     Swal.fire({
       icon: "success",
@@ -237,7 +237,7 @@ const Cart = () => {
       html:
         `Your Order ID: <strong>${id}</strong>` +
         `</br>The price of your order is <strong>USD ${subTotalWithFee}</strong>`,
-        footer:  `</br>You must enter the amount on the next screen`,
+      footer: `</br>You must enter the amount on the next screen`,
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -248,13 +248,11 @@ const Cart = () => {
         dispatch(clearCart());
       }
     });
-  }
+  };
 
   return (
     <CartStyled>
-      <h2 className="bg bg-warning title mt-4 mb-2">
-        Cart - Your Order:
-      </h2>
+      <h2 className="bg bg-warning title mt-4 mb-2">Cart - Your Order:</h2>
       <div className="container cartGrid pb-5">
         <div className="row border-bottom">
           <div className="col-sm-8">
@@ -267,7 +265,7 @@ const Cart = () => {
                 </h5>
               </div>
 
-              <div className="ps-4 pe-4 mt-2 pb-4 mt-md-3">
+              <div className="mt-2 pb-4 mt-md-3">
                 <table className="table table-sm table-striped tableSize align-middle">
                   <tbody>{content}</tbody>
                 </table>
@@ -291,7 +289,7 @@ const Cart = () => {
                     If you have any issue with the cart contact us at:
                   </h6>
                   <button className="btn btn-sm btn-outline-primary mt-1">
-                    contact@payment.com
+                    info@futcoinsmarket.net
                   </button>
                 </div>
               </div>
@@ -323,7 +321,7 @@ const Cart = () => {
                   </div>
 
                   <div className="col me-1">
-                    <button className="btn btn-danger" onClick={discountCupon}>
+                    <button className="btn btn-danger " onClick={discountCupon}>
                       Apply
                     </button>
                   </div>
@@ -356,7 +354,7 @@ const Cart = () => {
                           Payment: <strong>Paypal</strong>
                         </td>
                       </tr>
-                          {/* 3d80bcf4 */}
+                      {/* 3d80bcf4 */}
                       {isValidCoupon === true ? (
                         <tr>
                           <td className="text-start ps-4">
@@ -365,19 +363,7 @@ const Cart = () => {
                               {getCurrencyData} {discountCoupon}{" "}
                             </strong>
                           </td>
-                          <td>(-3%)</td>
-                        </tr>
-                      ) : null}
-                      {console.log(getTotalCoins)}
-                      {getTotalCoins >= 1000000 ? (
-                        <tr>
-                          <td className="text-start ps-4">
-                            1 Million+ Discount:{" "}
-                            <strong>
-                              {getCurrencyData} {discount1M}
-                            </strong>{" "}
-                          </td>
-                          <td className="text-startps-4">(-5%)</td>
+                          <td>(10%)</td>
                         </tr>
                       ) : null}
                     </tbody>
@@ -385,122 +371,43 @@ const Cart = () => {
                 </div>
 
                 <div className=" mt-4 pb-2">
-                  {isValidCoupon === true && getTotalCoins > 1000000
-                    ? [
-                        <h3 className="text-center text-danger">
-                          {" "}
-                          Total:{" "}
-                          <span>
-                            {" "}
-                            <strong>
-                              {" "}
-                              {parseFloat(
-                                subTotalWithFee -
-                                  (subTotalWithFee * 10) / 100 -
-                                  (subTotalWithFee * 5) / 100
-                              ).toFixed(2)}{" "}
-                            </strong>{" "}
-                            {getCurrencyData}{" "}
-                          </span>{" "}
-                        </h3>,
-                        <h5>
-                          {" "}
-                          USD{" "}
-                          {(
-                            Math.round(
-                              (parseFloat(
-                                subTotalWithFee -
-                                  (subTotalWithFee * 10) / 100 -
-                                  (subTotalWithFee * 5) / 100
-                              ) /
-                                parseFloat(actualCurrency())) *
-                                100
-                            ) / 100
-                          ).toFixed(2)}{" "}
-                        </h5>,
-                      ]
-                    : isValidCoupon === true && getTotalCoins < 1000000
-                    ? [
-                        <h3 className="text-center text-danger">
-                          Total:
-                          <span>
-                            <strong>
-                              {parseFloat(
-                                subTotalWithFee - (subTotalWithFee % 10)
-                              ).toFixed(2)}
-                            </strong>
-                            {getCurrencyData}
-                          </span>
-                        </h3>,
-                        <h5>
-                          {" "}
-                          USD{" "}
-                          {(
-                            Math.round(
-                              (parseFloat(
-                                subTotalWithFee - (subTotalWithFee % 10)
-                              ) /
-                                parseFloat(actualCurrency())) *
-                                100
-                            ) / 100
-                          ).toFixed(2)}{" "}
-                        </h5>,
-                      ]
-                    : isValidCoupon !== true && getTotalCoins < 1000000
-                    ? [
-                        <h3 className="text-center text-danger">
-                          Total:{" "}
-                          <span>
-                            <strong>
-                              {parseFloat(subTotalWithFee).toFixed(2)}
-                            </strong>
-                            {getCurrencyData}
-                          </span>
-                        </h3>,
-                        <h5>
-                          {" "}
-                          USD{" "}
-                          {(
-                            Math.round(
-                              (parseFloat(subTotalWithFee) /
-                                parseFloat(actualCurrency())) *
-                                100
-                            ) / 100
-                          ).toFixed(2)}{" "}
-                        </h5>,
-                      ]
-                    : isValidCoupon !== true && getTotalCoins >= 1000000
-                    ? [
-                        <h3 className="text-center text-danger">
-                          Total:{" "}
-                          <span>
-                            <strong>
-                              {parseFloat(
-                                subTotalWithFee - (subTotalWithFee * 5) / 100
-                              ).toFixed(2)}
-                            </strong>
-                            {getCurrencyData}
-                          </span>
-                        </h3>,
-                        <h5>
-                          {" "}
-                          USD{" "}
-                          {(
-                            Math.round(
-                              (parseFloat(
-                                subTotalWithFee - (subTotalWithFee * 5) / 100
-                              ) /
-                                parseFloat(actualCurrency())) *
-                                100
-                            ) / 100
-                          ).toFixed(2)}{" "}
-                        </h5>,
-                      ]
-                    : null}
+                  {isValidCoupon === true ? (
+                    [
+                      <h3 className="text-center text-danger">
+                        Total:
+                        <span>
+                          {console.log(typeof discountCoupon)}
+                          {console.log(typeof subTotalWithFee)}
+                          {console.log(subTotalWithFee - discountCoupon)}
+                          <strong>
+                            {parseFloat(
+                              subTotalWithFee - discountCoupon
+                            ).toFixed(2)}
+                          </strong>
+                          {getCurrencyData}
+                        </span>
+                      </h3>,
+                      <h5>
+                        {" "}
+                        USD{" "}
+                        {(
+                          Math.round(
+                            (parseFloat(subTotalWithFee - discountCoupon) /
+                              parseFloat(actualCurrency())) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{" "}
+                      </h5>,
+                    ]
+                  ) : (
+                    <p>Enter the Discount Coupon Code</p>
+                  )}
                 </div>
                 <div className="paypalButtonsContainer">
-                  <button className="btn btn-warning text-primary mb-4"
-                  onClick={paypalButton}>
+                  <button
+                    className="btn btn-warning text-primary mb-4"
+                    onClick={paypalButton}
+                  >
                     <span className="paypal-logo">
                       <i>Pay</i>
                       <i>Pal</i>
@@ -554,7 +461,7 @@ const Cart = () => {
             </div>
           )}
         </div>
-        <div className="col text-start p-4 mt-3 bg bg-white ">
+        <div className="col text-start p-4 mt-3 bg bg-white crypto">
           <h2>
             <span className="badge text-bg-danger text-white mb-2">
               Get 5% OFF
@@ -565,8 +472,8 @@ const Cart = () => {
             If you want to pay with Crypto contact us by email and get 5% extra
             discount:
           </h5>
-          <button className="btn btn-outline-primary mt-3">
-            crypto@payment.com
+          <button className="btn btn-primary mt-3">
+            info@FUTCoinsMarket.net
           </button>
         </div>
       </div>
@@ -579,25 +486,45 @@ export default Cart;
 const CartStyled = styled.div`
   margin-top: 1rem;
   background-color: #f8f9fa;
+
   .title {
     ${titles}
   }
 
-  .cartGrid {
-    /* border :1px solid red; */
+  .textOrderItems span {
+      font-size: .85rem;
+    }
+
+    .cartRedSubtitles h5 span {
+      font-size: 1.2rem;
   }
+  .tableDiv{
+    margin-top: .5rem!important;
+  }
+  .buttonClearCart{
+    width: 5rem;
+    height: 1.5rem;
+    font-size: .66rem;
+  }
+
+  .emailContact h6{
+    font-size: .85rem;
+  }
+  .cartTotalDetails p, td{
+    font-size: .75rem;
+  }
+  .crypto h5 {
+    font-size: 1rem;
+  } 
+
   .tableRowStyled {
     background-color: #f8f9fa;
   }
-  .termsAndConditionsText {
-    color: grey;
-    font-size: 0.7rem;
-  }
+  
   .removeButon {
     cursor: pointer;
   }
   .paypalButtonsContainer {
-    /* width: 70%; */
     margin: 0 auto;
     button {
       width: 200px;
@@ -617,32 +544,4 @@ const CartStyled = styled.div`
         }
       }
   }
-  @media (max-width: 575.98px) {
-    .textOrderItems span {
-      font-size: 0.75rem;
-    }
-
-    h2,
-    h3 {
-      font-size: 1.2rem;
-    }
-    .cartRedSubtitles h5 span {
-      font-size: .85rem;
-  }
-  .tableDiv{
-    margin-top: .5rem!important;
-  }
-  .buttonClearCart{
-    width: 5rem;
-    height: 1.5rem;
-    font-size: .66rem;
-  }
-
-  .emailContact h6{
-    font-size: .75rem;
-  }
-  .cartTotalDetails p, td{
-    font-size: .75rem;
-  }
 `;
-

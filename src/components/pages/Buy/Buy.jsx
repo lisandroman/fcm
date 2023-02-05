@@ -21,7 +21,7 @@ const Buy = () => {
 
   const [customCoins, setCustomCoins] = useState(0);
   const [customPrice, setCustomPrice] = useState(0);
-  const [customPlatform, setCustomPlatform] = useState("");
+  const [customPlatform, setCustomPlatform] = useState("PS4/PS5");
 
   const handleInputAmount = (e) => {
     let preValue = 0;
