@@ -239,7 +239,6 @@ const Cart = () => {
                 <table className="table table-sm table-striped tableSize align-middle">
                   <tbody>{content}</tbody>
                 </table>
-                <CoverTax />
                 <button
                   className="btn btn-sm btn-dark mt-2 mt-md-5 buttonClearCart"
                   onClick={handleClearCart}
@@ -338,41 +337,54 @@ const Cart = () => {
                 </div>
 
                 <div className=" mt-4 pb-2">
-                  {isValidCoupon === true ? (
-                    [
-                      <h3 className="text-center text-danger">
-                        Total:
-                        <span>
-                          <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
-                          {getCurrencyData}
-                        </span>
-                      </h3>,
-                      <h5>
-                        {" "}
-                        USD{" "}
-                        {(
-                          Math.round(
-                            (parseFloat(totalPrice) /
-                              parseFloat(actualCurrency())) *
-                              100
-                          ) / 100
-                        ).toFixed(2)}{" "}
-                      </h5>,
-                    ]
-                  ) : (
-                    <p>Enter the Discount Coupon Code</p>
-                  )}
-                </div>
-                <div className="paypalButtonsContainer">
-                  <button
-                    className="btn btn-warning text-primary mb-4"
-                    onClick={paypalButton}
-                  >
-                    <span className="paypal-logo">
-                      <i>Pay</i>
-                      <i>Pal</i>
-                    </span>
-                  </button>
+                  {isValidCoupon === true
+                    ? [
+                        <h3 className="text-center text-danger">
+                          Total:
+                          <span>
+                            <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
+                            {getCurrencyData}
+                          </span>
+                        </h3>,
+                        <h5>
+                          {" "}
+                          USD{" "}
+                          {(
+                            Math.round(
+                              (parseFloat(totalPrice) /
+                                parseFloat(actualCurrency())) *
+                                100
+                            ) / 100
+                          ).toFixed(2)}{" "}
+                        </h5>,
+                        <div className="paypalButtonsContainer">
+                          <button
+                            className="btn btn-warning text-primary mb-4"
+                            onClick={paypalButton}
+                          >
+                            <span className="paypal-logo">
+                              <i>Pay</i>
+                              <i>Pal</i>
+                            </span>
+                          </button>
+                        </div>,
+                      ]
+                    : [
+                        <p className="text-primary">
+                          Enter 'bestprice' code to get 10% off <br></br>and enabled the button
+                        </p>,
+                        <div className="paypalButtonsContainer">
+                          <button
+                            className="btn btn-warning text-primary disabled mb-4"
+                            onClick={paypalButton}
+                          >
+                            <span className="paypal-logo">
+                              <i>Pay</i>
+                              <i>Pal</i>
+                            </span>
+                          </button>
+                        </div>,
+                      ]}
                 </div>
               </div>
             </div>
@@ -390,7 +402,7 @@ const Cart = () => {
             discount:
           </h5>
           <button className="btn btn-primary mt-3">
-            info@FUTCoinsMarket.net
+            info@futcoinsmarket.net
           </button>
         </div>
       </div>

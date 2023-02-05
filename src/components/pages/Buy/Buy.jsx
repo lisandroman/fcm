@@ -213,20 +213,23 @@ const Buy = () => {
           </div>
         </form>
         <div>
-          {total < 12.8 || customPlatform === "" ? (
-            [
-              <button className="btn btn-secondary mt-3 disabled">
-                Pay your order
-              </button>,
-              <p className="amountConditional">
-                Minimum must be 100K (100.000) and Choose the platform
-              </p>,
-            ]
-          ) : (
-            <button className="btn btn-warning mt-3" onClick={probando}>
-              Add to Cart
-            </button>
-          )}
+          {total < 200 || customPlatform === ""
+            ? [
+                <button className="btn btn-secondary mt-3 disabled">
+                  Coming Soon...
+                </button>,
+                <p className="amountConditional">
+                  Available from 1 March, 2023
+                </p>,
+              ]
+            : [
+                <p className="amountConditional">
+                  If you want to buy that amount, contact us:
+                </p>,
+                <button className="btn btn-outline-primary disabled mb-3">
+                  deliveries@futcoinsmarket.net
+                </button>,
+              ]}
         </div>
       </div>
 
@@ -234,7 +237,7 @@ const Buy = () => {
 
       <h2 className="text-bg-primary mb-3">All our Services</h2>
       <div className="mb-3">
-        <h4 className="pb-2">Choose your platform</h4>
+        <h4 className="pb-2 text-warning">Choose your platform</h4>
         <button className="btn btn-primary m-1" onClick={handlePlatformListPS}>
           PS4/5
         </button>
@@ -247,6 +250,7 @@ const Buy = () => {
         <button className="btn btn-warning m-1" onClick={handlePlatformListPC}>
           PC
         </button>
+        <h5 className=" text-white mt-4">Use <strong>'bestprice'</strong> code to get 10% off</h5>
       </div>
 
       <div className="container">
@@ -283,9 +287,6 @@ const Buy = () => {
                         <td>
                           {item.coins.toLocaleString().concat(" M")}
                           {"  "}
-                          <span className="badge text-bg-danger text-white mb-2">
-                            5% OFF
-                          </span>
                         </td>
                       ) : (
                         <td>{item.coins.toLocaleString()}</td>
@@ -320,6 +321,14 @@ const Buy = () => {
                   ))}
                 </tbody>
               </table>
+              <div className="container mt-4">
+                <h4 className="text-white">
+                  if you watn to buy another amount, contact us:
+                </h4>
+                <button className="btn btn-outline-warning mt-2">
+                  deliveries@futcoinsmarket.net
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -348,7 +357,7 @@ const BuyPageStyled = styled.div`
   .amountConditional {
     margin-top: 0.75rem;
     color: red;
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 
   .tableSize {
