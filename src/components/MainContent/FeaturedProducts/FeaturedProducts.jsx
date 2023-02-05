@@ -73,17 +73,28 @@ const FeaturesProducts = () => {
                       <div className="card-body">
                         {prod.platform === "PS4/5" ? (
                           <h4 className="text-primary card-text">
-                            <FaCoins /> {prod.coins}
+                            <FaCoins />{" "}
+                            {prod.coins >= 1000000
+                              ? prod.coins.toLocaleString().concat(" M")
+                              : prod.coins.toLocaleString()}
                           </h4>
                         ) : prod.platform === "XB" ? (
                           <h4 className="text-success card-text">
-                            <FaCoins /> {prod.coins}
+                            <FaCoins />{" "}
+                            {prod.coins >= 1000000
+                              ? prod.coins.toLocaleString().concat(" M")
+                              : prod.coins.toLocaleString()}
                           </h4>
-                        ) : (
+                        ) : prod.platform === "PC" ? (
                           <h4 className="text-warning card-text">
-                            <FaCoins /> {prod.coins}
+                            <FaCoins />{" "}
+                             {prod.coins >= 1000000
+                              ? prod.coins.toLocaleString().concat(" M")
+                              : prod.coins.toLocaleString()}
                           </h4>
-                        )}
+                        ) : 
+                          null
+                        }
                         <h5 className="card-text">
                           <s>
                             <strong>
