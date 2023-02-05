@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import {
+  addToCart,
   allData,
   clearCart,
   fetchData,
@@ -16,6 +17,7 @@ import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
 import { titles } from "../../../commonStyled";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -192,8 +194,8 @@ const Cart = () => {
       dispatch(fetchData());
     }
     checkPlatforms();
-    dispatch(priceFinalToForm(totalPriceOriginal));
-  }, [orderStatus, dispatch, totalPriceOriginal]);
+    dispatch(priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10 / 100)));
+  }, [orderStatus, dispatch, getTotalOriginal]);
 
   const paypalButton = () => {
     let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
@@ -219,6 +221,16 @@ const Cart = () => {
       }
     });
   };
+
+  // const handleForm = () => {
+  //   let id = uuidv4();
+  //   let coins = sellAmount;
+  //   let price = getTotal - (getTotal * 10) / 100;
+  //   let platform = customPlatform;
+  //   let getCurrencyData = actualCurrency();
+  //   console.log('Send!')
+  //   dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
+  // }
 
   return (
     <CartStyled>
@@ -358,8 +370,14 @@ const Cart = () => {
                           ).toFixed(2)}{" "}
                         </h5>,
                         <div className="paypalButtonsContainer">
+                          <p>To checkout follow the buttons below:</p>
+                          <Link to="/form-game-data">
+                            <button className="btn btn-primary mb-2">
+                              Complete the form
+                            </button>
+                          </Link>
                           <button
-                            className="btn btn-warning text-primary mb-4"
+                            className="btn btn-warning text-primary mb-4 disabled"
                             onClick={paypalButton}
                           >
                             <span className="paypal-logo">
@@ -371,9 +389,13 @@ const Cart = () => {
                       ]
                     : [
                         <p className="text-primary">
-                          Enter 'bestprice' code to get 10% off <br></br>and enabled the button
+                          Enter 'bestprice' code to get 10% off <br></br>and
+                          enabled the buttons
                         </p>,
                         <div className="paypalButtonsContainer">
+                          <button className="btn btn-primary mb-2 disabled">
+                            Complete the form
+                          </button>
                           <button
                             className="btn btn-warning text-primary disabled mb-4"
                             onClick={paypalButton}

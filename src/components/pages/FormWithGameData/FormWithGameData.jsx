@@ -10,6 +10,7 @@ import {
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const FormWithGameData = () => {
   const orderAllData = useSelector(allData);
@@ -38,13 +39,14 @@ const FormWithGameData = () => {
   const getFinalPlatform = listFinalPlatform[0];
 
   useEffect(() => {
-    setCoins(getTotalCoins * 1000);
+    setCoins(getTotalCoins);
     setPlatform(getFinalPlatform);
     setPrice(getLatestPriceToForm);
   }, [getTotalCoins, getFinalPlatform, getLatestPriceToForm]);
 
   const addData = async function (e) {
     e.preventDefault();
+    let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
     try {
       const docRef = await addDoc(collection(db, "orders"), {
         originEmail: originEmail,
@@ -62,16 +64,48 @@ const FormWithGameData = () => {
       console.log("Document written with ID: ", docRef.id);
       Swal.fire({
         icon: "success",
-        title: "Form Sended",
+        title: "Order Received!",
         text: `Please save your Order ID: ${docRef.id}`,
-        footer: '<a href="/">Go Home</a>',
+        html:
+          "To pay, please click the button below" +
+          `</br>The price of your order is <strong>USD ${price}</strong>`,
+        footer: `</br>You must enter the amount on the next screen`,
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "PAY with Paypal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.open(url, "_blank");
+          dispatch(clearCart());
+          window.open('/');
+        }
       });
-      dispatch(clearCart());
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
+  // const paypalButton = () => {
+  //   let newID = uuidv4();
+  //   let id = newID.substring(0, 8);
 
+  //   Swal.fire({
+  //     text: "To pay, please click the button below",
+  //     html:
+  //       `Your Order ID: <strong>${id}</strong>` +
+  //       `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
+  //     footer: `</br>You must enter the amount on the next screen`,
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "PAY with Paypal",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       window.open(url, "_blank");
+  //       dispatch(clearCart());
+  //     }
+  //   });
+  // };
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
@@ -148,9 +182,7 @@ const FormWithGameData = () => {
         </div>
 
         {/* ---------- Backup Codes ---------- */}
-        <h5 className="text-start">
-          Backup Codes:
-        </h5>
+        <h5 className="text-start">Backup Codes:</h5>
         <div className="row mb-3">
           <div className="col-sm">
             <div className="form-outline mb-2">
@@ -228,7 +260,12 @@ const FormWithGameData = () => {
           </div>
         </div>
         {coins === 0 ? (
-          <p>You don't make an order</p>
+          [
+            <h3>Thanks for your order!</h3>,
+            <Link to='/'>
+              <button className="btn btn-primary">Go Home</button>
+            </Link>,
+          ]
         ) : !originEmail ||
           !passEmail ||
           !backupCode1 ||
