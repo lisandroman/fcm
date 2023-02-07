@@ -22,7 +22,11 @@
 * {
   font-family:"Cera Rounded", Arial, Helvetica, sans-serif;
   font-feature-settings: "ss01" 1;
-
+  
+}
+a:link, a:visited{ text-decoration: none; }
+a:link {
+   color:inherit;
 }
 body {
   margin: 0;

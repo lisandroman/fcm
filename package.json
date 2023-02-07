@@ -1,5 +1,6 @@
 {
   "name": "fcm",
+  "homepage": "http://futcoinsmarket.net",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

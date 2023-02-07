@@ -194,7 +194,9 @@ const Cart = () => {
       dispatch(fetchData());
     }
     checkPlatforms();
-    dispatch(priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10 / 100)));
+    dispatch(
+      priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10) / 100)
+    );
   }, [orderStatus, dispatch, getTotalOriginal]);
 
   const paypalButton = () => {
@@ -221,16 +223,6 @@ const Cart = () => {
       }
     });
   };
-
-  // const handleForm = () => {
-  //   let id = uuidv4();
-  //   let coins = sellAmount;
-  //   let price = getTotal - (getTotal * 10) / 100;
-  //   let platform = customPlatform;
-  //   let getCurrencyData = actualCurrency();
-  //   console.log('Send!')
-  //   dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
-  // }
 
   return (
     <CartStyled>

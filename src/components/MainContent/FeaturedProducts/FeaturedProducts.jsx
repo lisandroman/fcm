@@ -1,13 +1,10 @@
 import React from "react";
+import { FaCoins } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Swal from "sweetalert2";
-import { FeaturedProductsData } from "../../data/featuredProducts.data";
-import { useDispatch, useSelector } from "react-redux";
 import { addToCart, getCurrency } from "../../../redux/state/orders";
-import { RiComputerLine } from "react-icons/ri";
-import { SiXbox } from "react-icons/si";
-import { SiPlaystation } from "react-icons/si";
-import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
+import { FeaturedProductsData } from "../../data/featuredProducts.data";
 
 const FeaturesProducts = () => {
   const dispatch = useDispatch();

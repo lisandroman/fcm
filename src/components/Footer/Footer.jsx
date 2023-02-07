@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Footer = () => {
@@ -13,7 +14,9 @@ const Footer = () => {
               <h6>Home</h6>
               <h6>Loyalty Program</h6>
               <h6>Partner Program</h6>
-              <h6>Terms and Conditions</h6>
+              <Link to="/terms-and-conditions">
+                <h6>Terms and Conditions</h6>
+              </Link>
             </div>
           </div>
           <div className="col-sm footerAccount">
@@ -23,6 +26,7 @@ const Footer = () => {
               <h6>Register</h6>
               <h6>Forgot my password</h6>
               <h6>Help Center</h6>
+              
             </div>
           </div>
           <div className="col-sm footerProducts">
@@ -34,6 +38,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+    
       </div>
     </FooterStyled>
   );
