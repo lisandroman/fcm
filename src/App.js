@@ -13,9 +13,16 @@ import BuyPlayers from "./components/pages/BuyPlayers/BuyPlayers";
 import FormWithGameData from "./components/pages/FormWithGameData/FormWithGameData";
 import CurrencyChange from "./components/CurrencyChange/CurrencyChange";
 import TermsAndConditions from "./components/pages/TermsAndConditions/TermsAndConditions";
+import ReactGA from 'react-ga';
+import { useEffect } from "react";
+const TRACKING_ID = "UA-193575929-1";
+ReactGA.initialize(TRACKING_ID)
 
 function App() {
 
+useEffect(() => {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}, []);
   const location = useLocation();
 
   return (

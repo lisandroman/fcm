@@ -7,23 +7,22 @@ import { BsStarHalf } from "react-icons/bs";
 import { db } from "../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 const Reviews = () => {
-const [rev, setRev] = useState({});
+  const [rev, setRev] = useState({});
 
-
-const loadData = async function () {
-  try {
-   const querySnapshot = await getDocs(collection(db, "reviews"));
-   const hola = querySnapshot.docs.map((doc) => (doc.data()))
-     setRev(hola);
-  } catch (e) {
-    console.error("Error loading documents: ", e);
-  }
-};
+  const loadData = async function () {
+    try {
+      const querySnapshot = await getDocs(collection(db, "reviews"));
+      const hola = querySnapshot.docs.map((doc) => doc.data());
+      setRev(hola);
+    } catch (e) {
+      console.error("Error loading documents: ", e);
+    }
+  };
   useEffect(() => {
-    loadData()
+    loadData();
   }, []);
 
-  console.log(rev)
+  console.log(rev);
   return (
     <ReviewsStyled className="reviews bg bg-light mt-4 p-3">
       <h4 className="mt-3 mb-0">Trusted by more than 2000 customers </h4>
@@ -32,19 +31,19 @@ const loadData = async function () {
         <strong>Excellent</strong>
       </h6>
       <div class="row row-cols-1 row-cols-md-4 g-2 mb-2">
-        <div class="col">
-          {!rev.length ? (
-            <h1>Loading...</h1>
-          ) : (
-            rev?.map((item) => (
+        {!rev.length ? (
+          <h1>Loading...</h1>
+        ) : (
+          rev?.map((item) => (
+            <div class="col">
               <div
-                class="card border mb-3 justify-content-center"
+                className="card border mb-3 justify-content-center"
                 style={{ maxWidth: "18rem" }}
               >
                 <div class="card-header">
                   <FaUserCircle className="icons-color" /> {item.name}
                 </div>
-                <div class="card-body ">
+                <div className="card-body ">
                   <h6 className="text-success">
                     <BsStarFill />
                     <BsStarFill />
@@ -52,17 +51,15 @@ const loadData = async function () {
                     <BsStarFill />
                     <BsStarFill />
                   </h6>
-                  <h5 class="card-title">
+                  <h5 className="card-title">
                     <FaCoins /> {item.product}
                   </h5>
-                  <p class="card-text">
-                    {item.text}
-                  </p>
+                  <p className="card-text">{item.text}</p>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            </div>
+          ))
+        )}
       </div>
     </ReviewsStyled>
   );
