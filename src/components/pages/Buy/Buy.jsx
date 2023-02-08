@@ -46,7 +46,8 @@ const Buy = () => {
       text: `Added ${coins}K per ${(
         Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
       ).toFixed(2)} ${getCurrencyData} in ${platform}`,
-      footer: '<a href="https://futcoinsmarket.net/cart">Go to your Cart</a>',
+      footer: '<a href="/cart">Go to your Cart</a>',
+      // footer: '<a href="https://futcoinsmarket.net/cart">Go to your Cart</a>',
     });
     dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
   };
@@ -89,36 +90,39 @@ const Buy = () => {
   };
   makeAmountFormat();
 
-  const probando = (e) => {
-    let id = uuidv4();
-    let coins = sellAmount;
-    let price = customPrice;
-    let platform = customPlatform;
-    let getCurrencyData = actualCurrency();
+  // const probando = (e) => {
+  //   let id = uuidv4();
+  //   let coins = sellAmount;
+  //   let price = customPrice;
+  //   let platform = customPlatform;
+  //   let getCurrencyData = actualCurrency();
 
-    Swal.fire({
-      icon: "success",
-      title: "Added to Cart",
-      text: `Added ${coins}K per ${(
-        Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
-      ).toFixed(2)} ${getCurrencyData} in ${platform}`,
-      footer: '<a href="/cart">Go to your Cart</a>',
-    });
+  //   Swal.fire({
+  //     icon: "success",
+  //     title: "Added to Cart",
+  //     text: `Added ${coins}K per ${(
+  //       Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
+  //     ).toFixed(2)} ${getCurrencyData} in ${platform}`,
+  //     footer: '<a href="/cart">Go to your Cart</a>',
+  //   });
 
-    dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
-  };
+  //   dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
+  // };
 
   return (
     <BuyPageStyled>
       <h2 className="bg bg-warning title mt-4">Packages</h2>
-      <p className="text-warning">
-        Contract our services to improve your FUT Squad
-      </p>
-      <p className="text-white">
-        Upgrade your FUT club through out trading service. Simple choose a
-        package and let our team help you safely trade up to the amount you
-        order
-      </p>
+
+      <div className="header pe-3 ps-3">
+        <p className="text-warning">
+          Contract our services to improve your FUT Squad
+        </p>
+        <p className="text-white">
+          Upgrade your FUT club through out trading service. Simple choose a
+          package and let our team help you safely trade up to the amount you
+          order
+        </p>
+      </div>
 
       <div className="text-bg-light p-3">
         <h4>Enter your custom amount:</h4>
@@ -188,18 +192,18 @@ const Buy = () => {
                 Your amount: {amountFormated}
               </span>
             </div>
-            <div className="col-sm">
+            <div className="buyForm_rate_price col-sm">
               <label htmlFor="Price">Rate Price:</label>
               <input
                 type="number"
                 className="form-control"
                 placeholder={
                   total < 100
-                    ? "12.8USD per 100.000"
+                    ? "12.8USD per 100.000k"
                     : total >= 100 && total < 300
-                    ? "11USD per 100.000"
+                    ? "11USD per 100.000k"
                     : total >= 30
-                    ? "10usd per 100.000"
+                    ? "10usd per 100.000k"
                     : null
                 }
                 aria-label="Price"
@@ -235,7 +239,7 @@ const Buy = () => {
 
       {/* ---------------------       TABLE       ----------------------------*/}
 
-      <h2 className="text-bg-primary mb-3">All our Services</h2>
+      <h2 className="services text-bg-primary mb-3">All our Services</h2>
       <div className="mb-3">
         <h4 className="pb-2 text-warning">Choose your platform</h4>
         <button className="btn btn-primary m-1" onClick={handlePlatformListPS}>
@@ -250,7 +254,9 @@ const Buy = () => {
         <button className="btn btn-warning m-1" onClick={handlePlatformListPC}>
           PC
         </button>
-        <h5 className=" text-white mt-4">Use <strong>'bestprice'</strong> code to get 10% off</h5>
+        <h5 className=" text-white mt-4">
+          Use <strong>'bestprice'</strong> code to get 10% off
+        </h5>
       </div>
 
       <div className="container">
@@ -373,5 +379,61 @@ const BuyPageStyled = styled.div`
   }
   .ss01 {
     font-feature-settings: "ss01" 1;
+  }
+  .services {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 992px) {
+    width: 60%;
+    font-size: 1.4rem;
+    .header {
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+      p {
+        padding-left: 6rem;
+        padding-right: 6rem;
+      }
+    }
+
+    form .buyForm {
+      margin-top: 1.5rem;
+    }
+    form .buyForm .col-sm-6 {
+      margin: 0 auto;
+      margin-top: 1rem;
+      label,
+      span,
+      input::placeholder {
+        font-size: 1.2rem;
+      }
+      input {
+        margin-bottom: 1rem;
+      }
+    }
+    .buyForm_rate_price label,
+    .buyFormAmount label,
+    .buyFormAmount label p {
+      font-size: 1.2rem;
+    }
+    .buyForm_rate_price input {
+      width: 50%;
+
+      margin: 0 auto;
+    }
+    .buyFormAmount p {
+      font-size: 1.5rem;
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    .buyFormAmount {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    table td {
+      font-size: 2rem;
+    }
   }
 `;

@@ -30,17 +30,17 @@ const Reviews = () => {
         Rated 4.9 out 5 based on 2137 reviews in futcoinsmarket.net{" "}
         <strong>Excellent</strong>
       </h6>
-      <div class="row row-cols-1 row-cols-md-4 g-2 mb-2">
+      <div className="row row-cols-1 row-cols-md-4 g-2 mb-2">
         {!rev.length ? (
           <h1>Loading...</h1>
         ) : (
           rev?.map((item) => (
-            <div class="col">
+            <div className="col">
               <div
                 className="card border mb-3 justify-content-center"
                 style={{ maxWidth: "18rem" }}
               >
-                <div class="card-header">
+                <div className="card-header">
                   <FaUserCircle className="icons-color" /> {item.name}
                 </div>
                 <div className="card-body ">

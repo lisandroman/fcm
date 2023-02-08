@@ -93,7 +93,7 @@ const Sell = () => {
     <>
       <HeaderSellForm className="mt-4">
         <h2 className="bg bg-warning title">Sell</h2>
-        <div className="container-fluid-sm p-3 mt-2 mb-2">
+        <div className="container-fluid-sm pe-3 ps-3 mt-2">
           <p>
             Tired of playing FUT and want to get paid for your cards? Sell them
             to us! We offer the most competitive rates on the market for sellers
@@ -102,14 +102,18 @@ const Sell = () => {
           </p>
         </div>
         <div className="sellConditions p-3">
-          <h4>Current seller rates:</h4>
-          <p>[PS/XB 5M+ minimum] $4.67 USD/100k = £3.60/100k = €4.10/100k</p>
-          <p>[PS/XB] $4 USD/100k ≈ £3.10/100k ≈ €3.50/100k</p>
-          <p>[PC] $3.33 USD/100k ≈ £2.57/100k ≈ €2.95/100k</p>
-          <h4>Requirements to sell:</h4>
-          <p>- Web App Transfer Market unlocked</p>
-          <p>- Minimum of 1M (1,000,000)</p>
-          <p>- Can't be unassigned with 5+ cards</p>
+          <div className="sellConditions_rates">
+            <h4>Current seller rates:</h4>
+            <p>[PS/XB 5M+ minimum] $4.67 USD/100k = £3.60/100k = €4.10/100k</p>
+            <p>[PS/XB] $4 USD/100k ≈ £3.10/100k ≈ €3.50/100k</p>
+            <p>[PC] $3.33 USD/100k ≈ £2.57/100k ≈ €2.95/100k</p>
+          </div>
+          <div className="sellConditions_rates">
+            <h4>Requirements to sell:</h4>
+            <p>- Web App Transfer Market unlocked</p>
+            <p>- Minimum of 1M (1,000,000)</p>
+            <p>- Can't be unassigned with 5+ cards</p>
+          </div>
           <h4 className="bg bg-warning mt-4 mb-3 p-1 subtitle">
             How does the process work?
           </h4>
@@ -409,7 +413,7 @@ export default Sell;
 const FormStyled = styled.div`
   margin: 0 auto;
   background-color: #252b2d;
- 
+
   .form-control {
     ::placeholder {
       color: grey;
@@ -421,6 +425,20 @@ const FormStyled = styled.div`
   .rowOrigin {
     label {
       font-size: 0.8rem;
+    }
+  }
+  @media (min-width: 992px) {
+    width: 60%;
+    .form-control {
+      ::placeholder {
+        font-size: 1rem;
+      }
+    }
+    .rowSellPrice,
+    .rowOrigin {
+      label {
+        font-size: 1.2rem;
+      }
     }
   }
 `;
@@ -449,5 +467,27 @@ const HeaderSellForm = styled.div`
     font-size: 0.6rem;
   }
 
-  
+  @media (min-width: 992px) {
+    width: 60%;
+    p {
+      font-size: 1.4rem;
+      color: #adb5bd;
+      margin-bottom: 10px;
+    }
+    .disclaimer {
+      font-size: 1rem;
+    }
+    .sellConditions {
+      
+    h4 {
+      font-size: 1.8rem;
+    }
+    .sellConditions_rates {
+      margin-bottom: 2.5rem;
+      h4 {
+        /* margin-top: 1rem; */
+        margin-bottom: 1rem;
+      }
+    }
+  }
 `;
