@@ -1,76 +1,89 @@
 import { v4 as uuidv4 } from "uuid";
+import bg_card_fs from "../../assets/images/bg_card_fs.jpg";
 
 export const FeaturedProductsData = [
   {
     id: uuidv4(),
     platform: "PS4/5",
     coins: 250000,
-    price: 22.50,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 22.5,
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "PS4/5",
     coins: 500000,
     price: 45,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "PS4/5",
     coins: 1000000,
     price: 80,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
+  },
+  {
+    id: uuidv4(),
+    platform: "PS4/5",
+    coins: 2000000,
+    price: 150,
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "XB",
     coins: 250000,
-    price: 22.50,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 22.5,
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "XB",
     coins: 500000,
     price: 45,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "XB",
     coins: 1000000,
-    price: 70,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 80,
+    image: bg_card_fs,
+  },
+  {
+    id: uuidv4(),
+    platform: "XB",
+    coins: 2000000,
+    price: 150,
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "PC",
     coins: 250000,
     price: 18,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "PC",
     coins: 500000,
     price: 35,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
   },
   {
     id: uuidv4(),
     platform: "PC",
     coins: 1000000,
     price: 60,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    image: bg_card_fs,
+  },
+  {
+    id: uuidv4(),
+    platform: "PC",
+    coins: 2000000,
+    price: 110,
+    image: bg_card_fs,
   },
 ];

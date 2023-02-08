@@ -17,7 +17,7 @@ const FeaturesProducts = () => {
       text: `Added ${coins}K per ${(
         Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
       ).toFixed(2)} ${getCurrencyData} in ${platform}`,
-      footer: '<a href="/cart">Go to your Cart</a>',
+      footer: '<a href="https://futcoinsmarket.net/cart">Go to your Cart</a>',
     });
     dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
   };
@@ -85,13 +85,11 @@ const FeaturesProducts = () => {
                         ) : prod.platform === "PC" ? (
                           <h4 className="text-warning card-text">
                             <FaCoins />{" "}
-                             {prod.coins >= 1000000
+                            {prod.coins >= 1000000
                               ? prod.coins.toLocaleString().concat(" M")
                               : prod.coins.toLocaleString()}
                           </h4>
-                        ) : 
-                          null
-                        }
+                        ) : null}
                         <h5 className="card-text">
                           <s>
                             <strong>

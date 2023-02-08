@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { titles } from "../../../commonStyled";
 
 const Help = () => {
-  //TODO  needs to be refactored. Create a json with the info to render
 
   return (
     <HelpPageStyled>
@@ -147,5 +146,9 @@ const HelpPageStyled = styled.div`
   button,
   .accordion-body {
     color: #183153;
+  }
+  
+  @media (min-width: 992px) { 
+    width: 50%;    
   }
 `;

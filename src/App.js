@@ -13,18 +13,16 @@ import BuyPlayers from "./components/pages/BuyPlayers/BuyPlayers";
 import FormWithGameData from "./components/pages/FormWithGameData/FormWithGameData";
 import CurrencyChange from "./components/CurrencyChange/CurrencyChange";
 import TermsAndConditions from "./components/pages/TermsAndConditions/TermsAndConditions";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 import { useEffect } from "react";
-const TRACKING_ID = "UA-193575929-1";
-ReactGA.initialize(TRACKING_ID)
 
 function App() {
-
-useEffect(() => {
-  ReactGA.pageview(window.location.pathname + window.location.search);
-}, []);
   const location = useLocation();
-
+  const TRACKING_ID = "UA-193575929-1";
+  ReactGA.initialize(TRACKING_ID);
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
   return (
     <div className="App">
       <CurrencyChange />
@@ -37,8 +35,7 @@ useEffect(() => {
         <Route path="/help" element={<Help />} />
         <Route path="/buy-players" element={<BuyPlayers />} />
         <Route path="/form-game-data" element={<FormWithGameData />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />}
-        />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />
@@ -47,4 +44,3 @@ useEffect(() => {
 }
 
 export default App;
-

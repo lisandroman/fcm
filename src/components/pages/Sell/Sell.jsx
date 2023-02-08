@@ -448,4 +448,6 @@ const HeaderSellForm = styled.div`
   .disclaimer {
     font-size: 0.6rem;
   }
+
+  
 `;

@@ -90,5 +90,11 @@ const BuyPlayersPageStyled = styled.div`
   td {
     font-size: 0.75rem;
   }
-  
+
+  @media (min-width: 992px) {
+    width: 60%;
+    td {
+      font-size: 1.2rem;
+    }
+  }
 `;
