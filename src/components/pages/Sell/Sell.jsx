@@ -133,7 +133,11 @@ const Sell = () => {
           </h6>
         </div>
       </HeaderSellForm>
+
       <FormStyled className="bg bg-light p-3 mt-4">
+
+
+
         <form className="mt-1 bg bg-" autoComplete="off">
           <div className="row mb-4">
             <div className="col-md">
@@ -369,6 +373,8 @@ const Sell = () => {
               </div>
             </div>
           </div>
+
+
           {sellAmount < 1000000 ? (
             <p>Minimum Amount must be 1 Million (1.000.000) coins</p>
           ) : !name ||
@@ -387,13 +393,10 @@ const Sell = () => {
             !state ||
             !country ? (
             [
-              <button
-                className="btn btn-secondary disabled mb-2"
-                onClick={(e) => addData()}
-              >
+              <button key={12} className="btn btn-secondary disabled mb-2" onClick={(e) => addData()} >
                 Send Form
               </button>,
-              <p className="text-danger mt-0">
+              <p key={13} className="text-danger mt-0">
                 Complete the form to enable the button
               </p>,
             ]
@@ -402,7 +405,12 @@ const Sell = () => {
               Send Form
             </button>
           )}
+
+          
         </form>
+
+
+
       </FormStyled>
     </>
   );

@@ -12,8 +12,8 @@ const Reviews = () => {
   const loadData = async function () {
     try {
       const querySnapshot = await getDocs(collection(db, "reviews"));
-      const hola = querySnapshot.docs.map((doc) => doc.data());
-      setRev(hola);
+      const getReviews = querySnapshot.docs.map((doc) => doc.data());
+      setRev(getReviews);
     } catch (e) {
       console.error("Error loading documents: ", e);
     }
@@ -34,9 +34,10 @@ const Reviews = () => {
         {!rev.length ? (
           <h1>Loading...</h1>
         ) : (
-          rev?.map((item) => (
-            <div className="col">
+          rev?.map((item, index) => (
+            <div className="col" key={index}>
               <div
+                key={index}
                 className="card border mb-3 justify-content-center"
                 style={{ maxWidth: "18rem" }}
               >

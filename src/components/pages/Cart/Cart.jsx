@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
+import { titles } from "../../../commonStyled";
 import {
-  addToCart,
   allData,
   clearCart,
   fetchData,
@@ -12,12 +16,6 @@ import {
   priceFinalToForm,
   removeFromCart,
 } from "../../../redux/state/orders";
-import { v4 as uuidv4 } from "uuid";
-import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
-import CoverTax from "./Cart.Utilities/Cart.Utilities.CoverTax";
-import { titles } from "../../../commonStyled";
-import { Link } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -64,69 +62,69 @@ const Cart = () => {
     );
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
-      <tr key={item.id} className="tableRowStyled ">
-        {item.id === 74 &&
-        !(
-          orderAllData.findIndex((item) => item.id === 74) ===
-          orderAllData.length - 1
-        ) ? (
-          [
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              html:
-                "<p>We remove the tax fee</p>" +
-                "<p>Because your Ordar has changed</p>" +
-                "<h4>Please Add again if you want</h4>",
-            }),
-            dispatch(removeFromCart(item.id)),
-          ]
-        ) : item.id === 74 ? (
-          <td className="text-start ps-4 textOrderItems">
+        <tr key={item.id} className="tableRowStyled">
+          {item.id === 74 &&
+          !(
+            orderAllData.findIndex((item) => item.id === 74) ===
+            orderAllData.length - 1
+          ) ? (
+            [
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                html:
+                  "<p>We remove the tax fee</p>" +
+                  "<p>Because your Ordar has changed</p>" +
+                  "<h4>Please Add again if you want</h4>",
+              }),
+              dispatch(removeFromCart(item.id)),
+            ]
+          ) : item.id === 74 ? (
+            <td className="text-start ps-4 textOrderItems">
+              <span>
+                <FaCoins /> {item.coins.toLocaleString()}
+              </span>
+              <span className="badge text-bg-danger ms-2">Tax</span>
+            </td>
+          ) : item.coins >= 1000000 ? (
+            <td className="text-start ps-4 textOrderItems">
+              <span>
+                <FaCoins /> {item.coins.toLocaleString().concat(" M")}
+              </span>
+            </td>
+          ) : (
+            <td className="text-start ps-4 textOrderItems">
+              <span>
+                <FaCoins /> {item.coins.toLocaleString()}
+              </span>
+            </td>
+          )}
+          <td className="textOrderItems">
             <span>
-              <FaCoins /> {item.coins.toLocaleString()}
+              {item.platform} <FaGamepad />
             </span>
-            <span className="badge text-bg-danger ms-2">Tax</span>
           </td>
-        ) : item.coins >= 1000000 ? (
-          <td className="text-start ps-4 textOrderItems">
+          <td className="text-end pe-4 textOrderItems">
             <span>
-              <FaCoins /> {item.coins.toLocaleString().concat(" M")}
+              {getCurrencyData}{" "}
+              <strong>
+                {(
+                  Math.round(parseFloat(item.price) * actualCurrency() * 100) /
+                  100
+                ).toFixed(2)}
+              </strong>
             </span>
           </td>
-        ) : (
-          <td className="text-start ps-4 textOrderItems">
-            <span>
-              <FaCoins /> {item.coins.toLocaleString()}
-            </span>
+          <td>
+            <button
+              className="btn btn-sm btn-dark"
+              onClick={() => handleRemoveItemFromCart(item.id)}
+            >
+              <FaTrashAlt className="text-light" />
+            </button>
           </td>
-        )}
-        <td className="textOrderItems">
-          <span>
-            {item.platform} <FaGamepad />
-          </span>
-        </td>
-        <td className="text-end pe-4 textOrderItems">
-          <span>
-            {getCurrencyData}{" "}
-            <strong>
-              {(
-                Math.round(parseFloat(item.price) * actualCurrency() * 100) /
-                100
-              ).toFixed(2)}
-            </strong>
-          </span>
-        </td>
-        <td>
-          <button
-            className="btn btn-sm btn-dark"
-            onClick={() => handleRemoveItemFromCart(item.id)}
-          >
-            <FaTrashAlt className="text-light" />
-          </button>
-        </td>
-      </tr>
-    ));
+        </tr>
+      ));
   } else if (orderStatus === "failed") {
     content = <p>{orderErrors}</p>;
   }
@@ -223,6 +221,10 @@ const Cart = () => {
       }
     });
   };
+
+  console.log("orderAllData:", orderAllData);
+  console.log("orderStatus:", orderStatus);
+ 
 
   return (
     <CartStyled>
@@ -343,14 +345,14 @@ const Cart = () => {
                 <div className=" mt-4 pb-2">
                   {isValidCoupon === true
                     ? [
-                        <h3 className="text-center text-danger">
+                        <h3 className="text-center text-danger" key={1001}>
                           Total:
                           <span>
                             <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
                             {getCurrencyData}
                           </span>
                         </h3>,
-                        <h5>
+                        <h5 key={1002}>
                           {" "}
                           USD{" "}
                           {(
@@ -361,7 +363,7 @@ const Cart = () => {
                             ) / 100
                           ).toFixed(2)}{" "}
                         </h5>,
-                        <div className="paypalButtonsContainer">
+                        <div className="paypalButtonsContainer" key={1003}>
                           <p>To checkout follow the buttons below:</p>
                           <Link to="/form-game-data">
                             <button className="btn btn-primary mb-2">
@@ -380,11 +382,11 @@ const Cart = () => {
                         </div>,
                       ]
                     : [
-                        <p className="text-primary">
+                        <p className="text-primary" key={2001}>
                           Enter 'bestprice' code to get 10% off <br></br>and
                           enabled the buttons
                         </p>,
-                        <div className="paypalButtonsContainer">
+                        <div className="paypalButtonsContainer" key={2002}>
                           <button className="btn btn-primary mb-2 disabled">
                             Complete the form
                           </button>
