@@ -6,25 +6,24 @@ export const PriceListPC = [
     id: uuidv4(),
     platform: "PC",
     coins: 250000,
-    price: 19.44,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 18,
   },
   {
     id: uuidv4(),
     platform: "PC",
     coins: 500000,
-    price: 38.89,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 35,
   },
   {
     id: uuidv4(),
     platform: "PC",
     coins: 1000000,
-    price: 72.22,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 60,
   },
-  
+  {
+    id: uuidv4(),
+    platform: "PC",
+    coins: 2000000,
+    price: 110,
+  },
 ];

@@ -4,24 +4,24 @@ export const PriceListXBOX = [
     id: uuidv4(),
     platform: "XBOX",
     coins: 250000,
-    price: 25,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 20,
   },
   {
     id: uuidv4(),
     platform: "XBOX",
     coins: 500000,
-    price: 50,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 36,
   },
   {
     id: uuidv4(),
     platform: "XBOX",
     coins: 1000000,
-    price: 88.89,
-    image:
-      "https://cdn.givemesport.com/wp-content/uploads/2022/11/image-255-1024x576.png",
+    price: 72,
+  },
+  {
+    id: uuidv4(),
+    platform: "XBOX",
+    coins: 2000000,
+    price: 140,
   },
 ];
