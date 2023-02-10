@@ -90,25 +90,6 @@ const Buy = () => {
   };
   makeAmountFormat();
 
-  // const probando = (e) => {
-  //   let id = uuidv4();
-  //   let coins = sellAmount;
-  //   let price = customPrice;
-  //   let platform = customPlatform;
-  //   let getCurrencyData = actualCurrency();
-
-  //   Swal.fire({
-  //     icon: "success",
-  //     title: "Added to Cart",
-  //     text: `Added ${coins}K per ${(
-  //       Math.round(parseInt(price) * parseFloat(actualCurrency()) * 100) / 100
-  //     ).toFixed(2)} ${getCurrencyData} in ${platform}`,
-  //     footer: '<a href="/cart">Go to your Cart</a>',
-  //   });
-
-  //   dispatch(addToCart({ id, coins, price, platform, getCurrencyData }));
-  // };
-
   return (
     <BuyPageStyled>
       <h2 className="bg bg-warning title mt-4">Packages</h2>

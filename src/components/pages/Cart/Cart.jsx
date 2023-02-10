@@ -198,49 +198,6 @@ const Cart = () => {
     );
   }, [orderStatus, dispatch, getTotalOriginal]);
 
-  // const paypalButton = () => {
-  //   let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
-  //   let newID = uuidv4();
-  //   let id = newID.substring(0, 8);
-
-  //   Swal.fire({
-  //     icon: "success",
-  //     title: "Order Received!",
-  //     text: "To pay, please click the button below",
-  //     html:
-  //       `Your Order ID: <strong>${id}</strong>` +
-  //       `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
-  //     footer: `</br>You must enter the amount on the next screen`,
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "PAY with Paypal",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       window.open(url, "_blank");
-  //       dispatch(clearCart());
-  //     }
-  //   });
-  // };
-
-  const paypalButton = () => {
-    let url = "/form-game-data";
-    Swal.fire({
-      icon: "success",
-      title: "Complete the form before",
-      text: "Please fill the form with your info",
-      // footer: `</br>You must enter the amount on the next screen`,
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Go to Form",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.open(url, "_blank");
-      }
-    });
-  };
-  console.log("getTotal de CART:", (getTotal) - (getTotal * 10 / 100) );
   return (
     <CartStyled>
       <h2 className="bg bg-warning title mt-4 mb-2">Cart - Your Order:</h2>
@@ -341,57 +298,41 @@ const Cart = () => {
                         </td>
                       </tr>
 
-
-                        <tr>
-                          <td className="text-start ps-4">
-                            Discount Code:{" "}
-                            <strong>
-                              {getCurrencyData} {discountCoupon}{" "}
-                            </strong>
-                          </td>
-                          <td>(10%)</td>
-                        </tr>
+                      <tr>
+                        <td className="text-start ps-4">
+                          Discount Code:{" "}
+                          <strong>
+                            {getCurrencyData} {discountCoupon}{" "}
+                          </strong>
+                        </td>
+                        <td>(10%)</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
 
                 <div className=" mt-4 pb-2">
-                        <h3 className="text-center text-danger" key={1001}>
-                          Total:
-                          <span>
-                            <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
-                            {getCurrencyData}
-                          </span>
-                        </h3>
-                        <h5 key={1002}>
-                          {" "}
-                          USD{" "}
-                          {(
-                            Math.round(
-                              (parseFloat(totalPrice) /
-                                parseFloat(actualCurrency())) *
-                                100
-                            ) / 100
-                          ).toFixed(2)}{" "}
-                        </h5>
-                        <div className="paypalButtonsContainer" key={1003}>
-                          {/* <Link to="/form-game-data">
-                            <button className="btn btn-primary mb-2">
-                              Complete the form
-                            </button>
-                          </Link> */}
-                        {/* <button
-                          className="btn btn-warning text-primary mb-2"
-                          onClick={paypalButton}
-                        >
-                          <span className="paypal-logo">
-                            <i>Pay</i>
-                            <i>Pal</i>
-                          </span>
-                        </button> */}
-                        <PaymentButtons />
-                          </div>
-                 
+                  <h3 className="text-center text-danger" key={1001}>
+                    Total:
+                    <span>
+                      <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
+                      {getCurrencyData}
+                    </span>
+                  </h3>
+                  <h5 key={1002}>
+                    {" "}
+                    USD{" "}
+                    {(
+                      Math.round(
+                        (parseFloat(totalPrice) /
+                          parseFloat(actualCurrency())) *
+                          100
+                      ) / 100
+                    ).toFixed(2)}{" "}
+                  </h5>
+                  <div className="paypalButtonsContainer" key={1003}>
+                    <PaymentButtons />
+                  </div>
                 </div>
               </div>
             </div>

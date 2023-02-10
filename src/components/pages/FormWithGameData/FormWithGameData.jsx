@@ -67,9 +67,6 @@ const FormWithGameData = () => {
         icon: "success",
         title: "Thanks for your order!",
         text: `Please save your Order ID: ${docRef.id}`,
-        // html:
-        //   "To pay, please click the button below" +
-        //   `</br>The price of your order is <strong>USD ${price}</strong>`,
         footer: `</br>We'll in touch ASAP`,
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -85,27 +82,7 @@ const FormWithGameData = () => {
       console.error("Error adding document: ", e);
     }
   };
-  // const paypalButton = () => {
-  //   let newID = uuidv4();
-  //   let id = newID.substring(0, 8);
-
-  //   Swal.fire({
-  //     text: "To pay, please click the button below",
-  //     html:
-  //       `Your Order ID: <strong>${id}</strong>` +
-  //       `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
-  //     footer: `</br>You must enter the amount on the next screen`,
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "PAY with Paypal",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       window.open(url, "_blank");
-  //       dispatch(clearCart());
-  //     }
-  //   });
-  // };
+ 
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
