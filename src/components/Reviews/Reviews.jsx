@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
 import { FaCoins } from "react-icons/fa";
 import { BsStarFill } from "react-icons/bs";
-import { BsStarHalf } from "react-icons/bs";
+import { BsStar } from "react-icons/bs";
 import { db } from "../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 const Reviews = () => {
@@ -46,11 +46,47 @@ const Reviews = () => {
                 </div>
                 <div className="card-body ">
                   <h6 className="text-success">
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarFill />
+                    {item.stars === 5 ? (
+                      <div>
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                      </div>
+                    ) : item.stars === 4 ? (
+                      <div>
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStar />
+                      </div>
+                    ) : item.stars === 3 ? (
+                      <div>
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStar />
+                        <BsStar />
+                      </div>
+                    ) : item.stars === 2 ? (
+                      <div>
+                        <BsStarFill />
+                        <BsStarFill />
+                        <BsStar />
+                        <BsStar />
+                        <BsStar />
+                      </div>
+                    ) : item.stars === 1 ? (
+                      <div>
+                        <BsStarFill />
+                        <BsStar />
+                        <BsStar />
+                        <BsStar />
+                        <BsStar />
+                      </div>
+                    ) : null}
                   </h6>
                   <h5 className="card-title">
                     <FaCoins /> {item.product}

@@ -17,6 +17,7 @@ const FormWithGameData = () => {
   const getLatestPriceToForm = useSelector(getLatestPrice);
   const dispatch = useDispatch();
 
+  const [paypalID, setPaypalID] = useState("");
   const [originEmail, setOriginEmail] = useState("");
   const [passEmail, setPassEmail] = useState("");
   const [coins, setCoins] = useState(0);
@@ -46,9 +47,9 @@ const FormWithGameData = () => {
 
   const addData = async function (e) {
     e.preventDefault();
-    let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
     try {
       const docRef = await addDoc(collection(db, "orders"), {
+        paypalID: paypalID,
         originEmail: originEmail,
         passEmail: passEmail,
         coins: coins,
@@ -64,19 +65,18 @@ const FormWithGameData = () => {
       console.log("Document written with ID: ", docRef.id);
       Swal.fire({
         icon: "success",
-        title: "Order Received!",
+        title: "Thanks for your order!",
         text: `Please save your Order ID: ${docRef.id}`,
-        html:
-          "To pay, please click the button below" +
-          `</br>The price of your order is <strong>USD ${price}</strong>`,
-        footer: `</br>You must enter the amount on the next screen`,
+        // html:
+        //   "To pay, please click the button below" +
+        //   `</br>The price of your order is <strong>USD ${price}</strong>`,
+        footer: `</br>We'll in touch ASAP`,
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "PAY with Paypal",
+        confirmButtonText: "Home",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.open(url, "_blank");
           dispatch(clearCart());
           window.open('/');
         }
@@ -110,6 +110,16 @@ const FormWithGameData = () => {
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
         <h3 className="mb-4">Complete form to delivery</h3>
+        <div className="mb-4 text-start">
+          <label htmlFor="paypalID">Paypal Payment ID:</label>
+          <input
+            type="text"
+            id="paypalID"
+            className="form-control"
+            placeholder="Enter your TRANSACTION ID:"
+            onChange={(e) => setPaypalID(e.target.value)}
+          />
+        </div>
 
         <div className="row mb-4">
           <div className="col-md">
@@ -262,7 +272,7 @@ const FormWithGameData = () => {
         {coins === 0 ? (
           [
             <h3>Thanks for your order!</h3>,
-            <Link to='/'>
+            <Link to="/">
               <button className="btn btn-primary">Go Home</button>
             </Link>,
           ]

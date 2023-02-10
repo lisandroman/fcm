@@ -13,10 +13,9 @@ const Home = () => {
       <MainContent />
       <AboutUs />
       <FeaturesProducts />
-      {/* <Fires /> */}
-      {/* <ReadFires /> */}
-    </>
+      </>
   );
 };
 
 export default Home;
+

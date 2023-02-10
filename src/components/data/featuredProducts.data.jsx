@@ -69,7 +69,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PC",
     coins: 250000,
-    price: 18,
+    price: 16.67,
     image:
       bg_card_fs,
   },
@@ -77,7 +77,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PC",
     coins: 500000,
-    price: 35,
+    price: 30,
     image:
       bg_card_fs,
   },
@@ -85,7 +85,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PC",
     coins: 1000000,
-    price: 60,
+    price: 55.55,
     image:
       bg_card_fs,
   },
@@ -93,7 +93,7 @@ export const FeaturedProductsData = [
     id: uuidv4(),
     platform: "PC",
     coins: 2000000,
-    price: 110,
+    price: 111.11,
     image:
       bg_card_fs,
   },

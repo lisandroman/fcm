@@ -16,6 +16,7 @@ import {
   priceFinalToForm,
   removeFromCart,
 } from "../../../redux/state/orders";
+import PaymentButtons from "./Cart.Utilities/Cart.PaymentButtons";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -62,69 +63,69 @@ const Cart = () => {
     );
   } else if (orderStatus === "succeeded") {
     content = orderAllData?.map((item) => (
-        <tr key={item.id} className="tableRowStyled">
-          {item.id === 74 &&
-          !(
-            orderAllData.findIndex((item) => item.id === 74) ===
-            orderAllData.length - 1
-          ) ? (
-            [
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                html:
-                  "<p>We remove the tax fee</p>" +
-                  "<p>Because your Ordar has changed</p>" +
-                  "<h4>Please Add again if you want</h4>",
-              }),
-              dispatch(removeFromCart(item.id)),
-            ]
-          ) : item.id === 74 ? (
-            <td className="text-start ps-4 textOrderItems">
-              <span>
-                <FaCoins /> {item.coins.toLocaleString()}
-              </span>
-              <span className="badge text-bg-danger ms-2">Tax</span>
-            </td>
-          ) : item.coins >= 1000000 ? (
-            <td className="text-start ps-4 textOrderItems">
-              <span>
-                <FaCoins /> {item.coins.toLocaleString().concat(" M")}
-              </span>
-            </td>
-          ) : (
-            <td className="text-start ps-4 textOrderItems">
-              <span>
-                <FaCoins /> {item.coins.toLocaleString()}
-              </span>
-            </td>
-          )}
-          <td className="textOrderItems">
+      <tr key={item.id} className="tableRowStyled">
+        {item.id === 74 &&
+        !(
+          orderAllData.findIndex((item) => item.id === 74) ===
+          orderAllData.length - 1
+        ) ? (
+          [
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              html:
+                "<p>We remove the tax fee</p>" +
+                "<p>Because your Ordar has changed</p>" +
+                "<h4>Please Add again if you want</h4>",
+            }),
+            dispatch(removeFromCart(item.id)),
+          ]
+        ) : item.id === 74 ? (
+          <td className="text-start ps-4 textOrderItems">
             <span>
-              {item.platform} <FaGamepad />
+              <FaCoins /> {item.coins.toLocaleString()}
+            </span>
+            <span className="badge text-bg-danger ms-2">Tax</span>
+          </td>
+        ) : item.coins >= 1000000 ? (
+          <td className="text-start ps-4 textOrderItems">
+            <span>
+              <FaCoins /> {item.coins.toLocaleString().concat(" M")}
             </span>
           </td>
-          <td className="text-end pe-4 textOrderItems">
+        ) : (
+          <td className="text-start ps-4 textOrderItems">
             <span>
-              {getCurrencyData}{" "}
-              <strong>
-                {(
-                  Math.round(parseFloat(item.price) * actualCurrency() * 100) /
-                  100
-                ).toFixed(2)}
-              </strong>
+              <FaCoins /> {item.coins.toLocaleString()}
             </span>
           </td>
-          <td>
-            <button
-              className="btn btn-sm btn-dark"
-              onClick={() => handleRemoveItemFromCart(item.id)}
-            >
-              <FaTrashAlt className="text-light" />
-            </button>
-          </td>
-        </tr>
-      ));
+        )}
+        <td className="textOrderItems">
+          <span>
+            {item.platform} <FaGamepad />
+          </span>
+        </td>
+        <td className="text-end pe-4 textOrderItems">
+          <span>
+            {getCurrencyData}{" "}
+            <strong>
+              {(
+                Math.round(parseFloat(item.price) * actualCurrency() * 100) /
+                100
+              ).toFixed(2)}
+            </strong>
+          </span>
+        </td>
+        <td>
+          <button
+            className="btn btn-sm btn-dark"
+            onClick={() => handleRemoveItemFromCart(item.id)}
+          >
+            <FaTrashAlt className="text-light" />
+          </button>
+        </td>
+      </tr>
+    ));
   } else if (orderStatus === "failed") {
     content = <p>{orderErrors}</p>;
   }
@@ -197,35 +198,49 @@ const Cart = () => {
     );
   }, [orderStatus, dispatch, getTotalOriginal]);
 
-  const paypalButton = () => {
-    let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
-    let newID = uuidv4();
-    let id = newID.substring(0, 8);
+  // const paypalButton = () => {
+  //   let url = "https://paypal.me/fcmtrader?country.x=IL&locale.x=en_US";
+  //   let newID = uuidv4();
+  //   let id = newID.substring(0, 8);
 
+  //   Swal.fire({
+  //     icon: "success",
+  //     title: "Order Received!",
+  //     text: "To pay, please click the button below",
+  //     html:
+  //       `Your Order ID: <strong>${id}</strong>` +
+  //       `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
+  //     footer: `</br>You must enter the amount on the next screen`,
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "PAY with Paypal",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       window.open(url, "_blank");
+  //       dispatch(clearCart());
+  //     }
+  //   });
+  // };
+
+  const paypalButton = () => {
+    let url = "/form-game-data";
     Swal.fire({
       icon: "success",
-      title: "Order Received!",
-      text: "To pay, please click the button below",
-      html:
-        `Your Order ID: <strong>${id}</strong>` +
-        `</br>The price of your order is <strong>USD ${totalPrice}</strong>`,
-      footer: `</br>You must enter the amount on the next screen`,
+      title: "Complete the form before",
+      text: "Please fill the form with your info",
+      // footer: `</br>You must enter the amount on the next screen`,
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "PAY with Paypal",
+      confirmButtonText: "Go to Form",
     }).then((result) => {
       if (result.isConfirmed) {
         window.open(url, "_blank");
-        dispatch(clearCart());
       }
     });
   };
-
-  console.log("orderAllData:", orderAllData);
-  console.log("orderStatus:", orderStatus);
- 
-
+  console.log("getTotal de CART:", (getTotal) - (getTotal * 10 / 100) );
   return (
     <CartStyled>
       <h2 className="bg bg-warning title mt-4 mb-2">Cart - Your Order:</h2>
@@ -289,8 +304,7 @@ const Cart = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Discount Code"
-                        onChange={handleDiscountCoupon}
+                        placeholder="bestprice coupon applied"
                       />
                     </div>
                   </div>
@@ -326,8 +340,8 @@ const Cart = () => {
                           Payment: <strong>Paypal</strong>
                         </td>
                       </tr>
-                      {/* 3d80bcf4 */}
-                      {isValidCoupon === true ? (
+
+
                         <tr>
                           <td className="text-start ps-4">
                             Discount Code:{" "}
@@ -337,21 +351,18 @@ const Cart = () => {
                           </td>
                           <td>(10%)</td>
                         </tr>
-                      ) : null}
                     </tbody>
                   </table>
                 </div>
 
                 <div className=" mt-4 pb-2">
-                  {isValidCoupon === true
-                    ? [
                         <h3 className="text-center text-danger" key={1001}>
                           Total:
                           <span>
                             <strong>{parseFloat(totalPrice).toFixed(2)}</strong>
                             {getCurrencyData}
                           </span>
-                        </h3>,
+                        </h3>
                         <h5 key={1002}>
                           {" "}
                           USD{" "}
@@ -362,45 +373,25 @@ const Cart = () => {
                                 100
                             ) / 100
                           ).toFixed(2)}{" "}
-                        </h5>,
+                        </h5>
                         <div className="paypalButtonsContainer" key={1003}>
-                          <p>To checkout follow the buttons below:</p>
-                          <Link to="/form-game-data">
+                          {/* <Link to="/form-game-data">
                             <button className="btn btn-primary mb-2">
                               Complete the form
                             </button>
-                          </Link>
-                          <button
-                            className="btn btn-warning text-primary mb-4 disabled"
-                            onClick={paypalButton}
-                          >
-                            <span className="paypal-logo">
-                              <i>Pay</i>
-                              <i>Pal</i>
-                            </span>
-                          </button>
-                        </div>,
-                      ]
-                    : [
-                        <p className="text-primary" key={2001}>
-                          Enter 'bestprice' code to get 10% off <br></br>and
-                          enabled the buttons
-                        </p>,
-                        <div className="paypalButtonsContainer" key={2002}>
-                          <button className="btn btn-primary mb-2 disabled">
-                            Complete the form
-                          </button>
-                          <button
-                            className="btn btn-warning text-primary disabled mb-4"
-                            onClick={paypalButton}
-                          >
-                            <span className="paypal-logo">
-                              <i>Pay</i>
-                              <i>Pal</i>
-                            </span>
-                          </button>
-                        </div>,
-                      ]}
+                          </Link> */}
+                        {/* <button
+                          className="btn btn-warning text-primary mb-2"
+                          onClick={paypalButton}
+                        >
+                          <span className="paypal-logo">
+                            <i>Pay</i>
+                            <i>Pal</i>
+                          </span>
+                        </button> */}
+                        <PaymentButtons />
+                          </div>
+                 
                 </div>
               </div>
             </div>
@@ -471,19 +462,20 @@ const CartStyled = styled.div`
   }
   .paypalButtonsContainer {
     margin: 0 auto;
-    button {
+    button  {
       width: 200px;
     }
     .paypal {
+      border: 3px solid red;
       &-logo {
         font-family: Verdana, Tahoma;
         font-weight: 700;
         font-size: 16px;
-
+        
         i:first-child {
           color: #253b80;
         }
-
+        
         i:last-child {
           color: #179bd7;
         }

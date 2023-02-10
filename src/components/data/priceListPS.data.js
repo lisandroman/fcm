@@ -4,6 +4,12 @@ export const PriceListPS = [
   {
     id: uuidv4(),
     platform: "PS4/5",
+    coins: 1,
+    price: 1,
+  },
+  {
+    id: uuidv4(),
+    platform: "PS4/5",
     coins: 250000,
     price: 20,
   },

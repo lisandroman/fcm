@@ -34,7 +34,7 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/help" element={<Help />} />
         <Route path="/buy-players" element={<BuyPlayers />} />
-        <Route path="/form-game-data" element={<FormWithGameData />} />
+        <Route path="/thanks" element={<FormWithGameData />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
