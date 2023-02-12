@@ -7,9 +7,16 @@ const initialState = {
   currency: "USD",
   status: "idle",
   error: null,
-  priceInForm: 0,
+  IDFinalToForm: [],
+  coinsFinalToForm: [],
+  platformFinalToForm: [],
+  priceFinalToForm: [],
+  // priceInForm: {
+  //   orderID: "orderID",
+  //   pricePaid: "pricePaid",
+  //   checkPlat: "checkPlat",
+  // },
 };
-
 export const fetchData = createAsyncThunk("orders/fetchData", async () => {
   let response = await getDocs(collection(db, "test"));
   return response.docs.map((doc) => doc.data());
@@ -35,9 +42,18 @@ export const orderSlice = createSlice({
     loadCurrency: (state, action) => {
       state.currency = action.payload;
     },
+    IDFinalToForm: (state, action) => {
+      state.IDFinalToForm = action.payload;
+    },
+    coinsFinalToForm: (state, action) => {
+      state.coinsFinalToForm = action.payload;
+    },
+    platformFinalToForm: (state, action) => {
+      state.platformFinalToForm = action.payload;
+    },
     priceFinalToForm: (state, action) => {
-      state.priceInForm = action.payload;
-    }
+      state.priceFinalToForm = action.payload;
+    },
   },
 
   extraReducers(builder) {
@@ -57,14 +73,25 @@ export const orderSlice = createSlice({
       });
   },
 });
-
 export const allData = (state) => state.orders.cart;
 export const getDataStatus = (state) => state.orders.status;
 export const getDataErrors = (state) => state.orders.error;
 export const getCurrency = (state) => state.orders.currency;
-export const getLatestPrice = (state) => state.orders.priceInForm;
 
-export const { addToCart, removeFromCart, clearCart, loadCurrency, priceFinalToForm } =
-  orderSlice.actions;
+export const getLatestOrderID = (state) => state.orders.IDFinalToForm;
+export const getLatestCoins = (state) => state.orders.coinsFinalToForm;
+export const getLatestPlatform = (state) => state.orders.platformFinalToForm;
+export const getLatestPrice = (state) => state.orders.priceFinalToForm;
+
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  loadCurrency,
+  IDFinalToForm,
+  coinsFinalToForm,
+  platformFinalToForm,
+  priceFinalToForm,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

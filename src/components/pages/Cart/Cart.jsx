@@ -1,22 +1,24 @@
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React, { useEffect, useState } from "react";
 import { FaCoins, FaGamepad, FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Swal from "sweetalert2";
-import { v4 as uuidv4 } from "uuid";
 import { titles } from "../../../commonStyled";
 import {
+  IDFinalToForm,
   allData,
   clearCart,
+  coinsFinalToForm,
   fetchData,
   getCurrency,
   getDataErrors,
   getDataStatus,
+  getLatestPrice,
+  platformFinalToForm,
   priceFinalToForm,
   removeFromCart,
 } from "../../../redux/state/orders";
-import PaymentButtons from "./Cart.Utilities/Cart.PaymentButtons";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const Cart = () => {
   const orderStatus = useSelector(getDataStatus);
   const orderErrors = useSelector(getDataErrors);
   const getCurrencyData = useSelector(getCurrency);
+  const priceInFormToDelivery = useSelector(getLatestPrice);
 
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
@@ -130,8 +133,8 @@ const Cart = () => {
     content = <p>{orderErrors}</p>;
   }
 
+  const checkPlat = orderAllData.map((item) => item.platform);
   const checkPlatforms = () => {
-    const checkPlat = orderAllData.map((item) => item.platform);
     const firstPlatform = checkPlat[0];
     for (let i = 0; i < checkPlat.length; i++) {
       if (firstPlatform !== checkPlat[i]) {
@@ -178,6 +181,30 @@ const Cart = () => {
   const totalPriceOriginal =
     parseFloat(getTotalOriginal) + parseFloat(paymentFeeRoundValueOriginal);
 
+  // Paypal Buttons
+  // const handleApprove = (orderID, pricePaid, checkPlat) => {
+  const handleApprove = (orderID, checkPlat, getTotalCoins, totalPrice) => {
+    setPaidFor(true);
+    dispatch(IDFinalToForm(orderID));
+    dispatch(platformFinalToForm(checkPlat));
+    dispatch(coinsFinalToForm(getTotalCoins));
+    dispatch(priceFinalToForm(totalPrice));
+    dispatch(clearCart());
+  };
+ 
+  if (paidFor) {
+    // Swal.fire({
+    //   icon: "success",
+    //   title: "Thanks for buy in Fut Coins Market",
+    //   text: `Please complete the next form with your info`,
+    //   footer: '<a href="/thanks">Go to Form</a>',
+    // });
+    
+  }
+  if (error) {
+    alert(error);
+  }
+
   const handleDiscountCoupon = (e) => {
     setCoupon(e.target.value);
   };
@@ -193,10 +220,13 @@ const Cart = () => {
       dispatch(fetchData());
     }
     checkPlatforms();
-    dispatch(
-      priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10) / 100)
-    );
+    // dispatch(
+    //   priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10) / 100)
+    // );
   }, [orderStatus, dispatch, getTotalOriginal]);
+
+  console.log("totalPrice en Paypal USD:", totalPrice);
+  console.log("priceInFormToDelivery:", priceInFormToDelivery);
 
   return (
     <CartStyled>
@@ -330,8 +360,78 @@ const Cart = () => {
                       ) / 100
                     ).toFixed(2)}{" "}
                   </h5>
-                  <div className="paypalButtonsContainer" key={1003}>
-                    <PaymentButtons />
+                  <div className="paypalButtonsContainer">
+                    <PayPalScriptProvider
+                      options={{
+                        "client-id":
+                          // "Af30CYtkFIjzXLc6bSvSx2jEKxPfccsGLrwnT6TzHq7P7OfeDl8TkISXsGkRrSxsgq2cNDul7sPhqIbe",
+                          "AdYrjqJUd70a3MzkrLnNgk_jL1HK28pEUit8z-RFUA7RR7s8NSzx0A16AqTpqX3eSS_497-hBHlo-ZsH",
+                      }}
+                    >
+                      <PayPalButtons
+                        onClick={(data, actions) => {
+                          const hasAlreadyBought = false;
+                          if (hasAlreadyBought) {
+                            setError("You already bought this item!");
+                            return actions.reject();
+                          } else {
+                            return actions.resolve();
+                          }
+                        }}
+                        createOrder={(data, actions) => {
+                          return actions.order.create({
+                            purchase_units: [
+                              {
+                                amount: {
+                                  value: totalPrice,
+                                },
+                              },
+                            ],
+                          });
+                        }}
+                        onApprove={async (data, actions) => {
+                          const order = await actions.order.capture();
+                          console.log("order:", order);
+                          console.log("order ID:", order.id);
+                          console.log("order Create Time:", order.create_time);
+                          console.log(
+                            "order Country:",
+                            order.payer.address.country_code
+                          );
+                          console.log(
+                            "order Email Paypal:",
+                            order.payer.email_address
+                          );
+                          console.log(
+                            "order Name:",
+                            order.payer.name.given_name
+                          );
+                          console.log(
+                            "order Surname:",
+                            order.payer.name.surname
+                          );
+                          console.log(
+                            "Price Paid:",
+                            order.purchase_units[0].amount.value
+                          );
+                       
+                            handleApprove(
+                              data.orderID,
+                              checkPlat,
+                              getTotalCoins,
+                              order.purchase_units[0].amount.value,
+                              // order.purchase_units[0].amount.value,
+                              // checkPlat,
+                            );
+                          window.location.replace("/thanks");
+                        }}
+                        onCancel={() => {}}
+                        onError={(err) => {
+                          setError(err);
+                          console.log("Paypal Checkout Error:", err);
+                        }}
+                      />
+                    </PayPalScriptProvider>
                   </div>
                 </div>
               </div>

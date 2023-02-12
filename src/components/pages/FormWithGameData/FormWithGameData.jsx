@@ -3,18 +3,30 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import {
-  allData,
   clearCart,
+  getLatestCoins,
+  getLatestOrderID,
+  getLatestPlatform,
   getLatestPrice,
 } from "../../../redux/state/orders";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 
 const FormWithGameData = () => {
-  const orderAllData = useSelector(allData);
+
+  const getLatestOrderIDToForm = useSelector(getLatestOrderID);
+  const getLatestCoinsToForm = useSelector(getLatestCoins);
+  const getLatestPlatformToForm = useSelector(getLatestPlatform);
   const getLatestPriceToForm = useSelector(getLatestPrice);
+
+
+  // console.log("getLatestOrderIDToForm:", getLatestOrderIDToForm);
+  // console.log("getLatestCoinsToForm:", getLatestCoinsToForm);
+  // console.log("getLatestPlatformToForm:", getLatestPlatformToForm);
+  // console.log("getLatestPriceToForm:", getLatestPriceToForm);
+  // console.log("getLatestPriceToForm:", getLatestPriceToForm);
+
   const dispatch = useDispatch();
 
   const [paypalID, setPaypalID] = useState("");
@@ -30,20 +42,18 @@ const FormWithGameData = () => {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
 
-  // Set Coins
-  const listTotalCoins = orderAllData.map((item) => item.coins);
-  const getTotalCoins = listTotalCoins.reduce((a, b) => {
-    return a + b;
-  }, 0);
-  // Set Platform
-  const listFinalPlatform = orderAllData.map((item) => item.platform);
-  const getFinalPlatform = listFinalPlatform[0];
-
   useEffect(() => {
-    setCoins(getTotalCoins);
-    setPlatform(getFinalPlatform);
+    setPaypalID(getLatestOrderIDToForm);
+    setCoins(getLatestCoinsToForm);
+    setPlatform(getLatestPlatformToForm[0]);
     setPrice(getLatestPriceToForm);
-  }, [getTotalCoins, getFinalPlatform, getLatestPriceToForm]);
+  }, [setPaypalID, setCoins, setPlatform, setPrice]);
+
+   console.log("paypalID:", paypalID);
+   console.log("platform:", platform);
+   console.log("coins:", coins);
+   console.log("price:", price);
+
 
   const addData = async function (e) {
     e.preventDefault();
@@ -83,6 +93,8 @@ const FormWithGameData = () => {
     }
   };
  
+
+
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
       <form className="mt-1" autoComplete="off">
@@ -93,7 +105,9 @@ const FormWithGameData = () => {
             type="text"
             id="paypalID"
             className="form-control"
-            placeholder="Enter your TRANSACTION ID:"
+            // placeholder={getLatestOrderIDToForm}
+            value={getLatestOrderIDToForm}
+            disabled
             onChange={(e) => setPaypalID(e.target.value)}
           />
         </div>
@@ -136,7 +150,8 @@ const FormWithGameData = () => {
                 className="form-control"
                 disabled
                 placeholder="Coins Package: `{coins}`"
-                value={coins}
+                value={getLatestCoinsToForm}
+                onChange={(e) => setCoins(e.target.value)}
               />
             </div>
           </div>
@@ -149,20 +164,20 @@ const FormWithGameData = () => {
                 disabled
                 className="form-control"
                 placeholder="Platform:"
-                value={platform}
+                value={getLatestPlatformToForm[0]}
               />
             </div>
           </div>
           <div className="col-md">
             <div className="form-outline">
-              <label htmlFor="floatingPrice">Price in USD:</label>
+              <label htmlFor="floatingPrice">Paid in USD:</label>
               <input
                 type="number"
                 id="floatingPrice"
                 disabled
                 className="form-control"
                 placeholder="Price:"
-                value={price}
+                value={getLatestPriceToForm}
               />
             </div>
           </div>
@@ -246,21 +261,14 @@ const FormWithGameData = () => {
             </div>
           </div>
         </div>
-        {coins === 0 ? (
-          [
-            <h3>Thanks for your order!</h3>,
-            <Link to="/">
-              <button className="btn btn-primary">Go Home</button>
-            </Link>,
-          ]
-        ) : !originEmail ||
-          !passEmail ||
-          !backupCode1 ||
-          !backupCode2 ||
-          !personalEmail ||
-          !city ||
-          !state ||
-          !country ? (
+        {!originEmail ||
+        !passEmail ||
+        !backupCode1 ||
+        !backupCode2 ||
+        !personalEmail ||
+        !city ||
+        !state ||
+        !country ? (
           [
             <button
               className="btn btn-secondary disabled mb-2"
