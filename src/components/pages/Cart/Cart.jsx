@@ -364,8 +364,8 @@ const Cart = () => {
                     <PayPalScriptProvider
                       options={{
                         "client-id":
-                          // "Af30CYtkFIjzXLc6bSvSx2jEKxPfccsGLrwnT6TzHq7P7OfeDl8TkISXsGkRrSxsgq2cNDul7sPhqIbe",
-                          "AdYrjqJUd70a3MzkrLnNgk_jL1HK28pEUit8z-RFUA7RR7s8NSzx0A16AqTpqX3eSS_497-hBHlo-ZsH",
+                          "Af30CYtkFIjzXLc6bSvSx2jEKxPfccsGLrwnT6TzHq7P7OfeDl8TkISXsGkRrSxsgq2cNDul7sPhqIbe",
+                          // "AdYrjqJUd70a3MzkrLnNgk_jL1HK28pEUit8z-RFUA7RR7s8NSzx0A16AqTpqX3eSS_497-hBHlo-ZsH",
                       }}
                     >
                       <PayPalButtons
@@ -522,4 +522,6 @@ const CartStyled = styled.div`
         }
       }
   }
+
+ 
 `;

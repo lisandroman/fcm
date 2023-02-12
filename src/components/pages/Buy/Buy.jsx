@@ -1,16 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { RiComputerLine } from "react-icons/ri";
+import { SiPlaystation, SiXbox } from "react-icons/si";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Swal from "sweetalert2";
+import { titles } from "../../../commonStyled";
+import { addToCart, getCurrency } from "../../../redux/state/orders";
+import { PriceListPC } from "../../data/priceListPC.data";
 import { PriceListPS } from "../../data/priceListPS.data";
 import { PriceListXBOX } from "../../data/priceListXBOX.data";
-import { PriceListPC } from "../../data/priceListPC.data";
-import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, getCurrency } from "../../../redux/state/orders";
-import { SiPlaystation } from "react-icons/si";
-import { RiComputerLine } from "react-icons/ri";
-import { SiXbox } from "react-icons/si";
 import { v4 as uuidv4 } from "uuid";
-import { titles } from "../../../commonStyled";
 
 const Buy = () => {
   const dispatch = useDispatch();
@@ -20,11 +19,13 @@ const Buy = () => {
   const [sellAmount, setSellAmount] = useState(0);
 
   const [customCoins, setCustomCoins] = useState(0);
-  const [customPrice, setCustomPrice] = useState(0);
-  const [customPlatform, setCustomPlatform] = useState("PS4/PS5");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkPlat, setCheckPlat] = useState("PS4/PS5");
+
 
   const handleInputAmount = (e) => {
     let preValue = 0;
+    setCustomCoins(e.target.value);
     setSellAmount(e.target.value * 1);
     if (e.target.value < 1000000) {
       preValue = e.target.value * 0.000128;
@@ -35,11 +36,18 @@ const Buy = () => {
     }
 
     let roundValue = Math.round(preValue * 100) / 100;
-    setCustomPrice(roundValue);
+    setTotalPrice(roundValue);
     return e.target.value < 100000 ? setTotal(0) : setTotal(roundValue);
   };
 
-  const handleBuy = (id, coins, price, platform) => {
+  const handleBuy = (e) => {
+
+    let id = uuidv4();
+    let coins = sellAmount * 1;
+    let price = totalPrice * 1;
+    let platform = checkPlat;
+    let getCurrencyData = actualCurrency();
+
     Swal.fire({
       icon: "success",
       title: "Added to Cart",
@@ -90,6 +98,12 @@ const Buy = () => {
   };
   makeAmountFormat();
 
+  const checkCustomData = () => {
+    console.log("Plataforma Elegida:", checkPlat);
+    console.log("Cant de Coins:", customCoins);
+    console.log("Precio Final:", totalPrice);
+  };
+  
   return (
     <BuyPageStyled>
       <h2 className="bg bg-warning title mt-4">Packages</h2>
@@ -117,7 +131,7 @@ const Buy = () => {
               id="flexRadioDefault1"
               value="PS4/5"
               defaultChecked
-              onChange={(e) => setCustomPlatform(e.target.value)}
+              onChange={(e) => setCheckPlat(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               PS4/5
@@ -131,7 +145,7 @@ const Buy = () => {
               name="flexRadioDefault"
               id="flexRadioDefault2"
               value="XBOX"
-              onChange={(e) => setCustomPlatform(e.target.value)}
+              onChange={(e) => setCheckPlat(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               XBOX
@@ -145,7 +159,7 @@ const Buy = () => {
               name="flexRadioDefault"
               id="flexRadioDefault3"
               value="PC"
-              onChange={(e) => setCustomPlatform(e.target.value)}
+              onChange={(e) => setCheckPlat(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault3">
               PC
@@ -168,6 +182,7 @@ const Buy = () => {
                 step="100000"
                 placeholder="Enter your custom coins"
                 onChange={handleInputAmount}
+                // onChange={(e) => setCustomCoins(e.target.value)}
               />
               <span className="badge text-bg-primary text-white mb-2">
                 Your amount: {amountFormated}
@@ -193,19 +208,19 @@ const Buy = () => {
             </div>
             <div className="col-sm buyFormAmount">
               <label htmlFor="FinalPrice">Final Price</label>
-              <p className="form-control">{customPrice} USD</p>
+              <p className="form-control">{totalPrice} USD</p>
             </div>
           </div>
         </form>
         <div>
-          {total < 200 || customPlatform === ""
+          {total < 200 || checkPlat === ""
             ? [
-                <button className="btn btn-secondary mt-3 disabled">
-                  Coming Soon...
+                <button
+                  className="btn btn-primary mt-3 me-3"
+                  onClick={handleBuy}
+                >
+                  Add to Cart
                 </button>,
-                <p className="amountConditional">
-                  Available from 1 March, 2023
-                </p>,
               ]
             : [
                 <p className="amountConditional">
@@ -310,7 +325,7 @@ const Buy = () => {
               </table>
               <div className="container mt-4">
                 <h4 className="text-white">
-                  if you watn to buy another amount, contact us:
+                  if you want to buy another amount, contact us:
                 </h4>
                 <button className="btn btn-outline-warning mt-2">
                   deliveries@futcoinsmarket.net
@@ -416,5 +431,10 @@ const BuyPageStyled = styled.div`
     table td {
       font-size: 2rem;
     }
+  }
+
+  .paypalButtonsContainer {
+    width: 50%;
+    margin: 0 auto;
   }
 `;
