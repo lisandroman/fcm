@@ -71,7 +71,6 @@ const FormWithGameData = () => {
     e.preventDefault()
     try {
       const docRef = await addDoc(collection(db, "orders"), {
-        paypalID: paypalID,
         originEmail: originEmail,
         passEmail: passEmail,
         coins: coins,
@@ -293,7 +292,7 @@ const FormWithGameData = () => {
             </p>,
           ]
         ) : (
-          <button className="btn btn-primary mb-4" onClick={(e) => addData()}>
+          <button className="btn btn-primary mb-4" onClick={addData}>
             Send Form
           </button>
         )}
