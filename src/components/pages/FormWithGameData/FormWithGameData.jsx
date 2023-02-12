@@ -49,23 +49,23 @@ const FormWithGameData = () => {
     setPrice(getLatestPriceToForm);
   }, [setPaypalID, setCoins, setPlatform, setPrice]);
 
-  //  console.log("paypalID:", paypalID);
-  //  console.log("platform:", platform);
-  //  console.log("coins:", coins);
-  //  console.log("price:", price);
+   console.log("paypalID:", paypalID);
+   console.log("platform:", platform);
+   console.log("coins:", coins);
+   console.log("price:", price);
 
-        console.log("paypalID", paypalID)
-        console.log("originEmail", originEmail)
-        console.log("passEmail", passEmail)
-        console.log("coins", coins)
-        console.log("platform", platform)
-        console.log("price", price)
-        console.log("backupCode1", backupCode1)
-        console.log("backupCode2", backupCode2)
-        console.log("personalEmail", personalEmail)
-        console.log("city", city)
-        console.log("state", state)
-        console.log("country", country)
+        // console.log("paypalID", paypalID)
+        // console.log("originEmail", originEmail)
+        // console.log("passEmail", passEmail)
+        // console.log("coins", coins)
+        // console.log("platform", platform)
+        // console.log("price", price)
+        // console.log("backupCode1", backupCode1)
+        // console.log("backupCode2", backupCode2)
+        // console.log("personalEmail", personalEmail)
+        // console.log("city", city)
+        // console.log("state", state)
+        // console.log("country", country)
 
   const addData = async function (e) {
     e.preventDefault()
@@ -293,7 +293,7 @@ const FormWithGameData = () => {
             </p>,
           ]
         ) : (
-          <button className="btn btn-primary mb-4" onClick={(e) => addData()}>
+          <button className="btn btn-primary mb-4" onClick={ addData}>
             Send Form
           </button>
         )}

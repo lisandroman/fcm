@@ -14,19 +14,17 @@ import { v4 as uuidv4 } from "uuid";
 const Buy = () => {
   const dispatch = useDispatch();
   const getCurrencyData = useSelector(getCurrency);
-  const [total, setTotal] = useState(0);
-  const [content, setContent] = useState(PriceListPS);
-  const [sellAmount, setSellAmount] = useState(0);
+   const [total, setTotal] = useState(0);
+   const [content, setContent] = useState(PriceListPS);
+   const [sellAmount, setSellAmount] = useState(0);
 
-  const [customCoins, setCustomCoins] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [checkPlat, setCheckPlat] = useState("PS4/PS5");
-
+ const [customCoins, setCustomCoins] = useState(0);
+ const [customPrice, setCustomPrice] = useState(0);
+ const [customPlatform, setCustomPlatform] = useState("PS4/PS5");
 
   const handleInputAmount = (e) => {
     let preValue = 0;
-    setCustomCoins(e.target.value);
-    setSellAmount(e.target.value * 1);
+    setSellAmount(e.target.value);
     if (e.target.value < 1000000) {
       preValue = e.target.value * 0.000128;
     } else if (e.target.value >= 1000000 || e.target.value <= 3000000) {
@@ -36,18 +34,11 @@ const Buy = () => {
     }
 
     let roundValue = Math.round(preValue * 100) / 100;
-    setTotalPrice(roundValue);
+   setCustomPrice(roundValue);
     return e.target.value < 100000 ? setTotal(0) : setTotal(roundValue);
   };
-
-  const handleBuy = (e) => {
-
-    let id = uuidv4();
-    let coins = sellAmount * 1;
-    let price = totalPrice * 1;
-    let platform = checkPlat;
-    let getCurrencyData = actualCurrency();
-
+console.log(sellAmount)
+  const handleBuy = (id, coins, price, platform) => {
     Swal.fire({
       icon: "success",
       title: "Added to Cart",
@@ -98,12 +89,6 @@ const Buy = () => {
   };
   makeAmountFormat();
 
-  const checkCustomData = () => {
-    console.log("Plataforma Elegida:", checkPlat);
-    console.log("Cant de Coins:", customCoins);
-    console.log("Precio Final:", totalPrice);
-  };
-  
   return (
     <BuyPageStyled>
       <h2 className="bg bg-warning title mt-4">Packages</h2>
@@ -131,7 +116,7 @@ const Buy = () => {
               id="flexRadioDefault1"
               value="PS4/5"
               defaultChecked
-              onChange={(e) => setCheckPlat(e.target.value)}
+              onChange={(e) => setCustomPlatform(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               PS4/5
@@ -145,7 +130,7 @@ const Buy = () => {
               name="flexRadioDefault"
               id="flexRadioDefault2"
               value="XBOX"
-              onChange={(e) => setCheckPlat(e.target.value)}
+              onChange={(e) => setCustomPlatform(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               XBOX
@@ -159,7 +144,7 @@ const Buy = () => {
               name="flexRadioDefault"
               id="flexRadioDefault3"
               value="PC"
-              onChange={(e) => setCheckPlat(e.target.value)}
+              onChange={(e) => setCustomPlatform(e.target.value)}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault3">
               PC
@@ -208,25 +193,29 @@ const Buy = () => {
             </div>
             <div className="col-sm buyFormAmount">
               <label htmlFor="FinalPrice">Final Price</label>
-              <p className="form-control">{totalPrice} USD</p>
+              <p className="form-control">{customPrice} USD</p>
             </div>
           </div>
         </form>
         <div>
-          {total < 200 || checkPlat === ""
+          {total < 200 || customPlatform === ""
             ? [
                 <button
                   className="btn btn-primary mt-3 me-3"
                   onClick={handleBuy}
+                  key={3001}
                 >
                   Add to Cart
                 </button>,
               ]
             : [
-                <p className="amountConditional">
+                <p className="amountConditional" key={3002}>
                   If you want to buy that amount, contact us:
                 </p>,
-                <button className="btn btn-outline-primary disabled mb-3">
+                <button
+                  className="btn btn-outline-primary disabled mb-3"
+                  key={3003}
+                >
                   deliveries@futcoinsmarket.net
                 </button>,
               ]}
