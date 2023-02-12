@@ -68,6 +68,7 @@ const FormWithGameData = () => {
         console.log("country", country)
 
   const addData = async function (e) {
+    e.preventDefault()
     try {
       const docRef = await addDoc(collection(db, "orders"), {
         paypalID: paypalID,
