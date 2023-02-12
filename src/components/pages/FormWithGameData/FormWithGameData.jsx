@@ -56,7 +56,6 @@ const FormWithGameData = () => {
 
 
   const addData = async function (e) {
-    e.preventDefault();
     try {
       const docRef = await addDoc(collection(db, "orders"), {
         paypalID: paypalID,
