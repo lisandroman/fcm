@@ -59,7 +59,7 @@ const FormWithGameData = () => {
         console.log("passEmail", passEmail)
         console.log("coins", coins)
         console.log("platform", platform)
-        console.log("price",, price)
+        console.log("price", price)
         console.log("backupCode1", backupCode1)
         console.log("backupCode2", backupCode2)
         console.log("personalEmail", personalEmail)
