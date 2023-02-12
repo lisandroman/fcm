@@ -281,7 +281,7 @@ const FormWithGameData = () => {
             </p>,
           ]
         ) : (
-          <button className="btn btn-primary mb-4" onClick={addData}>
+          <button className="btn btn-primary mb-4" onClick={(e) => addData()}>
             Send Form
           </button>
         )}
