@@ -11,6 +11,7 @@ const FeaturesProducts = () => {
   const getCurrencyData = useSelector(getCurrency);
 
   const handleButtonAddToCart = (id, coins, price, platform) => {
+    console.log(price)
     Swal.fire({
       icon: "success",
       title: "Added to Cart",
@@ -37,6 +38,7 @@ const FeaturesProducts = () => {
       ? (priceToShow = 0.82)
       : (priceToShow = 1.0);
   };
+
 
   return (
     <ProductStyled>

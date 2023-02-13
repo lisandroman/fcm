@@ -1,31 +1,22 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import {
-  clearCart,
-  getLatestCoins,
-  getLatestOrderID,
-  getLatestPlatform,
-  getLatestPrice,
-} from "../../../redux/state/orders";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../firebase/firebase";
 import Swal from "sweetalert2";
+import { db } from "../../../firebase/firebase";
+import {
+  allData,
+  clearCart,
+  getLatestPrice
+} from "../../../redux/state/orders";
 
 const FormWithGameData = () => {
 
-  const getLatestOrderIDToForm = useSelector(getLatestOrderID);
-  const getLatestCoinsToForm = useSelector(getLatestCoins);
-  const getLatestPlatformToForm = useSelector(getLatestPlatform);
+  const allDataToDB = useSelector(allData)
   const getLatestPriceToForm = useSelector(getLatestPrice);
 
-
-  // console.log("getLatestOrderIDToForm:", getLatestOrderIDToForm);
-  // console.log("getLatestCoinsToForm:", getLatestCoinsToForm);
-  // console.log("getLatestPlatformToForm:", getLatestPlatformToForm);
-  // console.log("getLatestPriceToForm:", getLatestPriceToForm);
-  // console.log("getLatestPriceToForm:", getLatestPriceToForm);
+console.log(allDataToDB);
+ 
 
   const dispatch = useDispatch();
 
@@ -43,9 +34,6 @@ const FormWithGameData = () => {
   const [country, setCountry] = useState("");
 
   useEffect(() => {
-    setPaypalID(getLatestOrderIDToForm);
-    setCoins(getLatestCoinsToForm);
-    setPlatform(getLatestPlatformToForm[0]);
     setPrice(getLatestPriceToForm);
   }, [setPaypalID, setCoins, setPlatform, setPrice]);
 
@@ -97,7 +85,7 @@ const FormWithGameData = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(clearCart());
-          window.open('/');
+          window.open("/");
         }
       });
     } catch (e) {
@@ -105,7 +93,12 @@ const FormWithGameData = () => {
     }
   };
  
-
+  const platformInFormToDB = allDataToDB.map((item) => item.platform);
+  const coinsInFormToDB = allDataToDB.map((item) => item.coins);
+    const getTotalCoins = coinsInFormToDB.reduce((a, b) => {
+      return a + b;
+    }, 0);
+  console.log("coinsInFormToDB", getTotalCoins);
 
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
@@ -117,8 +110,7 @@ const FormWithGameData = () => {
             type="text"
             id="paypalID"
             className="form-control"
-            // placeholder={getLatestOrderIDToForm}
-            value={getLatestOrderIDToForm}
+            placeholder="Enter your Paypal Transaction Id"
             disabled
             onChange={(e) => setPaypalID(e.target.value)}
           />
@@ -162,7 +154,7 @@ const FormWithGameData = () => {
                 className="form-control"
                 disabled
                 placeholder="Coins Package: `{coins}`"
-                value={getLatestCoinsToForm}
+                value={getTotalCoins}
                 onChange={(e) => setCoins(e.target.value)}
               />
             </div>
@@ -176,7 +168,7 @@ const FormWithGameData = () => {
                 disabled
                 className="form-control"
                 placeholder="Platform:"
-                value={getLatestPlatformToForm[0]}
+                value={platformInFormToDB[0]}
               />
             </div>
           </div>
@@ -189,6 +181,7 @@ const FormWithGameData = () => {
                 disabled
                 className="form-control"
                 placeholder="Price:"
+                // value={priceInFormToDB}
                 value={getLatestPriceToForm}
               />
             </div>
@@ -283,17 +276,18 @@ const FormWithGameData = () => {
         !country ? (
           [
             <button
+              key={4001}
               className="btn btn-secondary disabled mb-2"
               onClick={(e) => addData()}
             >
               Send Form
             </button>,
-            <p className="text-danger mt-0">
+            <p key={4002} className="text-danger mt-0">
               Complete the form to enable the button
             </p>,
           ]
         ) : (
-          <button className="btn btn-primary mb-4" onClick={ addData}>
+          <button key={4003} className="btn btn-primary mb-4" onClick={addData}>
             Send Form
           </button>
         )}

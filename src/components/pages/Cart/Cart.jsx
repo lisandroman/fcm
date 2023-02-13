@@ -6,19 +6,18 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import { titles } from "../../../commonStyled";
 import {
-  IDFinalToForm,
   allData,
   clearCart,
-  coinsFinalToForm,
   fetchData,
   getCurrency,
   getDataErrors,
   getDataStatus,
   getLatestPrice,
-  platformFinalToForm,
   priceFinalToForm,
-  removeFromCart,
+  removeFromCart
 } from "../../../redux/state/orders";
+import { useRef } from "react";
+import CouponAD from "./Cart.Utilities/Cart.Utilities.CouponAD";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -31,8 +30,10 @@ const Cart = () => {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const [coupon, setCoupon] = useState("");
+  const [couponPorcent, setCouponPorcent] = useState(0);
   const [isValidCoupon, setIsValidCoupon] = useState(false);
   const [isMoreThanOnePlatform, setIsMoreThanOnePlatform] = useState(false);
+  const [priceToPayInPaypal, setPriceToPayInPaypal] = useState(0);
 
   let content;
 
@@ -152,44 +153,34 @@ const Cart = () => {
   };
 
   // ----------- Variables PRICES -----------
-  const takeOrderPrices = orderAllData.map(
-    (item) => item.price * actualCurrency()
-  );
-  const getTotal = takeOrderPrices.reduce((a, b) => {
-    return a + b;
-  }, 0);
+  const takeOrderPrices = orderAllData.map( (item) => item.price * actualCurrency() );
+  const getTotal = takeOrderPrices.reduce((a, b) => { return a + b }, 0);
+  
+  const discountCupon = () => {
+    setIsValidCoupon(true);
+    return coupon === 'bestprice'
+    ? setCouponPorcent(10)
+    : coupon === 'reveal'
+    ? setCouponPorcent(5)
+    : alert('Invalid Coupon')
+  };
+  
+  const discountCoupon = ((getTotal * couponPorcent) / 100).toFixed(2) * 1;
+  const totalPrice = (getTotal - discountCoupon).toFixed(2) * 1;
+  
+  const totalPriceRef = useRef(null)
+  totalPriceRef.current = totalPrice
 
-  const discountCoupon = ((getTotal * 10) / 100).toFixed(2) * 1;
-  let totalPrice = getTotal - discountCoupon;
-
+  
+  
   // Subtotal Coins
   const takeOrderCoins = orderAllData.map((item) => item.coins);
-  const getTotalCoins = takeOrderCoins.reduce((a, b) => {
-    return a + b;
-  }, 0);
-
-  // ---------------- Paypal Checkout ---------------
-  const allCartContent = orderAllData.map((item) => item.price);
-  const getTotalOriginal = allCartContent.reduce((a, b) => {
-    return a + b;
-  }, 0);
-  let paymentFeeOriginal = getTotalOriginal - getTotalOriginal * 0.97;
-  let paymentFeeRoundValueOriginal = (
-    Math.round(paymentFeeOriginal * 100) / 100
-  ).toFixed(parseInt(2));
-
-  const totalPriceOriginal =
-    parseFloat(getTotalOriginal) + parseFloat(paymentFeeRoundValueOriginal);
+  const getTotalCoins = takeOrderCoins.reduce((a, b) => { return a + b; }, 0);
 
   // Paypal Buttons
-  // const handleApprove = (orderID, pricePaid, checkPlat) => {
-  const handleApprove = (orderID, checkPlat, getTotalCoins, totalPrice) => {
+  const handleApprove = (orderID, totalPrice) => {
     setPaidFor(true);
-    dispatch(IDFinalToForm(orderID));
-    dispatch(platformFinalToForm(checkPlat));
-    dispatch(coinsFinalToForm(getTotalCoins));
     dispatch(priceFinalToForm(totalPrice));
-    dispatch(clearCart());
   };
  
   if (paidFor) {
@@ -205,29 +196,15 @@ const Cart = () => {
     alert(error);
   }
 
-  const handleDiscountCoupon = (e) => {
-    setCoupon(e.target.value);
-  };
-
-  const discountCupon = () => {
-    return coupon === "bestprice"
-      ? setIsValidCoupon(true)
-      : alert("Coupon doesnt exist");
-  };
+  const handleDiscountCoupon = (e) => { setCoupon(e.target.value); };
 
   useEffect(() => {
     if (orderStatus === "idle") {
       dispatch(fetchData());
     }
     checkPlatforms();
-    // dispatch(
-    //   priceFinalToForm(getTotalOriginal - (getTotalOriginal * 10) / 100)
-    // );
-  }, [orderStatus, dispatch, getTotalOriginal]);
-
-  console.log("totalPrice en Paypal USD:", totalPrice);
-  console.log("priceInFormToDelivery:", priceInFormToDelivery);
-
+  }, [orderStatus, dispatch]);
+  
   return (
     <CartStyled>
       <h2 className="bg bg-warning title mt-4 mb-2">Cart - Your Order:</h2>
@@ -247,6 +224,7 @@ const Cart = () => {
                 <table className="table table-sm table-striped tableSize align-middle">
                   <tbody>{content}</tbody>
                 </table>
+                <CouponAD />
                 <button
                   className="btn btn-sm btn-dark mt-2 mt-md-5 buttonClearCart"
                   onClick={handleClearCart}
@@ -291,12 +269,14 @@ const Cart = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="bestprice coupon applied"
+                        placeholder="Enter coupon..."
+                        onChange={handleDiscountCoupon}
                       />
                     </div>
                   </div>
 
                   <div className="col me-1">
+                    {/* <button className="btn btn-danger " onClick={discountCupon}> */}
                     <button className="btn btn-danger " onClick={discountCupon}>
                       Apply
                     </button>
@@ -320,8 +300,7 @@ const Cart = () => {
                       </tr>
                       <tr>
                         <td className="text-start ps-4">
-                          Payment Fee: <strong>{getCurrencyData} 0.00 </strong>
-                          (3%)
+                          Payment Fee: <strong>February FREE</strong>
                         </td>
                         <td className="text-end pe-3">
                           Payment: <strong>Paypal</strong>
@@ -335,7 +314,7 @@ const Cart = () => {
                             {getCurrencyData} {discountCoupon}{" "}
                           </strong>
                         </td>
-                        <td>(10%)</td>
+                        <td>{couponPorcent}%</td>
                       </tr>
                     </tbody>
                   </table>
@@ -364,8 +343,8 @@ const Cart = () => {
                     <PayPalScriptProvider
                       options={{
                         "client-id":
-                          "Af30CYtkFIjzXLc6bSvSx2jEKxPfccsGLrwnT6TzHq7P7OfeDl8TkISXsGkRrSxsgq2cNDul7sPhqIbe",
-                          // "AdYrjqJUd70a3MzkrLnNgk_jL1HK28pEUit8z-RFUA7RR7s8NSzx0A16AqTpqX3eSS_497-hBHlo-ZsH",
+                          // "Af30CYtkFIjzXLc6bSvSx2jEKxPfccsGLrwnT6TzHq7P7OfeDl8TkISXsGkRrSxsgq2cNDul7sPhqIbe",
+                          "AdYrjqJUd70a3MzkrLnNgk_jL1HK28pEUit8z-RFUA7RR7s8NSzx0A16AqTpqX3eSS_497-hBHlo-ZsH",
                       }}
                     >
                       <PayPalButtons
@@ -383,7 +362,7 @@ const Cart = () => {
                             purchase_units: [
                               {
                                 amount: {
-                                  value: totalPrice,
+                                  value: totalPriceRef.current,
                                 },
                               },
                             ],
@@ -414,15 +393,11 @@ const Cart = () => {
                             "Price Paid:",
                             order.purchase_units[0].amount.value
                           );
-                       
-                            handleApprove(
-                              data.orderID,
-                              checkPlat,
-                              getTotalCoins,
-                              order.purchase_units[0].amount.value,
-                              // order.purchase_units[0].amount.value,
-                              // checkPlat,
-                            );
+
+                          handleApprove(
+                            data.orderID,
+                            order.purchase_units[0].amount.value
+                          );
                           window.location.replace("/thanks");
                         }}
                         onCancel={() => {}}
