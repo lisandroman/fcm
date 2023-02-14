@@ -7,16 +7,14 @@ import { db } from "../../../firebase/firebase";
 import {
   allData,
   clearCart,
-  getLatestPrice
+  getLatestPrice,
 } from "../../../redux/state/orders";
 
 const FormWithGameData = () => {
-
-  const allDataToDB = useSelector(allData)
+  const allDataToDB = useSelector(allData);
   const getLatestPriceToForm = useSelector(getLatestPrice);
 
-console.log(allDataToDB);
- 
+  console.log(allDataToDB);
 
   const dispatch = useDispatch();
 
@@ -37,26 +35,26 @@ console.log(allDataToDB);
     setPrice(getLatestPriceToForm);
   }, [setPaypalID, setCoins, setPlatform, setPrice, getLatestPriceToForm]);
 
-   console.log("paypalID:", paypalID);
-   console.log("platform:", platform);
-   console.log("coins:", coins);
-   console.log("price:", price);
+  console.log("paypalID:", paypalID);
+  console.log("platform:", platform);
+  console.log("coins:", coins);
+  console.log("price:", price);
 
-        // console.log("paypalID", paypalID)
-        // console.log("originEmail", originEmail)
-        // console.log("passEmail", passEmail)
-        // console.log("coins", coins)
-        // console.log("platform", platform)
-        // console.log("price", price)
-        // console.log("backupCode1", backupCode1)
-        // console.log("backupCode2", backupCode2)
-        // console.log("personalEmail", personalEmail)
-        // console.log("city", city)
-        // console.log("state", state)
-        // console.log("country", country)
+  // console.log("paypalID", paypalID)
+  // console.log("originEmail", originEmail)
+  // console.log("passEmail", passEmail)
+  // console.log("coins", coins)
+  // console.log("platform", platform)
+  // console.log("price", price)
+  // console.log("backupCode1", backupCode1)
+  // console.log("backupCode2", backupCode2)
+  // console.log("personalEmail", personalEmail)
+  // console.log("city", city)
+  // console.log("state", state)
+  // console.log("country", country)
 
   const addData = async function (e) {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const docRef = await addDoc(collection(db, "orders"), {
         paypalID: paypalID,
@@ -92,12 +90,12 @@ console.log(allDataToDB);
       console.error("Error adding document: ", e);
     }
   };
- 
+
   const platformInFormToDB = allDataToDB.map((item) => item.platform);
   const coinsInFormToDB = allDataToDB.map((item) => item.coins);
-    const getTotalCoins = coinsInFormToDB.reduce((a, b) => {
-      return a + b;
-    }, 0);
+  const getTotalCoins = coinsInFormToDB.reduce((a, b) => {
+    return a + b;
+  }, 0);
   console.log("coinsInFormToDB", getTotalCoins);
 
   return (
@@ -266,31 +264,17 @@ console.log(allDataToDB);
             </div>
           </div>
         </div>
-        {!originEmail ||
-        !passEmail ||
-        !backupCode1 ||
-        !backupCode2 ||
-        !personalEmail ||
-        !city ||
-        !state ||
-        !country ? (
-          [
-            <button
-              key={4001}
-              className="btn btn-secondary disabled mb-2"
-              onClick={(e) => addData()}
-            >
-              Send Form
-            </button>,
-            <p key={4002} className="text-danger mt-0">
-              Complete the form to enable the button
-            </p>,
-          ]
-        ) : (
-          <button key={4003} className="btn btn-primary mb-4" onClick={addData}>
-            Send Form
-          </button>
-        )}
+
+        <button
+          key={4001}
+          className="btn btn-primary mb-2"
+          onClick={(e) => addData(e)}
+        >
+          Send Form
+        </button>
+        <p key={4002} className="text-danger mt-0">
+          Complete the form
+        </p>
       </form>
     </FormStyled>
   );
