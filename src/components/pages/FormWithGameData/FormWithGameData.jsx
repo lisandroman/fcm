@@ -109,7 +109,6 @@ const FormWithGameData = () => {
             id="paypalID"
             className="form-control"
             placeholder="Enter your Paypal Transaction Id"
-            disabled
             onChange={(e) => setPaypalID(e.target.value)}
           />
         </div>
