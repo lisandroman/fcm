@@ -1,5 +1,6 @@
 import { addDoc, collection } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Swal from "sweetalert2";
@@ -14,102 +15,82 @@ const FormWithGameData = () => {
   const allDataToDB = useSelector(allData);
   const getLatestPriceToForm = useSelector(getLatestPrice);
 
-  console.log(allDataToDB);
-
   const dispatch = useDispatch();
-
-  const [paypalID, setPaypalID] = useState("");
-  const [originEmail, setOriginEmail] = useState("");
-  const [passEmail, setPassEmail] = useState("");
-  const [coins, setCoins] = useState(0);
-  const [platform, setPlatform] = useState("");
-  const [price, setPrice] = useState(0);
-  const [backupCode1, setBackupCode1] = useState("");
-  const [backupCode2, setBackupCode2] = useState("");
-  const [personalEmail, setPersonalEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-
-  useEffect(() => {
-    setPrice(getLatestPriceToForm);
-  }, [setPaypalID, setCoins, setPlatform, setPrice, getLatestPriceToForm]);
-
-  console.log("paypalID:", paypalID);
-  console.log("platform:", platform);
-  console.log("coins:", coins);
-  console.log("price:", price);
-
-  // console.log("paypalID", paypalID)
-  // console.log("originEmail", originEmail)
-  // console.log("passEmail", passEmail)
-  // console.log("coins", coins)
-  // console.log("platform", platform)
-  // console.log("price", price)
-  // console.log("backupCode1", backupCode1)
-  // console.log("backupCode2", backupCode2)
-  // console.log("personalEmail", personalEmail)
-  // console.log("city", city)
-  // console.log("state", state)
-  // console.log("country", country)
-
-  const addData = async function (e) {
-    e.preventDefault();
-    try {
-      const docRef = await addDoc(collection(db, "orders"), {
-        paypalID: paypalID,
-        originEmail: originEmail,
-        passEmail: passEmail,
-        coins: coins,
-        platform: platform,
-        price: price,
-        backupCode1: backupCode1,
-        backupCode2: backupCode2,
-        personalEmail: personalEmail,
-        city: city,
-        state: state,
-        country: country,
-      });
-      console.log("Document written with ID: ", docRef.id);
-      Swal.fire({
-        icon: "success",
-        title: "Thanks for your order!",
-        text: `Please save your Order ID: ${docRef.id}`,
-        footer: `</br>We'll in touch ASAP`,
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Home",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(clearCart());
-          window.open("/");
-        }
-      });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
 
   const platformInFormToDB = allDataToDB.map((item) => item.platform);
   const coinsInFormToDB = allDataToDB.map((item) => item.coins);
   const getTotalCoins = coinsInFormToDB.reduce((a, b) => {
     return a + b;
   }, 0);
-  console.log("coinsInFormToDB", getTotalCoins);
+
+  const formik = useFormik({
+    initialValues: {
+      paypalID: "",
+      originEmail: "",
+      originPass: "",
+      coins: 0,
+      platform: "",
+      price: 0,
+      backupCode1: "",
+      backupCode2: "",
+      personalEmail: "",
+      city: "",
+      state: "",
+      country: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        const docRef = await addDoc(collection(db, "orders"), {
+          paypalID: values.paypalID,
+          originEmail: values.originEmail,
+          originPass: values.originPass,
+          coins: { getTotalCoins },
+          platform: {platformInFormToDB},
+          price: { getLatestPriceToForm },
+          backupCode1: values.backupCode1,
+          backupCode2: values.backupCode2,
+          personalEmail: values.personalEmail,
+          city: values.city,
+          state: values.state,
+          country: values.country,
+        });
+        console.log("Document written with ID: ", docRef.id);
+
+        Swal.fire({
+          icon: "success",
+          title: "Thanks for your order!",
+          text: `Please save your Order ID: ${docRef.id}`,
+          footer: `</br>We'll in touch ASAP`,
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Home",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(clearCart());
+            window.open("/");
+          }
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    },
+  });
 
   return (
     <FormStyled className="bg bg-light p-3 mt-4">
-      <form className="mt-1" autoComplete="off">
+      <form className="mt-1" autoComplete="off" onSubmit={formik.handleSubmit}>
         <h3 className="mb-4">Complete form to delivery</h3>
         <div className="mb-4 text-start">
           <label htmlFor="paypalID">Paypal Payment ID:</label>
           <input
-            type="text"
             id="paypalID"
+            name="paypalID"
+            type="text"
             className="form-control"
             placeholder="Enter your Paypal Transaction Id"
-            onChange={(e) => setPaypalID(e.target.value)}
+            onChange={formik.handleChange}
+            value={formik.values.paypalID}
           />
         </div>
 
@@ -117,11 +98,13 @@ const FormWithGameData = () => {
           <div className="col-md">
             <div className="form-floating mb-3">
               <input
+                id="floatingInput originEmail"
+                name="originEmail"
                 type="email"
                 className="form-control"
-                id="floatingInput"
                 placeholder="name@example.com"
-                onChange={(e) => setOriginEmail(e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.originEmail}
               />
               <label htmlFor="floatingInput">EA Origin Email:</label>
             </div>
@@ -129,11 +112,13 @@ const FormWithGameData = () => {
           <div className="col">
             <div className="form-floating">
               <input
+                id="floatingPassword originPass"
+                name="originPass"
                 type="password"
                 className="form-control"
-                id="floatingPassword"
                 placeholder="Password"
-                onChange={(e) => setPassEmail(e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.originPass}
               />
               <label htmlFor="floatingPassword">Password:</label>
             </div>
@@ -146,13 +131,13 @@ const FormWithGameData = () => {
             <div className="form-outline">
               <label htmlFor="floatingCoins">Coins:</label>
               <input
-                type="number"
                 id="floatingCoins"
+                type="number"
                 className="form-control"
                 disabled
-                placeholder="Coins Package: `{coins}`"
+                placeholder="Coins Package: "
                 value={getTotalCoins}
-                onChange={(e) => setCoins(e.target.value)}
+                onChange={formik.handleChange}
               />
             </div>
           </div>
@@ -166,6 +151,7 @@ const FormWithGameData = () => {
                 className="form-control"
                 placeholder="Platform:"
                 value={platformInFormToDB[0]}
+                onChange={formik.handleChange}
               />
             </div>
           </div>
@@ -178,8 +164,8 @@ const FormWithGameData = () => {
                 disabled
                 className="form-control"
                 placeholder="Price:"
-                // value={priceInFormToDB}
                 value={getLatestPriceToForm}
+                onChange={formik.handleChange}
               />
             </div>
           </div>
@@ -191,22 +177,26 @@ const FormWithGameData = () => {
           <div className="col-sm">
             <div className="form-outline mb-2">
               <input
+                id="form3Example1 backupCode1"
+                name="backupCode1"
                 type="text"
-                id="form3Example1"
                 className="form-control"
                 placeholder="Backup Code1:"
-                onChange={(e) => setBackupCode1(e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.backupCode1}
               />
             </div>
           </div>
           <div className="col-sm">
             <div className="form-outline mb-2">
               <input
+                id="form3Example2 backupCode2"
+                name="backupCode2"
                 type="text"
-                id="form3Example2"
                 className="form-control"
                 placeholder="Backup Code2:"
-                onChange={(e) => setBackupCode2(e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.backupCode2}
               />
             </div>
           </div>
@@ -219,11 +209,13 @@ const FormWithGameData = () => {
           <div className="col">
             <div className="form-outline mb-2">
               <input
+                id="form3Example3 personalEmail"
+                name="personalEmail"
                 type="email"
-                id="form3Example3"
                 className="form-control"
                 placeholder="Personal email:"
-                onChange={(e) => setPersonalEmail(e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.personalEmail}
               />
             </div>
           </div>
@@ -231,49 +223,50 @@ const FormWithGameData = () => {
             <div className="col-md">
               <div className="form-outline mb-2">
                 <input
+                  id="form3Example4 city"
+                  name="city"
                   type="text"
-                  id="form3Example4"
                   className="form-control"
                   placeholder="City:"
-                  onChange={(e) => setCity(e.target.value)}
+                  onChange={formik.handleChange}
+                  value={formik.values.city}
                 />
               </div>
             </div>
             <div className="col-md">
               <div className="form-outline mb-2">
                 <input
+                  id="form3Example5 state"
+                  name="state"
                   type="text"
-                  id="form3Example5"
                   className="form-control"
                   placeholder="State:"
-                  onChange={(e) => setState(e.target.value)}
+                  onChange={formik.handleChange}
+                  value={formik.values.state}
                 />
               </div>
             </div>
             <div className="col-md">
               <div className="form-outline mb-2">
                 <input
+                  id="form3Example6 country"
+                  name="country"
                   type="text"
-                  id="form3Example6"
                   className="form-control"
                   placeholder="Country:"
-                  onChange={(e) => setCountry(e.target.value)}
+                  onChange={formik.handleChange}
+                  value={formik.values.country}
                 />
               </div>
             </div>
           </div>
         </div>
-
-        <button
-          key={4001}
-          className="btn btn-primary mb-2"
-          onClick={(e) => addData(e)}
-        >
-          Send Form
-        </button>
-        <p key={4002} className="text-danger mt-0">
-          Complete the form
-        </p>
+        <div>
+          <button type="submit" className="btn btn-primary mb-2">
+            Send Form
+          </button>
+          <p className="text-danger mt-0">Complete the form</p>
+        </div>
       </form>
     </FormStyled>
   );
