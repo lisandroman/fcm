@@ -35,7 +35,7 @@ console.log(allDataToDB);
 
   useEffect(() => {
     setPrice(getLatestPriceToForm);
-  }, [setPaypalID, setCoins, setPlatform, setPrice]);
+  }, [setPaypalID, setCoins, setPlatform, setPrice, getLatestPriceToForm]);
 
    console.log("paypalID:", paypalID);
    console.log("platform:", platform);
